@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Patent Specification Search Tool</title>
+<style>
+:root{--ipa-charcoal:#1D252C;--ipa-purple:#5D2067;--ipa-web-teal:#00819C;--ipa-light-grey:#E5E8EC;--ipa-white:#FFFFFF;--bg:#f4f5f7;--panel:#ffffff;--panel-soft:#fbfbfc;--border:#dfe4ea;--border-strong:#c8d0d9;--shadow:0 6px 18px rgba(29,37,44,.08);--radius:12px;--nav-bg:#FFFFFF;--nav-accent:#cfe7ee;--nav-width:min(20vw,248px);--banner-h:72px}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;padding-top:var(--banner-h);font-family:Segoe UI,Arial,Helvetica,sans-serif;background:var(--bg);font-size:small;color:var(--ipa-charcoal)}
+a{color:var(--ipa-web-teal);text-decoration:none}a:hover{text-decoration:underline}
+button,input,select,textarea{font:inherit}
+.top-banner{background:var(--ipa-charcoal);color:#fff;padding:14px 25px;border-bottom:3px solid rgba(0,0,0,.1);position:fixed;top:0;left:0;right:0;z-index:1000}
+.banner-inner{display:flex;align-items:center;justify-content:space-between;gap:18px}.banner-title{flex:1;min-width:180px}.top-banner h1{margin:0;font-size:20px;letter-spacing:.2px}.top-banner .sub{margin:2px 0 0;font-size:13px;opacity:.92}
+.shell{display:grid;grid-template-columns:var(--nav-width) minmax(0,1fr);min-height:calc(100vh - var(--banner-h))}
+.sidebar{background:var(--nav-bg);border-right:1px solid var(--border);display:flex;flex-direction:column;min-width:0;position:sticky;top:var(--banner-h);max-height:calc(100vh - var(--banner-h))}
+.nav-scroll{padding:10px 0 0;overflow:auto}.nav-group{padding:0 0 8px}.nav-spacer{height:4px}
+.nav-link{display:flex;align-items:center;gap:10px;width:100%;padding:14px 5px;border:0;background:transparent;color:#26343d;text-align:left;cursor:pointer;border-left:10px solid transparent}.nav-link:hover{background:#e6f1f5}.nav-link.active{background:#d2edf3;border-left-color:#e7cc56;color:#134f60;font-weight:700}
+.nav-ico{width:28px;text-align:right;opacity:.9;font-size:28px;line-height:1;flex:0 0 auto}.nav-label{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nav-count{font-size:11px;color:var(--ipa-charcoal);background:var(--ipa-light-grey);border:1px solid var(--border);border-radius:5px;padding:5px 1px;min-width:18px;text-align:center}.nav-count[hidden]{display:none!important}
+.sidebar-footer{margin-top:auto;border-top:1px solid var(--border);padding:8px;background:#edf1f3;position:sticky;bottom:0}
+.shell.nav-collapsed{grid-template-columns:64px minmax(0,1fr)}.shell.nav-collapsed .nav-label,.shell.nav-collapsed .nav-count{display:none}.shell.nav-collapsed .nav-link{justify-content:center;padding-left:0;padding-right:0}
+.main-area{min-width:0;padding:14px 16px 18px}.workspace-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.workspace-title{font-size:18px;font-weight:700;color:#355062}.workspace-tools{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.tab-panel{display:none}.tab-panel.active{display:block}
+.board-card{background:#fff;border:1px solid var(--border);border-radius:10px;box-shadow:0 1px 0 rgba(0,0,0,.02);padding:0;overflow:hidden}.board-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border);background:#fff}.board-title{font-size:14px;font-weight:700;color:var(--ipa-web-teal)}.board-meta{font-size:12.5px;font-style:italic;color:#7a8792}.board-body{padding:16px}
+.input-grid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:14px;align-items:stretch}.main-input-col{display:flex;flex-direction:column;position:relative;height:100%;min-height:0}
+textarea{width:100%;height:auto;min-height:320px;flex:1 1 auto;padding:12px;border:1px solid var(--border-strong);border-radius:8px;background:#fff;resize:vertical;outline:none}
+textarea:focus,input:focus,select:focus{border-color:#8dc7d4;box-shadow:0 0 0 3px rgba(0,129,156,.12)}
+.filter-card{border:1px solid var(--border);border-radius:10px;background:#fbfcfd;overflow:hidden}.filter-head{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid var(--border);background:#f4f8fa}.filter-title{font-weight:700;font-size:13px;color:#38515f}.toggle-btn{padding:5px 10px;font-size:12px;border-radius:999px;background:#fff;color:var(--ipa-charcoal);border:1px solid rgba(29,37,44,.18);box-shadow:none;cursor:pointer}.toggle-btn:hover{background:#f7f7f7}.filters-body{padding:12px;display:none}.filter-card.open .filters-body{display:block}
+.small-inputs{display:grid;grid-template-columns:minmax(0,1fr);gap:8px}.small-inputs label{font-size:12.5px;color:rgba(29,37,44,.85);display:grid;grid-template-columns:minmax(0,1fr) 90px;gap:8px;align-items:center;background:#fff;border:1px solid var(--border);padding:8px 10px;border-radius:8px}.small-inputs input,.small-inputs select{width:90px;min-width:90px;padding:5px 7px;border:1px solid rgba(29,37,44,.18);border-radius:8px;background:#fff}
+.actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px}
+button{background:var(--ipa-web-teal);color:#fff;padding:10px 16px;border:none;border-radius:8px;cursor:pointer;font-weight:600;letter-spacing:.2px}button:hover{background:#00718a}button.secondary{background:#fff3a6;color:var(--ipa-charcoal);border:1px solid #dcca57;font-weight:700}button.secondary:hover{background:#ffef8b}button:disabled{opacity:.6;cursor:not-allowed}
+.status{font-size:12.5px;color:#5d6b74;display:flex;align-items:center;gap:8px}.spinner{width:14px;height:14px;border:2px solid rgba(0,129,156,.25);border-top-color:var(--ipa-web-teal);border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.overlay{position:fixed;inset:0;background:rgba(29,37,44,.24);display:none;align-items:center;justify-content:center;z-index:9999}.overlay-card{background:#fff;border:1px solid var(--border);box-shadow:var(--shadow);border-radius:14px;padding:24px 28px;display:flex;flex-direction:column;align-items:center;gap:12px;min-width:280px}.overlay-text{font-size:14px;font-weight:700;color:var(--ipa-charcoal)}
+.placeholder-box{padding:18px;border:1px dashed var(--border-strong);border-radius:8px;background:#fafcfd;color:#66737d}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.chip{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:6px 10px;font-size:13px;border:1px solid rgba(0,129,156,.22);background:rgba(0,129,156,.08);cursor:pointer;user-select:none}.chip[data-selected="true"]{background:var(--ipa-web-teal);border-color:var(--ipa-web-teal);color:#fff}.chip .x{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;font-size:12px;border:1px solid rgba(29,37,44,.18);background:rgba(255,255,255,.8);color:rgba(29,37,44,.85)}
+.add-phrase{display:flex;gap:8px;align-items:center;flex-wrap:nowrap;margin-top:10px;width:100%}.add-phrase input{flex:1 1 auto;min-width:0;padding:8px 10px;border:1px solid rgba(29,37,44,.18);border-radius:8px;display:block}
+.syn-panel{border:1px solid var(--border);border-radius:10px;overflow:hidden;background:#fff}.syn-header{padding:12px;background:#f4f8fa;border-bottom:1px solid var(--border)}.syn-body{padding:12px}
+.syn-row{display:grid;grid-template-columns:1fr;gap:6px;align-items:center;padding:8px 0;border-bottom:1px solid rgba(29,37,44,.08)}.syn-row:last-child{border-bottom:none}.syn-top{display:grid;grid-template-columns:minmax(140px,1fr) 92px;gap:8px;align-items:center}.syn-term{font-weight:700;color:#2a3a45}.weight-input{width:92px;padding:6px 10px;border:1px solid rgba(29,37,44,.18);border-radius:8px;background:#fff}
+.results{display:grid;grid-template-columns:1fr;gap:14px;margin-top:12px}
+.patent-result{background:#fff;border:1px solid var(--border);border-radius:10px;padding:12px;overflow:hidden;transition:all .2s}
+.patent-result:hover{border-color:var(--ipa-web-teal);box-shadow:0 4px 12px rgba(0,129,156,.08)}
+.patent-header{display:flex;justify-content:space-between;gap:12px;align-items:start;margin-bottom:8px}
+.patent-title{font-weight:700;color:var(--ipa-charcoal);font-size:14px;margin:0}
+.patent-title a{color:var(--ipa-web-teal);font-weight:700}
+.relevance-badge{display:inline-flex;align-items:center;justify-content:center;width:50px;height:50px;border-radius:50%;font-weight:700;font-size:16px;flex-shrink:0}
+.relevance-high{background:#e8f5e9;color:#2e7d32;border:2px solid #2e7d32}
+.relevance-medium{background:#fff9e8;color:#f57f17;border:2px solid #f57f17}
+.relevance-low{background:#fff3f3;color:#8a1f1f;border:2px solid #8a1f1f}
+.patent-meta{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:#7a8792;margin:8px 0}
+.patent-abstract{font-size:13px;line-height:1.5;color:#5d6b74;padding:8px 0;border-top:1px solid var(--border);margin-top:8px}
+.patent-match{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px;font-size:11px}
+.matched-term{display:inline-block;background:#fff9e8;color:#f57f17;padding:2px 6px;border-radius:4px;font-weight:600}
+.edit-keyword-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.keyword-help{font-size:12px;color:#5d6b74;padding:10px;background:#f9fafb;border-radius:6px;margin:10px 0}
+.compliance-banner{border:1px solid #e4c867;background:#fff9df;padding:12px;font-size:12.5px;font-style:italic;border-radius:8px;margin:12px 0;color:#5d5224}
+.muted{font-size:12px;color:#6a7680}
+@media (max-width:1100px){.input-grid{grid-template-columns:1fr}.patent-header{flex-direction:column}}
+@media (max-width:900px){:root{--banner-h:64px}.shell,.shell.nav-collapsed{grid-template-columns:1fr}.sidebar{position:static;max-height:none}.nav-scroll{display:block}.sidebar-footer{position:static}}
+</style>
+</head>
+<body>
+<div id="loadingOverlay" class="overlay" style="display:none"><div class="overlay-card"><div style="width:36px;height:36px;border:4px solid rgba(0,129,156,.18);border-top-color:var(--ipa-web-teal);border-radius:50%;animation:spin .8s linear infinite"></div><div class="overlay-text" id="overlayText">Processing...</div></div></div>
+<div class="top-banner"><div class="banner-inner"><div class="banner-title"><h1>Patent Specification Search</h1><div class="sub">Extract keyphrases from patent documents and search for related patents using USPTO PatentsView database</div></div></div></div>
+<div id="shell" class="shell">
+  <aside class="sidebar" aria-label="Workspace navigation">
+    <div class="nav-scroll">
+      <div class="nav-group"><div class="nav-spacer" aria-hidden="true"></div>
+        <button type="button" class="nav-link active" data-tab-target="tab-upload"><span class="nav-ico">📤</span><span class="nav-label">Upload & Analyze</span></button>
+        <button type="button" class="nav-link" data-tab-target="tab-phrases"><span class="nav-ico">🏷️</span><span class="nav-label">Extracted Phrases</span><span id="navCountPhrases" class="nav-count" hidden></span></button>
+      </div>
+      <div class="nav-group">
+        <button type="button" class="nav-link" data-tab-target="tab-search"><span class="nav-ico">🔍</span><span class="nav-label">Search & Results</span><span id="navCountResults" class="nav-count" hidden></span></button>
+      </div>
+    </div>
+    <div class="sidebar-footer"><button id="navCollapseBtn" type="button" style="width:100%;padding:8px;background:transparent;border:1px solid var(--border);border-radius:8px;cursor:pointer;color:var(--ipa-charcoal)">Collapse</button></div>
+  </aside>
+  <main id="mainArea" class="main-area">
+    <section id="tab-upload" class="tab-panel active"><div class="board-card"><div class="board-head"><div class="board-title">Upload Patent Document</div><div class="board-meta">Upload a PDF and extract key technical phrases</div></div><div class="board-body"><div class="input-grid"><div class="main-input-col"><div style="border:2px dashed var(--border-strong);padding:30px;text-align:center;border-radius:8px;cursor:pointer" id="dropZone"><div style="font-size:32px;margin-bottom:12px">📄</div><div style="font-weight:600;margin-bottom:6px">Drop PDF here or click to select</div><div style="font-size:12px;color:#7a8792">Supports PDF format (up to 50MB)</div><input type="file" id="pdfInput" accept=".pdf" style="display:none"></div><div id="fileStatus" style="margin-top:12px;display:none"><div style="padding:10px;background:#f0f9ff;border-left:3px solid var(--ipa-web-teal);border-radius:6px"><strong id="fileName"></strong><br><span id="fileSize" style="font-size:12px;color:#7a8792"></span></div></div><div class="actions" style="margin-top:12px"><button onclick="analyzePdf()">Analyze Document</button><button class="secondary" onclick="clearUpload()">Clear</button></div><div id="uploadStatus"></div></div><div class="filter-card open"><div class="filter-head"><div class="filter-title">Extraction Settings</div></div><div class="filters-body"><div class="small-inputs"><label>Top phrases <input id="kwCount" type="number" min="5" max="40" value="15" /></label><label>Extraction mode <select id="extractMode"><option value="hybrid" selected>Hybrid CPC-aware</option><option value="tfidf">TF-IDF</option></select></label></div></div></div></div></div></div></section>
+    <section id="tab-phrases" class="tab-panel"><div class="board-card"><div class="board-head"><div class="board-title">Extracted Key Phrases</div><div class="board-meta">Technical concepts and phrases extracted from your document</div></div><div class="board-body"><div style="display:grid;grid-template-columns:1fr 300px;gap:14px"><div><div id="keywordContainer" class="results"><div class="placeholder-box">Upload and analyze a document to extract phrases</div></div></div><div id="synonymPanel" style="display:none" class="syn-panel"><div class="syn-header">Phrase Weights</div><div class="syn-body" id="weightPanel"></div></div></div></div></div></section>
+    <section id="tab-search" class="tab-panel"><div class="board-card"><div class="board-head"><div class="board-title">Patent Search Results</div><div class="board-meta">Related patents from USPTO database (powered by PatentsView)</div></div><div class="board-body"><div style="margin-bottom:16px"><div style="display:flex;gap:12px;align-items:center;margin-bottom:12px"><button onclick="executeSearch()">Search Patents</button><button class="secondary" onclick="copySearchQuery()">Copy Query</button></div><div id="searchStatus"></div><textarea id="searchQuery" placeholder="Search query will appear here..." style="min-height:80px;margin-bottom:12px"></textarea><div id="resultCount" style="font-size:12px;color:#7a8792;margin-bottom:12px"></div></div><div id="searchResults" class="results"><div class="placeholder-box">Click "Search Patents" to find related patents</div></div></div></div></section>
+  </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+let currentPdf = null, extractedText = '', extracted = [], selected = new Map();
+
+// TF-IDF Extraction
+function tokenise(text) {
+  return text.toLowerCase().match(/\b[\w']+\b/g) || [];
+}
+
+function buildNgrams(tokens, minN, maxN) {
+  const grams = new Set();
+  for (let n = minN; n <= maxN; n++) {
+    for (let i = 0; i <= tokens.length - n; i++) {
+      grams.add(tokens.slice(i, i + n).join(' '));
+    }
+  }
+  return Array.from(grams);
+}
+
+function splitSentences(text) {
+  return text.match(/[^.!?]+[.!?]+/g) || [];
+}
+
+function extractPhrasesTfidf(text, topN) {
+  const sentences = splitSentences(text);
+  const docs = (sentences.length ? sentences : [text]).map(s => tokenise(s));
+  const docCount = docs.length || 1;
+  const df = new Map(), tf = [];
+  
+  for (const tokens of docs) {
+    const grams = buildNgrams(tokens, 1, 3);
+    const m = new Map();
+    for (const g of grams) m.set(g, (m.get(g) || 0) + 1);
+    tf.push(m);
+    for (const g of new Set(m.keys())) df.set(g, (df.get(g) || 0) + 1);
+  }
+  
+  const scores = new Map(), counts = new Map();
+  for (const m of tf) {
+    for (const [g, f] of m.entries()) {
+      const docf = df.get(g) || 1;
+      const idf = Math.log((docCount + 1) / (docf + 1)) + 1;
+      const lenBonus = 1 + (g.split(' ').length - 1) * 0.55;
+      const score = f * idf * lenBonus;
+      scores.set(g, (scores.get(g) || 0) + score);
+      counts.set(g, (counts.get(g) || 0) + f);
+    }
+  }
+  
+  const items = Array.from(scores.entries()).map(([term, score]) => ({
+    term, score, count: counts.get(term) || 1, source: 'tfidf'
+  }));
+  
+  items.sort((a, b) => b.score - a.score);
+  const kept = [];
+  for (const it of items) {
+    const contained = kept.some(k => k.term.includes(it.term) && k.term !== it.term && k.score >= it.score);
+    if (!contained) kept.push(it);
+    if (kept.length >= topN) break;
+  }
+  return kept;
+}
+
+// Hybrid extraction with structural scoring
+function extractPhrasesHybrid(text, topN) {
+  const tfidf = extractPhrasesTfidf(text, Math.max(topN * 3, 42));
+  const sentences = splitSentences(text);
+  const sentTokens = (sentences.length ? sentences : [text]).map(s => tokenise(s));
+  const freq = new Map(), spread = new Map();
+  
+  for (let i = 0; i < sentTokens.length; i++) {
+    const toks = sentTokens[i];
+    const grams = buildNgrams(toks, 1, 3).filter(g => g.length >= 3);
+    const seen = new Set();
+    for (const g of grams) {
+      freq.set(g, (freq.get(g) || 0) + 1);
+      if (!seen.has(g)) {
+        spread.set(g, (spread.get(g) || 0) + 1);
+        seen.add(g);
+      }
+    }
+  }
+  
+  const pool = new Map();
+  for (const item of tfidf) {
+    if (!pool.has(item.term)) pool.set(item.term, {
+      term: item.term, count: item.count || 1, tfidf: item.score || 0, structural: 0
+    });
+  }
+  
+  for (const [term, count] of freq.entries()) {
+    const structural = (count * 1.7) + ((spread.get(term) || 1) * 1.6);
+    if (!pool.has(term)) pool.set(term, {
+      term, count, tfidf: 0, structural
+    });
+    else {
+      const row = pool.get(term);
+      row.structural = Math.max(row.structural, structural);
+    }
+  }
+  
+  const items = Array.from(pool.values()).map(row => {
+    let score = (row.structural * 0.50) + (row.tfidf * 0.50);
+    const parts = row.term.split(/\s+/).filter(Boolean);
+    if (parts.length === 2) score += 4;
+    if (parts.length === 3) score += 1.5;
+    return { term: row.term, score, count: row.count || 1, source: 'hybrid' };
+  });
+  
+  items.sort((a, b) => b.score - a.score);
+  const kept = [];
+  for (const it of items) {
+    const contained = kept.some(k => k.term === it.term || (k.term.includes(it.term) && k.score >= it.score));
+    if (!contained) kept.push(it);
+    if (kept.length >= topN) break;
+  }
+  return kept;
+}
+
+// Handle PDF upload
+document.getElementById('dropZone').addEventListener('click', () => document.getElementById('pdfInput').click());
+document.getElementById('dropZone').addEventListener('dragover', e => {
+  e.preventDefault();
+  document.getElementById('dropZone').style.background = '#f0f9ff';
+});
+document.getElementById('dropZone').addEventListener('dragleave', () => {
+  document.getElementById('dropZone').style.background = '';
+});
+document.getElementById('dropZone').addEventListener('drop', e => {
+  e.preventDefault();
+  document.getElementById('dropZone').style.background = '';
+  if (e.dataTransfer.files[0]?.type === 'application/pdf') {
+    document.getElementById('pdfInput').files = e.dataTransfer.files;
+    handleFileSelect();
+  }
+});
+
+document.getElementById('pdfInput').addEventListener('change', handleFileSelect);
+
+function handleFileSelect() {
+  const file = document.getElementById('pdfInput').files[0];
+  if (!file) return;
+  
+  currentPdf = file;
+  document.getElementById('fileName').textContent = file.name;
+  document.getElementById('fileSize').textContent = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+  document.getElementById('fileStatus').style.display = 'block';
+  showStatus('✓ PDF loaded', 'success', 'uploadStatus');
+}
+
+async function analyzePdf() {
+  if (!currentPdf) { showStatus('Select a PDF first', 'error', 'uploadStatus'); return; }
+  
+  document.getElementById('loadingOverlay').style.display = 'flex';
+  document.getElementById('overlayText').textContent = 'Extracting text and analyzing phrases...';
+  
+  try {
+    const arrayBuffer = await currentPdf.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+    let text = '';
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
+      const content = await page.getTextContent();
+      text += content.items.map(item => item.str).join(' ') + ' ';
+    }
+    extractedText = text;
+    
+    const mode = document.getElementById('extractMode').value;
+    const topN = parseInt(document.getElementById('kwCount').value) || 15;
+    
+    extracted = mode === 'hybrid' ? extractPhrasesHybrid(text, topN) : extractPhrasesTfidf(text, topN);
+    selected.clear();
+    extracted.forEach((k, idx) => selected.set(k.term, idx < Math.ceil(topN / 2)));
+    
+    renderPhrases();
+    switchTab('tab-phrases');
+    showStatus(`✓ Extracted ${extracted.length} key phrases`, 'success', 'uploadStatus');
+  } catch (error) {
+    showStatus('Error: ' + error.message, 'error', 'uploadStatus');
+  }
+  document.getElementById('loadingOverlay').style.display = 'none';
+}
+
+function renderPhrases() {
+  const container = document.getElementById('keywordContainer');
+  document.getElementById('navCountPhrases').textContent = extracted.length;
+  document.getElementById('navCountPhrases').removeAttribute('hidden');
+  
+  if (!extracted.length) { container.innerHTML = '<div class="placeholder-box">No phrases found</div>'; return; }
+  
+  let html = '<div class="edit-keyword-head"><h3 style="margin:0;color:var(--ipa-purple)">Extracted Key Phrases ('+extracted.length+')</h3></div>';
+  html += '<div class="keyword-help">Click a phrase to include/exclude it for search query</div>';
+  html += '<div class="chips" id="chips">';
+  
+  for (const k of extracted) {
+    const isSel = selected.get(k.term) === true;
+    html += `<div class="chip" data-term="${escapeHtml(k.term)}" data-selected="${isSel}"><span>${escapeHtml(k.term)} <span class="muted">(${k.score.toFixed(2)})</span></span><span class="x">×</span></div>`;
+  }
+  html += '</div><div class="add-phrase"><input id="newPhrase" type="text" placeholder="Add phrase manually" /><button class="secondary" onclick="addPhrase()">Add</button></div>';
+  
+  container.innerHTML = html;
+  renderWeights();
+  
+  document.getElementById('chips').onclick = e => {
+    const chip = e.target.closest('.chip');
+    if (!chip) return;
+    const term = chip.dataset.term;
+    if (e.target.classList.contains('x')) {
+      extracted = extracted.filter(x => x.term !== term);
+      selected.delete(term);
+      renderPhrases();
+      return;
+    }
+    const next = !(selected.get(term) === true);
+    selected.set(term, next);
+    chip.dataset.selected = next;
+  };
+}
+
+function renderWeights() {
+  const panel = document.getElementById('weightPanel');
+  let html = '';
+  for (const k of extracted) {
+    html += `<div class="syn-row"><div class="syn-top"><div class="syn-term">${escapeHtml(k.term)}</div><input class="weight-input" type="number" step="0.1" value="${k.score.toFixed(2)}" onchange="updateWeight('${escapeHtml(k.term)}', this.value)"></div></div>`;
+  }
+  document.getElementById('weightPanel').innerHTML = html;
+  document.getElementById('synonymPanel').style.display = 'block';
+}
+
+function updateWeight(term, val) {
+  const item = extracted.find(x => x.term === term);
+  if (item) item.score = parseFloat(val) || item.score;
+}
+
+function addPhrase() {
+  const input = document.getElementById('newPhrase');
+  const term = input.value.trim();
+  if (!term) return;
+  if (!extracted.find(x => x.term === term)) {
+    extracted.push({ term, score: 5, count: 1, source: 'manual' });
+    selected.set(term, true);
+    input.value = '';
+    renderPhrases();
+  }
+}
+
+function clearUpload() {
+  document.getElementById('pdfInput').value = '';
+  currentPdf = null;
+  extractedText = '';
+  extracted = [];
+  selected.clear();
+  document.getElementById('fileStatus').style.display = 'none';
+  document.getElementById('keywordContainer').innerHTML = '<div class="placeholder-box">Upload and analyze a document to extract phrases</div>';
+  document.getElementById('searchResults').innerHTML = '<div class="placeholder-box">Click "Search Patents" to find related patents</div>';
+}
+
+// Search functionality
+function buildSearchQuery() {
+  const activeTerms = extracted.filter(k => selected.get(k.term) === true).sort((a, b) => b.score - a.score);
+  return activeTerms.map(k => `"${k.term}"`).join(' OR ');
+}
+
+async function executeSearch() {
+  const query = buildSearchQuery();
+  if (!query || query.length < 3) { showStatus('Select at least one phrase', 'error', 'searchStatus'); return; }
+  
+  document.getElementById('searchQuery').value = query;
+  document.getElementById('loadingOverlay').style.display = 'flex';
+  document.getElementById('overlayText').textContent = 'Searching USPTO PatentsView database...';
+  
+  try {
+    const activeTerms = extracted.filter(k => selected.get(k.term) === true);
+    const response = await fetch('https://api.patentsview.org/patents/query', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        q: { patent_title: { contains: activeTerms.map(t => t.term).join(' ') } },
+        f: ["patent_number", "patent_title", "patent_abstract", "assignee_organization", "patent_date"],
+        o: { match_all: false },
+        size: 100
+      })
+    });
+    
+    const data = await response.json();
+    const patents = data.patents || [];
+    
+    if (!patents.length) {
+      document.getElementById('searchResults').innerHTML = '<div class="placeholder-box">No patents found. Try different phrases.</div>';
+      document.getElementById('resultCount').textContent = '0 results';
+      document.getElementById('loadingOverlay').style.display = 'none';
+      return;
+    }
+    
+    const scored = patents.map(p => {
+      const text = `${p.patent_title} ${p.patent_abstract}`.toLowerCase();
+      let matches = 0;
+      activeTerms.forEach(t => {
+        if (text.includes(t.term.toLowerCase())) matches++;
+      });
+      const relevance = Math.round((matches / activeTerms.length) * 100);
+      return { ...p, relevance, matches };
+    }).sort((a, b) => b.relevance - a.relevance);
+    
+    renderResults(scored.slice(0, 100), activeTerms);
+    document.getElementById('resultCount').textContent = `${scored.length} patents found, showing top 100`;
+    document.getElementById('navCountResults').textContent = scored.length;
+    document.getElementById('navCountResults').removeAttribute('hidden');
+    switchTab('tab-search');
+  } catch (error) {
+    showStatus('Search error: ' + error.message, 'error', 'searchStatus');
+  }
+  document.getElementById('loadingOverlay').style.display = 'none';
+}
+
+function renderResults(patents, activeTerms) {
+  let html = '';
+  for (let i = 0; i < patents.length; i++) {
+    const p = patents[i];
+    const relevanceClass = p.relevance >= 60 ? 'relevance-high' : p.relevance >= 30 ? 'relevance-medium' : 'relevance-low';
+    const patentUrl = `https://patents.google.com/patent/US${p.patent_number}`;
+    
+    let matchedTerms = [];
+    const text = `${p.patent_title} ${p.patent_abstract}`.toLowerCase();
+    activeTerms.forEach(t => {
+      if (text.includes(t.term.toLowerCase())) matchedTerms.push(t.term);
+    });
+    
+    html += `<div class="patent-result">
+      <div class="patent-header">
+        <div>
+          <h3 class="patent-title"><a href="${patentUrl}" target="_blank">${escapeHtml(p.patent_title)}</a></h3>
+          <div class="patent-meta">
+            <span>🔤 ${escapeHtml(p.patent_number)}</span>
+            <span>📅 ${new Date(p.patent_date).toLocaleDateString()}</span>
+            ${p.assignee_organization ? `<span>🏢 ${escapeHtml(p.assignee_organization)}</span>` : ''}
+          </div>
+          <div class="patent-abstract">${escapeHtml((p.patent_abstract || 'No abstract').substring(0, 300))}...</div>
+          <div class="patent-match">Matched: ${matchedTerms.map(t => `<span class="matched-term">${escapeHtml(t)}</span>`).join('')}</div>
+        </div>
+        <div class="relevance-badge ${relevanceClass}">${p.relevance}%</div>
+      </div>
+    </div>`;
+  }
+  document.getElementById('searchResults').innerHTML = html;
+}
+
+function copySearchQuery() {
+  const query = document.getElementById('searchQuery').value;
+  if (query) navigator.clipboard.writeText(query).then(() => showStatus('✓ Query copied', 'success', 'searchStatus'));
+}
+
+// Utilities
+function switchTab(tabId) {
+  document.querySelectorAll('.tab-panel').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  document.querySelector(`[data-tab-target="${tabId}"]`).classList.add('active');
+}
+
+function showStatus(msg, type, elemId) {
+  const elem = document.getElementById(elemId);
+  if (!elem) return;
+  elem.innerHTML = `<div style="padding:10px;margin-top:10px;background:${type==='success'?'#e8f5e9':type==='error'?'#fff3f3':'#f0f9ff'};border-left:3px solid ${type==='success'?'#2e7d32':type==='error'?'#8a1f1f':'var(--ipa-web-teal)'};border-radius:6px;font-size:13px;color:${type==='success'?'#2e7d32':type==='error'?'#8a1f1f':'#004d61'}">${msg}</div>`;
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// Tab switching
+document.querySelectorAll('.nav-link').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const tabId = btn.dataset.tabTarget;
+    if (tabId) switchTab(tabId);
+  });
+});
+
+// Sidebar collapse
+document.getElementById('navCollapseBtn').addEventListener('click', () => {
+  document.getElementById('shell').classList.toggle('nav-collapsed');
+});
+</script>
+</body>
+</html>
