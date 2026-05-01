@@ -1,474 +1,534 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Patent Specification Search Tool</title>
-<style>
-:root{--ipa-charcoal:#1D252C;--ipa-purple:#5D2067;--ipa-web-teal:#00819C;--ipa-light-grey:#E5E8EC;--ipa-white:#FFFFFF;--bg:#f4f5f7;--panel:#ffffff;--panel-soft:#fbfbfc;--border:#dfe4ea;--border-strong:#c8d0d9;--shadow:0 6px 18px rgba(29,37,44,.08);--radius:12px;--nav-bg:#FFFFFF;--nav-accent:#cfe7ee;--nav-width:min(20vw,248px);--banner-h:72px}
-*{box-sizing:border-box}
-html,body{height:100%}
-body{margin:0;padding-top:var(--banner-h);font-family:Segoe UI,Arial,Helvetica,sans-serif;background:var(--bg);font-size:small;color:var(--ipa-charcoal)}
-a{color:var(--ipa-web-teal);text-decoration:none}a:hover{text-decoration:underline}
-button,input,select,textarea{font:inherit}
-.top-banner{background:var(--ipa-charcoal);color:#fff;padding:14px 25px;border-bottom:3px solid rgba(0,0,0,.1);position:fixed;top:0;left:0;right:0;z-index:1000}
-.banner-inner{display:flex;align-items:center;justify-content:space-between;gap:18px}.banner-title{flex:1;min-width:180px}.top-banner h1{margin:0;font-size:20px;letter-spacing:.2px}.top-banner .sub{margin:2px 0 0;font-size:13px;opacity:.92}
-.shell{display:grid;grid-template-columns:var(--nav-width) minmax(0,1fr);min-height:calc(100vh - var(--banner-h))}
-.sidebar{background:var(--nav-bg);border-right:1px solid var(--border);display:flex;flex-direction:column;min-width:0;position:sticky;top:var(--banner-h);max-height:calc(100vh - var(--banner-h))}
-.nav-scroll{padding:10px 0 0;overflow:auto}.nav-group{padding:0 0 8px}.nav-spacer{height:4px}
-.nav-link{display:flex;align-items:center;gap:10px;width:100%;padding:14px 5px;border:0;background:transparent;color:#26343d;text-align:left;cursor:pointer;border-left:10px solid transparent}.nav-link:hover{background:#e6f1f5}.nav-link.active{background:#d2edf3;border-left-color:#e7cc56;color:#134f60;font-weight:700}
-.nav-ico{width:28px;text-align:right;opacity:.9;font-size:28px;line-height:1;flex:0 0 auto}.nav-label{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.nav-count{font-size:11px;color:var(--ipa-charcoal);background:var(--ipa-light-grey);border:1px solid var(--border);border-radius:5px;padding:5px 1px;min-width:18px;text-align:center}.nav-count[hidden]{display:none!important}
-.sidebar-footer{margin-top:auto;border-top:1px solid var(--border);padding:8px;background:#edf1f3;position:sticky;bottom:0}
-.shell.nav-collapsed{grid-template-columns:64px minmax(0,1fr)}.shell.nav-collapsed .nav-label,.shell.nav-collapsed .nav-count{display:none}.shell.nav-collapsed .nav-link{justify-content:center;padding-left:0;padding-right:0}
-.main-area{min-width:0;padding:14px 16px 18px}.workspace-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.workspace-title{font-size:18px;font-weight:700;color:#355062}.workspace-tools{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.tab-panel{display:none}.tab-panel.active{display:block}
-.board-card{background:#fff;border:1px solid var(--border);border-radius:10px;box-shadow:0 1px 0 rgba(0,0,0,.02);padding:0;overflow:hidden}.board-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border);background:#fff}.board-title{font-size:14px;font-weight:700;color:var(--ipa-web-teal)}.board-meta{font-size:12.5px;font-style:italic;color:#7a8792}.board-body{padding:16px}
-.input-grid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:14px;align-items:stretch}.main-input-col{display:flex;flex-direction:column;position:relative;height:100%;min-height:0}
-textarea{width:100%;height:auto;min-height:320px;flex:1 1 auto;padding:12px;border:1px solid var(--border-strong);border-radius:8px;background:#fff;resize:vertical;outline:none}
-textarea:focus,input:focus,select:focus{border-color:#8dc7d4;box-shadow:0 0 0 3px rgba(0,129,156,.12)}
-.filter-card{border:1px solid var(--border);border-radius:10px;background:#fbfcfd;overflow:hidden}.filter-head{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid var(--border);background:#f4f8fa}.filter-title{font-weight:700;font-size:13px;color:#38515f}.toggle-btn{padding:5px 10px;font-size:12px;border-radius:999px;background:#fff;color:var(--ipa-charcoal);border:1px solid rgba(29,37,44,.18);box-shadow:none;cursor:pointer}.toggle-btn:hover{background:#f7f7f7}.filters-body{padding:12px;display:none}.filter-card.open .filters-body{display:block}
-.small-inputs{display:grid;grid-template-columns:minmax(0,1fr);gap:8px}.small-inputs label{font-size:12.5px;color:rgba(29,37,44,.85);display:grid;grid-template-columns:minmax(0,1fr) 90px;gap:8px;align-items:center;background:#fff;border:1px solid var(--border);padding:8px 10px;border-radius:8px}.small-inputs input,.small-inputs select{width:90px;min-width:90px;padding:5px 7px;border:1px solid rgba(29,37,44,.18);border-radius:8px;background:#fff}
-.actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px}
-button{background:var(--ipa-web-teal);color:#fff;padding:10px 16px;border:none;border-radius:8px;cursor:pointer;font-weight:600;letter-spacing:.2px}button:hover{background:#00718a}button.secondary{background:#fff3a6;color:var(--ipa-charcoal);border:1px solid #dcca57;font-weight:700}button.secondary:hover{background:#ffef8b}button:disabled{opacity:.6;cursor:not-allowed}
-.status{font-size:12.5px;color:#5d6b74;display:flex;align-items:center;gap:8px}.spinner{width:14px;height:14px;border:2px solid rgba(0,129,156,.25);border-top-color:var(--ipa-web-teal);border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-.overlay{position:fixed;inset:0;background:rgba(29,37,44,.24);display:none;align-items:center;justify-content:center;z-index:9999}.overlay-card{background:#fff;border:1px solid var(--border);box-shadow:var(--shadow);border-radius:14px;padding:24px 28px;display:flex;flex-direction:column;align-items:center;gap:12px;min-width:280px}.overlay-text{font-size:14px;font-weight:700;color:var(--ipa-charcoal)}
-.placeholder-box{padding:18px;border:1px dashed var(--border-strong);border-radius:8px;background:#fafcfd;color:#66737d}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.chip{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:6px 10px;font-size:13px;border:1px solid rgba(0,129,156,.22);background:rgba(0,129,156,.08);cursor:pointer;user-select:none}.chip[data-selected="true"]{background:var(--ipa-web-teal);border-color:var(--ipa-web-teal);color:#fff}.chip .x{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;font-size:12px;border:1px solid rgba(29,37,44,.18);background:rgba(255,255,255,.8);color:rgba(29,37,44,.85)}
-.add-phrase{display:flex;gap:8px;align-items:center;flex-wrap:nowrap;margin-top:10px;width:100%}.add-phrase input{flex:1 1 auto;min-width:0;padding:8px 10px;border:1px solid rgba(29,37,44,.18);border-radius:8px;display:block}
-.syn-panel{border:1px solid var(--border);border-radius:10px;overflow:hidden;background:#fff}.syn-header{padding:12px;background:#f4f8fa;border-bottom:1px solid var(--border)}.syn-body{padding:12px}
-.syn-row{display:grid;grid-template-columns:1fr;gap:6px;align-items:center;padding:8px 0;border-bottom:1px solid rgba(29,37,44,.08)}.syn-row:last-child{border-bottom:none}.syn-top{display:grid;grid-template-columns:minmax(140px,1fr) 92px;gap:8px;align-items:center}.syn-term{font-weight:700;color:#2a3a45}.weight-input{width:92px;padding:6px 10px;border:1px solid rgba(29,37,44,.18);border-radius:8px;background:#fff}
-.results{display:grid;grid-template-columns:1fr;gap:14px;margin-top:12px}
-.patent-result{background:#fff;border:1px solid var(--border);border-radius:10px;padding:12px;overflow:hidden;transition:all .2s}
-.patent-result:hover{border-color:var(--ipa-web-teal);box-shadow:0 4px 12px rgba(0,129,156,.08)}
-.patent-header{display:flex;justify-content:space-between;gap:12px;align-items:start;margin-bottom:8px}
-.patent-title{font-weight:700;color:var(--ipa-charcoal);font-size:14px;margin:0}
-.patent-title a{color:var(--ipa-web-teal);font-weight:700}
-.relevance-badge{display:inline-flex;align-items:center;justify-content:center;width:50px;height:50px;border-radius:50%;font-weight:700;font-size:16px;flex-shrink:0}
-.relevance-high{background:#e8f5e9;color:#2e7d32;border:2px solid #2e7d32}
-.relevance-medium{background:#fff9e8;color:#f57f17;border:2px solid #f57f17}
-.relevance-low{background:#fff3f3;color:#8a1f1f;border:2px solid #8a1f1f}
-.patent-meta{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:#7a8792;margin:8px 0}
-.patent-abstract{font-size:13px;line-height:1.5;color:#5d6b74;padding:8px 0;border-top:1px solid var(--border);margin-top:8px}
-.patent-match{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px;font-size:11px}
-.matched-term{display:inline-block;background:#fff9e8;color:#f57f17;padding:2px 6px;border-radius:4px;font-weight:600}
-.edit-keyword-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
-.keyword-help{font-size:12px;color:#5d6b74;padding:10px;background:#f9fafb;border-radius:6px;margin:10px 0}
-.compliance-banner{border:1px solid #e4c867;background:#fff9df;padding:12px;font-size:12.5px;font-style:italic;border-radius:8px;margin:12px 0;color:#5d5224}
-.muted{font-size:12px;color:#6a7680}
-@media (max-width:1100px){.input-grid{grid-template-columns:1fr}.patent-header{flex-direction:column}}
-@media (max-width:900px){:root{--banner-h:64px}.shell,.shell.nav-collapsed{grid-template-columns:1fr}.sidebar{position:static;max-height:none}.nav-scroll{display:block}.sidebar-footer{position:static}}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Patent Search Studio v8</title>
+  <style>
+    :root{
+      --ipa-charcoal:#1D252C;
+      --ipa-purple:#5D2067;
+      --ipa-web-teal:#00819C;
+      --ipa-light-grey:#E5E8EC;
+      --bg:#f4f5f7;
+      --panel:#ffffff;
+      --border:#dfe4ea;
+      --border-strong:#c8d0d9;
+      --banner-h:72px;
+      --nav-w:270px;
+      --good-bg:#e8f5e9;
+      --good-border:#86c28b;
+      --good-text:#1f6f2b;
+      --gp-bg:#eef4ff;
+      --gp-border:#9bb7ff;
+      --gp-text:#2048a8;
+      --ep-bg:#f2efff;
+      --ep-border:#b9a7ff;
+      --ep-text:#5533b3;
+      --epo-bg:#f5f7f8;
+      --epo-border:#cfd8de;
+      --epo-text:#31434f;
+      --warn:#fff7d6;
+      --warn-border:#e7cc56;
+      --warn-text:#5d5224;
+      --shadow:0 6px 18px rgba(29,37,44,.08);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;background:var(--bg);color:var(--ipa-charcoal);font-family:Segoe UI,Arial,Helvetica,sans-serif;font-size:14px;padding-top:var(--banner-h)}
+    a{color:var(--ipa-web-teal);text-decoration:none}
+    a:hover{text-decoration:underline}
+    button,input,select,textarea{font:inherit}
+    .top-banner{position:fixed;top:0;left:0;right:0;background:var(--ipa-charcoal);color:#fff;padding:14px 24px;z-index:1000;box-shadow:0 1px 8px rgba(0,0,0,.16)}
+    .top-banner h1{margin:0;font-size:20px;line-height:1.2}
+    .top-banner .sub{font-size:12.5px;opacity:.92;margin-top:6px;max-width:120ch;line-height:1.45}
+    .shell{display:grid;grid-template-columns:var(--nav-w) minmax(0,1fr);min-height:calc(100vh - var(--banner-h))}
+    .sidebar{background:#fff;border-right:1px solid var(--border);position:sticky;top:var(--banner-h);max-height:calc(100vh - var(--banner-h));display:flex;flex-direction:column}
+    .nav-scroll{overflow:auto;padding-top:8px}
+    .nav-link{display:flex;gap:10px;align-items:center;width:100%;padding:14px 14px;border:0;background:transparent;text-align:left;cursor:pointer;border-left:8px solid transparent;color:#22343e}
+    .nav-link:hover{background:#eef7f9}
+    .nav-link.active{background:#d9f1f5;border-left-color:#e7cc56;color:#114a5a;font-weight:700}
+    .nav-ico{width:24px;text-align:center;font-size:18px}
+    .nav-count{margin-left:auto;min-width:22px;text-align:center;padding:3px 6px;font-size:11px;border-radius:999px;background:var(--ipa-light-grey);border:1px solid var(--border)}
+    .nav-count[hidden]{display:none!important}
+    .sidebar-footer{margin-top:auto;padding:10px;border-top:1px solid var(--border);background:#f5f7f8}
+    .sidebar-footer .mini{font-size:12px;color:#66727a;line-height:1.45}
+    .main{padding:16px 18px 22px;min-width:0}
+    .workspace-head{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:14px;flex-wrap:wrap}
+    .workspace-title{font-size:18px;font-weight:700;color:#355062}
+    .workspace-chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);border-radius:999px;background:#fff;padding:6px 10px;font-size:12px;color:#52636f}
+    .tab-panel{display:none}.tab-panel.active{display:block}
+    .board-card,.panel{background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden;box-shadow:0 1px 0 rgba(0,0,0,.02)}
+    .board-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;padding:12px 16px;border-bottom:1px solid var(--border);background:#fff;flex-wrap:wrap}
+    .board-title,.panel-head{font-size:14px;font-weight:700;color:var(--ipa-web-teal)}
+    .panel-head{padding:10px 12px;background:#f4f8fa;border-bottom:1px solid var(--border);font-size:13px;color:#38515f}
+    .board-meta{font-size:12.5px;color:#6b7780;max-width:96ch}
+    .board-body,.panel-body{padding:16px}.panel-body{padding:12px}
+    .grid-2{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:14px;align-items:start}
+    .grid-3{display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:14px;align-items:start}
+    .stack{display:grid;gap:14px}
+    .drop-zone{border:2px dashed var(--border-strong);padding:22px;text-align:center;border-radius:10px;background:#fcfdfe;cursor:pointer;transition:.18s}
+    .drop-zone.hover{background:#f0f9ff;border-color:var(--ipa-web-teal)}
+    .drop-zone .big{font-size:34px;margin-bottom:10px}
+    textarea{width:100%;min-height:220px;padding:12px;border:1px solid var(--border-strong);border-radius:8px;resize:vertical;outline:none;background:#fff}
+    textarea:focus,input:focus,select:focus{border-color:#8dc7d4;box-shadow:0 0 0 3px rgba(0,129,156,.12)}
+    input[type="text"],input[type="number"],input[type="password"],select{width:100%;padding:8px 10px;border:1px solid rgba(29,37,44,.18);border-radius:8px;background:#fff}
+    .fields{display:grid;gap:10px}.fields label{display:grid;gap:6px;font-size:12.5px;color:#4b5963}.fields.inline-2{grid-template-columns:1fr 1fr}.fields.inline-3{grid-template-columns:1fr 1fr 1fr}
+    .actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px}
+    button{background:var(--ipa-web-teal);color:#fff;border:0;border-radius:8px;padding:10px 16px;font-weight:700;cursor:pointer}
+    button:hover{background:#00718a}
+    button.secondary{background:#fff3a6;color:#403b1c;border:1px solid #dcca57}.secondary:hover{background:#ffef8b}
+    button.ghost{background:#fff;color:#234350;border:1px solid var(--border)}
+    button:disabled{opacity:.6;cursor:not-allowed}
+    .status{display:flex;align-items:center;gap:8px;font-size:12.5px;color:#5d6b74}
+    .spinner{width:14px;height:14px;border:2px solid rgba(0,129,156,.25);border-top-color:var(--ipa-web-teal);border-radius:50%;animation:spin .8s linear infinite;display:none}
+    @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+    .notice,.warning,.ok,.error,.banner-note{padding:12px;border-radius:8px;border:1px solid var(--border);font-size:12.5px;line-height:1.5}
+    .notice{background:#f7fbfd}.warning{background:var(--warn);border-color:var(--warn-border);color:var(--warn-text)}.ok{background:#e8f5e9;border-color:#2e7d32;color:#256528}.error{background:#fff3f3;border-color:#d89595;color:#8a1f1f}.banner-note{background:#fbfcfd}
+    .chips,.section-pills,.meta-row,.link-row,.toggles-row{display:flex;flex-wrap:wrap;gap:8px}
+    .chip{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:7px 10px;border:1px solid rgba(0,129,156,.22);background:rgba(0,129,156,.08);cursor:pointer;user-select:none}
+    .chip[data-selected="true"]{background:var(--ipa-web-teal);border-color:var(--ipa-web-teal);color:#fff}
+    .chip small{opacity:.85}.chip .mini-btn{width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;font-size:11px;background:rgba(255,255,255,.72);color:#234350;border:1px solid rgba(29,37,44,.16)}
+    .chip[data-selected="true"] .mini-btn{background:rgba(255,255,255,.18);color:#fff;border-color:rgba(255,255,255,.4)}
+    .phrase-list{display:grid;gap:10px}.phrase-card,.result-card{border:1px solid var(--border);border-radius:10px;padding:12px;background:#fff;position:relative}
+    .phrase-head,.result-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;flex-wrap:wrap}
+    .phrase-term,.result-title{font-weight:700}
+    .badge{display:inline-flex;align-items:center;padding:3px 8px;border-radius:999px;background:#f3f6f8;border:1px solid rgba(29,37,44,.12);font-size:11px;color:#42505a;line-height:1.2}
+    .badge.section{background:rgba(93,32,103,.08);border-color:rgba(93,32,103,.20);color:var(--ipa-purple)}
+    .badge.good{background:#e8f5e9;border-color:#b6dab8;color:#256528}.badge.cpc{background:#f6fbff;border-color:#b7d8ea;color:#14546b;cursor:help}.badge.amber{background:#fff4d6;border-color:#efc96b;color:#715200}
+    .weights-grid{display:grid;gap:10px}.weights-row{display:grid;grid-template-columns:minmax(0,1fr) 88px;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid rgba(29,37,44,.08)}.weights-row:last-child{border-bottom:0}.weights-row input{width:88px}
+    .query-box{background:#f7fafc;border:1px solid var(--border);border-radius:10px;padding:10px}
+    .muted{font-size:12px;color:#6a7680}.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
+    .result-header-text{padding-right:92px}.result-title-line{font-size:16px;line-height:1.28;font-weight:800;color:#213544}.result-title-line .pubno{font-weight:800}.result-title-line .pubdate{font-weight:700;color:#42535f}.result-title-line .titlepart{font-weight:700}
+    .result-subline{font-size:12px;color:#6b7780;margin-top:4px}.result-body{margin-top:10px}.result-line{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.result-line:first-child{margin-top:0}.result-label{font-size:11px;color:#5b6972;text-transform:uppercase;letter-spacing:.04em;min-width:74px;font-weight:700;align-self:center}
+    .abstract-label{font-size:11px;color:#8c7a0a;background:#f6e9a8;border-radius:4px;padding:2px 6px;display:inline-flex;align-items:center;font-weight:700}
+    .relevance-pill{position:absolute;top:12px;right:12px;display:inline-flex;align-items:center;justify-content:center;padding:8px 12px;border-radius:999px;border:1px solid var(--good-border);background:var(--good-bg);color:var(--good-text);font-weight:800;min-width:62px}
+    .link-pill{display:inline-flex;align-items:center;padding:4px 10px;border-radius:999px;border:1px solid rgba(29,37,44,.12);font-size:12px;color:#234350;text-decoration:none}.link-pill:hover{text-decoration:none;filter:brightness(.98)}
+    .link-pill.google{background:var(--gp-bg);border-color:var(--gp-border);color:var(--gp-text)}.link-pill.espacenet{background:var(--ep-bg);border-color:var(--ep-border);color:var(--ep-text)}.link-pill.epo{background:var(--epo-bg);border-color:var(--epo-border);color:var(--epo-text)}
+    .overlay{position:fixed;inset:0;background:rgba(29,37,44,.24);display:none;align-items:center;justify-content:center;z-index:1100}.overlay-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:24px 28px;display:flex;flex-direction:column;align-items:center;gap:12px;min-width:320px}.overlay-spinner{width:36px;height:36px;border:4px solid rgba(0,129,156,.18);border-top-color:var(--ipa-web-teal);border-radius:50%;animation:spin .8s linear infinite}.overlay-text{font-size:14px;font-weight:700;color:var(--ipa-charcoal);text-align:center}
+    pre{margin:0;white-space:pre-wrap;word-break:break-word}
+    .toggle-switch{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border);border-radius:999px;background:#fff;padding:5px 10px;cursor:pointer}.toggle-switch input{margin:0}
+    .file-pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);padding:5px 8px;border-radius:999px;background:#fff;font-size:12px}.file-pill .remove{cursor:pointer;border:1px solid rgba(29,37,44,.16);border-radius:50%;width:16px;height:16px;display:inline-flex;align-items:center;justify-content:center}
+    .preset-bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px}.preset-chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);padding:6px 10px;border-radius:999px;background:#fff;cursor:pointer}.preset-chip.active{border-color:#7ec7d5;background:#ebfbfd;color:#0d6073;font-weight:700}
+
+    .cpc-code-wrap{position:relative;display:inline-flex;align-items:center}
+    .cpc-hover-card{position:absolute;top:calc(100% + 8px);left:0;width:min(680px,calc(100vw - 120px));min-width:320px;max-width:min(680px,calc(100vw - 120px));display:none;z-index:50;filter:drop-shadow(0 8px 18px rgba(29,37,44,.14));box-sizing:border-box}
+    .cpc-code-wrap:hover .cpc-hover-card,.cpc-code-wrap:focus-within .cpc-hover-card{display:block}
+    .cpc-hierarchy-block{border:1px solid var(--border);border-radius:6px;background:#f7f7f4;overflow:hidden;width:100%}
+    .cpc-hierarchy-label{padding:6px 10px;background:#efe8b3;color:#5d5224;font-size:12px;font-weight:700;border-bottom:1px solid rgba(0,0,0,.06)}
+    .cpc-h-row{display:grid;grid-template-columns:122px minmax(0,1fr);gap:10px;padding:4px 10px;border-top:1px solid rgba(0,0,0,.04);align-items:start}.cpc-h-row:first-of-type{border-top:0}.cpc-h-row.selected{background:rgba(0,129,156,.06)}
+    .cpc-h-code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;font-weight:800;color:#c62b2b;white-space:nowrap}
+    .cpc-h-desc{min-width:0;color:#26343d}.cpc-h-bullets{display:inline-block;min-width:42px;color:#111;font-weight:700;letter-spacing:1px}
+
+    @media (max-width:1180px){.grid-2,.grid-3{grid-template-columns:1fr}}
+    @media (max-width:900px){.shell{grid-template-columns:1fr}.sidebar{position:static;max-height:none}.top-banner{padding:10px 14px}.main{padding:10px}.board-body,.panel-body{padding:12px}.result-header-text{padding-right:0}.relevance-pill{position:static;margin-left:auto}.result-label{min-width:unset}}
+  </style>
 </head>
 <body>
-<div id="loadingOverlay" class="overlay" style="display:none"><div class="overlay-card"><div style="width:36px;height:36px;border:4px solid rgba(0,129,156,.18);border-top-color:var(--ipa-web-teal);border-radius:50%;animation:spin .8s linear infinite"></div><div class="overlay-text" id="overlayText">Processing...</div></div></div>
-<div class="top-banner"><div class="banner-inner"><div class="banner-title"><h1>Patent Specification Search</h1><div class="sub">Extract keyphrases from patent documents and search for related patents using USPTO PatentsView database</div></div></div></div>
-<div id="shell" class="shell">
-  <aside class="sidebar" aria-label="Workspace navigation">
-    <div class="nav-scroll">
-      <div class="nav-group"><div class="nav-spacer" aria-hidden="true"></div>
-        <button type="button" class="nav-link active" data-tab-target="tab-upload"><span class="nav-ico">📤</span><span class="nav-label">Upload & Analyze</span></button>
-        <button type="button" class="nav-link" data-tab-target="tab-phrases"><span class="nav-ico">🏷️</span><span class="nav-label">Extracted Phrases</span><span id="navCountPhrases" class="nav-count" hidden></span></button>
-      </div>
-      <div class="nav-group">
-        <button type="button" class="nav-link" data-tab-target="tab-search"><span class="nav-ico">🔍</span><span class="nav-label">Search & Results</span><span id="navCountResults" class="nav-count" hidden></span></button>
-      </div>
+  <div class="overlay" id="loadingOverlay"><div class="overlay-card"><div class="overlay-spinner"></div><div class="overlay-text" id="overlayText">Working…</div></div></div>
+
+  <div class="top-banner" id="topBanner">
+    <div>
+      <h1>Patent Search Studio v8</h1>
+      <div class="sub">v8 expands Google Patents retrieval with multi-page SerpApi fetching and details enrichment, removes the raw response console from the Results tab, improves card spacing and percentage logic, and adds saved search presets for novelty, inventive step and prior art scanning.</div>
     </div>
-    <div class="sidebar-footer"><button id="navCollapseBtn" type="button" style="width:100%;padding:8px;background:transparent;border:1px solid var(--border);border-radius:8px;cursor:pointer;color:var(--ipa-charcoal)">Collapse</button></div>
-  </aside>
-  <main id="mainArea" class="main-area">
-    <section id="tab-upload" class="tab-panel active"><div class="board-card"><div class="board-head"><div class="board-title">Upload Patent Document</div><div class="board-meta">Upload a PDF and extract key technical phrases</div></div><div class="board-body"><div class="input-grid"><div class="main-input-col"><div style="border:2px dashed var(--border-strong);padding:30px;text-align:center;border-radius:8px;cursor:pointer" id="dropZone"><div style="font-size:32px;margin-bottom:12px">📄</div><div style="font-weight:600;margin-bottom:6px">Drop PDF here or click to select</div><div style="font-size:12px;color:#7a8792">Supports PDF format (up to 50MB)</div><input type="file" id="pdfInput" accept=".pdf" style="display:none"></div><div id="fileStatus" style="margin-top:12px;display:none"><div style="padding:10px;background:#f0f9ff;border-left:3px solid var(--ipa-web-teal);border-radius:6px"><strong id="fileName"></strong><br><span id="fileSize" style="font-size:12px;color:#7a8792"></span></div></div><div class="actions" style="margin-top:12px"><button onclick="analyzePdf()">Analyze Document</button><button class="secondary" onclick="clearUpload()">Clear</button></div><div id="uploadStatus"></div></div><div class="filter-card open"><div class="filter-head"><div class="filter-title">Extraction Settings</div></div><div class="filters-body"><div class="small-inputs"><label>Top phrases <input id="kwCount" type="number" min="5" max="40" value="15" /></label><label>Extraction mode <select id="extractMode"><option value="hybrid" selected>Hybrid CPC-aware</option><option value="tfidf">TF-IDF</option></select></label></div></div></div></div></div></div></section>
-    <section id="tab-phrases" class="tab-panel"><div class="board-card"><div class="board-head"><div class="board-title">Extracted Key Phrases</div><div class="board-meta">Technical concepts and phrases extracted from your document</div></div><div class="board-body"><div style="display:grid;grid-template-columns:1fr 300px;gap:14px"><div><div id="keywordContainer" class="results"><div class="placeholder-box">Upload and analyze a document to extract phrases</div></div></div><div id="synonymPanel" style="display:none" class="syn-panel"><div class="syn-header">Phrase Weights</div><div class="syn-body" id="weightPanel"></div></div></div></div></div></section>
-    <section id="tab-search" class="tab-panel"><div class="board-card"><div class="board-head"><div class="board-title">Patent Search Results</div><div class="board-meta">Related patents from USPTO database (powered by PatentsView)</div></div><div class="board-body"><div style="margin-bottom:16px"><div style="display:flex;gap:12px;align-items:center;margin-bottom:12px"><button onclick="executeSearch()">Search Patents</button><button class="secondary" onclick="copySearchQuery()">Copy Query</button></div><div id="searchStatus"></div><textarea id="searchQuery" placeholder="Search query will appear here..." style="min-height:80px;margin-bottom:12px"></textarea><div id="resultCount" style="font-size:12px;color:#7a8792;margin-bottom:12px"></div></div><div id="searchResults" class="results"><div class="placeholder-box">Click "Search Patents" to find related patents</div></div></div></div></section>
-  </main>
-</div>
+  </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<script>
-pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-
-let currentPdf = null, extractedText = '', extracted = [], selected = new Map();
-
-// TF-IDF Extraction
-function tokenise(text) {
-  return text.toLowerCase().match(/\b[\w']+\b/g) || [];
-}
-
-function buildNgrams(tokens, minN, maxN) {
-  const grams = new Set();
-  for (let n = minN; n <= maxN; n++) {
-    for (let i = 0; i <= tokens.length - n; i++) {
-      grams.add(tokens.slice(i, i + n).join(' '));
-    }
-  }
-  return Array.from(grams);
-}
-
-function splitSentences(text) {
-  return text.match(/[^.!?]+[.!?]+/g) || [];
-}
-
-function extractPhrasesTfidf(text, topN) {
-  const sentences = splitSentences(text);
-  const docs = (sentences.length ? sentences : [text]).map(s => tokenise(s));
-  const docCount = docs.length || 1;
-  const df = new Map(), tf = [];
-  
-  for (const tokens of docs) {
-    const grams = buildNgrams(tokens, 1, 3);
-    const m = new Map();
-    for (const g of grams) m.set(g, (m.get(g) || 0) + 1);
-    tf.push(m);
-    for (const g of new Set(m.keys())) df.set(g, (df.get(g) || 0) + 1);
-  }
-  
-  const scores = new Map(), counts = new Map();
-  for (const m of tf) {
-    for (const [g, f] of m.entries()) {
-      const docf = df.get(g) || 1;
-      const idf = Math.log((docCount + 1) / (docf + 1)) + 1;
-      const lenBonus = 1 + (g.split(' ').length - 1) * 0.55;
-      const score = f * idf * lenBonus;
-      scores.set(g, (scores.get(g) || 0) + score);
-      counts.set(g, (counts.get(g) || 0) + f);
-    }
-  }
-  
-  const items = Array.from(scores.entries()).map(([term, score]) => ({
-    term, score, count: counts.get(term) || 1, source: 'tfidf'
-  }));
-  
-  items.sort((a, b) => b.score - a.score);
-  const kept = [];
-  for (const it of items) {
-    const contained = kept.some(k => k.term.includes(it.term) && k.term !== it.term && k.score >= it.score);
-    if (!contained) kept.push(it);
-    if (kept.length >= topN) break;
-  }
-  return kept;
-}
-
-// Hybrid extraction with structural scoring
-function extractPhrasesHybrid(text, topN) {
-  const tfidf = extractPhrasesTfidf(text, Math.max(topN * 3, 42));
-  const sentences = splitSentences(text);
-  const sentTokens = (sentences.length ? sentences : [text]).map(s => tokenise(s));
-  const freq = new Map(), spread = new Map();
-  
-  for (let i = 0; i < sentTokens.length; i++) {
-    const toks = sentTokens[i];
-    const grams = buildNgrams(toks, 1, 3).filter(g => g.length >= 3);
-    const seen = new Set();
-    for (const g of grams) {
-      freq.set(g, (freq.get(g) || 0) + 1);
-      if (!seen.has(g)) {
-        spread.set(g, (spread.get(g) || 0) + 1);
-        seen.add(g);
-      }
-    }
-  }
-  
-  const pool = new Map();
-  for (const item of tfidf) {
-    if (!pool.has(item.term)) pool.set(item.term, {
-      term: item.term, count: item.count || 1, tfidf: item.score || 0, structural: 0
-    });
-  }
-  
-  for (const [term, count] of freq.entries()) {
-    const structural = (count * 1.7) + ((spread.get(term) || 1) * 1.6);
-    if (!pool.has(term)) pool.set(term, {
-      term, count, tfidf: 0, structural
-    });
-    else {
-      const row = pool.get(term);
-      row.structural = Math.max(row.structural, structural);
-    }
-  }
-  
-  const items = Array.from(pool.values()).map(row => {
-    let score = (row.structural * 0.50) + (row.tfidf * 0.50);
-    const parts = row.term.split(/\s+/).filter(Boolean);
-    if (parts.length === 2) score += 4;
-    if (parts.length === 3) score += 1.5;
-    return { term: row.term, score, count: row.count || 1, source: 'hybrid' };
-  });
-  
-  items.sort((a, b) => b.score - a.score);
-  const kept = [];
-  for (const it of items) {
-    const contained = kept.some(k => k.term === it.term || (k.term.includes(it.term) && k.score >= it.score));
-    if (!contained) kept.push(it);
-    if (kept.length >= topN) break;
-  }
-  return kept;
-}
-
-// Handle PDF upload
-document.getElementById('dropZone').addEventListener('click', () => document.getElementById('pdfInput').click());
-document.getElementById('dropZone').addEventListener('dragover', e => {
-  e.preventDefault();
-  document.getElementById('dropZone').style.background = '#f0f9ff';
-});
-document.getElementById('dropZone').addEventListener('dragleave', () => {
-  document.getElementById('dropZone').style.background = '';
-});
-document.getElementById('dropZone').addEventListener('drop', e => {
-  e.preventDefault();
-  document.getElementById('dropZone').style.background = '';
-  if (e.dataTransfer.files[0]?.type === 'application/pdf') {
-    document.getElementById('pdfInput').files = e.dataTransfer.files;
-    handleFileSelect();
-  }
-});
-
-document.getElementById('pdfInput').addEventListener('change', handleFileSelect);
-
-function handleFileSelect() {
-  const file = document.getElementById('pdfInput').files[0];
-  if (!file) return;
-  
-  currentPdf = file;
-  document.getElementById('fileName').textContent = file.name;
-  document.getElementById('fileSize').textContent = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
-  document.getElementById('fileStatus').style.display = 'block';
-  showStatus('✓ PDF loaded', 'success', 'uploadStatus');
-}
-
-async function analyzePdf() {
-  if (!currentPdf) { showStatus('Select a PDF first', 'error', 'uploadStatus'); return; }
-  
-  document.getElementById('loadingOverlay').style.display = 'flex';
-  document.getElementById('overlayText').textContent = 'Extracting text and analyzing phrases...';
-  
-  try {
-    const arrayBuffer = await currentPdf.arrayBuffer();
-    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-    let text = '';
-    for (let i = 1; i <= pdf.numPages; i++) {
-      const page = await pdf.getPage(i);
-      const content = await page.getTextContent();
-      text += content.items.map(item => item.str).join(' ') + ' ';
-    }
-    extractedText = text;
-    
-    const mode = document.getElementById('extractMode').value;
-    const topN = parseInt(document.getElementById('kwCount').value) || 15;
-    
-    extracted = mode === 'hybrid' ? extractPhrasesHybrid(text, topN) : extractPhrasesTfidf(text, topN);
-    selected.clear();
-    extracted.forEach((k, idx) => selected.set(k.term, idx < Math.ceil(topN / 2)));
-    
-    renderPhrases();
-    switchTab('tab-phrases');
-    showStatus(`✓ Extracted ${extracted.length} key phrases`, 'success', 'uploadStatus');
-  } catch (error) {
-    showStatus('Error: ' + error.message, 'error', 'uploadStatus');
-  }
-  document.getElementById('loadingOverlay').style.display = 'none';
-}
-
-function renderPhrases() {
-  const container = document.getElementById('keywordContainer');
-  document.getElementById('navCountPhrases').textContent = extracted.length;
-  document.getElementById('navCountPhrases').removeAttribute('hidden');
-  
-  if (!extracted.length) { container.innerHTML = '<div class="placeholder-box">No phrases found</div>'; return; }
-  
-  let html = '<div class="edit-keyword-head"><h3 style="margin:0;color:var(--ipa-purple)">Extracted Key Phrases ('+extracted.length+')</h3></div>';
-  html += '<div class="keyword-help">Click a phrase to include/exclude it for search query</div>';
-  html += '<div class="chips" id="chips">';
-  
-  for (const k of extracted) {
-    const isSel = selected.get(k.term) === true;
-    html += `<div class="chip" data-term="${escapeHtml(k.term)}" data-selected="${isSel}"><span>${escapeHtml(k.term)} <span class="muted">(${k.score.toFixed(2)})</span></span><span class="x">×</span></div>`;
-  }
-  html += '</div><div class="add-phrase"><input id="newPhrase" type="text" placeholder="Add phrase manually" /><button class="secondary" onclick="addPhrase()">Add</button></div>';
-  
-  container.innerHTML = html;
-  renderWeights();
-  
-  document.getElementById('chips').onclick = e => {
-    const chip = e.target.closest('.chip');
-    if (!chip) return;
-    const term = chip.dataset.term;
-    if (e.target.classList.contains('x')) {
-      extracted = extracted.filter(x => x.term !== term);
-      selected.delete(term);
-      renderPhrases();
-      return;
-    }
-    const next = !(selected.get(term) === true);
-    selected.set(term, next);
-    chip.dataset.selected = next;
-  };
-}
-
-function renderWeights() {
-  const panel = document.getElementById('weightPanel');
-  let html = '';
-  for (const k of extracted) {
-    html += `<div class="syn-row"><div class="syn-top"><div class="syn-term">${escapeHtml(k.term)}</div><input class="weight-input" type="number" step="0.1" value="${k.score.toFixed(2)}" onchange="updateWeight('${escapeHtml(k.term)}', this.value)"></div></div>`;
-  }
-  document.getElementById('weightPanel').innerHTML = html;
-  document.getElementById('synonymPanel').style.display = 'block';
-}
-
-function updateWeight(term, val) {
-  const item = extracted.find(x => x.term === term);
-  if (item) item.score = parseFloat(val) || item.score;
-}
-
-function addPhrase() {
-  const input = document.getElementById('newPhrase');
-  const term = input.value.trim();
-  if (!term) return;
-  if (!extracted.find(x => x.term === term)) {
-    extracted.push({ term, score: 5, count: 1, source: 'manual' });
-    selected.set(term, true);
-    input.value = '';
-    renderPhrases();
-  }
-}
-
-function clearUpload() {
-  document.getElementById('pdfInput').value = '';
-  currentPdf = null;
-  extractedText = '';
-  extracted = [];
-  selected.clear();
-  document.getElementById('fileStatus').style.display = 'none';
-  document.getElementById('keywordContainer').innerHTML = '<div class="placeholder-box">Upload and analyze a document to extract phrases</div>';
-  document.getElementById('searchResults').innerHTML = '<div class="placeholder-box">Click "Search Patents" to find related patents</div>';
-}
-
-// Search functionality
-function buildSearchQuery() {
-  const activeTerms = extracted.filter(k => selected.get(k.term) === true).sort((a, b) => b.score - a.score);
-  return activeTerms.map(k => `"${k.term}"`).join(' OR ');
-}
-
-async function executeSearch() {
-  const query = buildSearchQuery();
-  if (!query || query.length < 3) { showStatus('Select at least one phrase', 'error', 'searchStatus'); return; }
-  
-  document.getElementById('searchQuery').value = query;
-  document.getElementById('loadingOverlay').style.display = 'flex';
-  document.getElementById('overlayText').textContent = 'Searching USPTO PatentsView database...';
-  
-  try {
-    const activeTerms = extracted.filter(k => selected.get(k.term) === true);
-    const response = await fetch('https://api.patentsview.org/patents/query', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        q: { patent_title: { contains: activeTerms.map(t => t.term).join(' ') } },
-        f: ["patent_number", "patent_title", "patent_abstract", "assignee_organization", "patent_date"],
-        o: { match_all: false },
-        size: 100
-      })
-    });
-    
-    const data = await response.json();
-    const patents = data.patents || [];
-    
-    if (!patents.length) {
-      document.getElementById('searchResults').innerHTML = '<div class="placeholder-box">No patents found. Try different phrases.</div>';
-      document.getElementById('resultCount').textContent = '0 results';
-      document.getElementById('loadingOverlay').style.display = 'none';
-      return;
-    }
-    
-    const scored = patents.map(p => {
-      const text = `${p.patent_title} ${p.patent_abstract}`.toLowerCase();
-      let matches = 0;
-      activeTerms.forEach(t => {
-        if (text.includes(t.term.toLowerCase())) matches++;
-      });
-      const relevance = Math.round((matches / activeTerms.length) * 100);
-      return { ...p, relevance, matches };
-    }).sort((a, b) => b.relevance - a.relevance);
-    
-    renderResults(scored.slice(0, 100), activeTerms);
-    document.getElementById('resultCount').textContent = `${scored.length} patents found, showing top 100`;
-    document.getElementById('navCountResults').textContent = scored.length;
-    document.getElementById('navCountResults').removeAttribute('hidden');
-    switchTab('tab-search');
-  } catch (error) {
-    showStatus('Search error: ' + error.message, 'error', 'searchStatus');
-  }
-  document.getElementById('loadingOverlay').style.display = 'none';
-}
-
-function renderResults(patents, activeTerms) {
-  let html = '';
-  for (let i = 0; i < patents.length; i++) {
-    const p = patents[i];
-    const relevanceClass = p.relevance >= 60 ? 'relevance-high' : p.relevance >= 30 ? 'relevance-medium' : 'relevance-low';
-    const patentUrl = `https://patents.google.com/patent/US${p.patent_number}`;
-    
-    let matchedTerms = [];
-    const text = `${p.patent_title} ${p.patent_abstract}`.toLowerCase();
-    activeTerms.forEach(t => {
-      if (text.includes(t.term.toLowerCase())) matchedTerms.push(t.term);
-    });
-    
-    html += `<div class="patent-result">
-      <div class="patent-header">
-        <div>
-          <h3 class="patent-title"><a href="${patentUrl}" target="_blank">${escapeHtml(p.patent_title)}</a></h3>
-          <div class="patent-meta">
-            <span>🔤 ${escapeHtml(p.patent_number)}</span>
-            <span>📅 ${new Date(p.patent_date).toLocaleDateString()}</span>
-            ${p.assignee_organization ? `<span>🏢 ${escapeHtml(p.assignee_organization)}</span>` : ''}
-          </div>
-          <div class="patent-abstract">${escapeHtml((p.patent_abstract || 'No abstract').substring(0, 300))}...</div>
-          <div class="patent-match">Matched: ${matchedTerms.map(t => `<span class="matched-term">${escapeHtml(t)}</span>`).join('')}</div>
-        </div>
-        <div class="relevance-badge ${relevanceClass}">${p.relevance}%</div>
+  <div class="shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="nav-scroll">
+        <button type="button" class="nav-link active" data-tab-target="tab-source"><span class="nav-ico">①</span><span>Load source</span></button>
+        <button type="button" class="nav-link" data-tab-target="tab-concepts"><span class="nav-ico">②</span><span>Inventive concepts</span><span id="navCountConcepts" class="nav-count" hidden></span></button>
+        <button type="button" class="nav-link" data-tab-target="tab-search"><span class="nav-ico">③</span><span>Search strategy</span></button>
+        <button type="button" class="nav-link" data-tab-target="tab-results"><span class="nav-ico">④</span><span>Results and prior art</span><span id="navCountResults" class="nav-count" hidden></span></button>
+        <button type="button" class="nav-link" data-tab-target="tab-settings"><span class="nav-ico">⚙</span><span>Endpoints and semantic settings</span></button>
       </div>
-    </div>`;
+      <div class="sidebar-footer"><div class="mini"><strong>What changed in v8</strong><br>Added search presets, larger Google retrieval fan-out, improved result card spacing, separate CPC and matched-term lines, citation relevance pills, and no raw response console in the Results workspace.</div></div>
+    </aside>
+
+    <main class="main">
+      <div class="workspace-head">
+        <div class="workspace-title" id="workspaceTitle">Load source</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <span class="workspace-chip" id="activeModeChip">Mode: PDF or pasted text</span>
+          <span class="workspace-chip" id="semanticModeChip">Semantic mode: Off</span>
+          <button type="button" class="ghost" id="resetBtn">Reset</button>
+        </div>
+      </div>
+
+      <section id="tab-source" class="tab-panel active">
+        <div class="board-card">
+          <div class="board-head"><div><div class="board-title">Load source documents</div><div class="board-meta">Upload one or more PDFs and optionally add pasted text. v8 combines all uploaded PDFs for a single analysis pass, then applies the selected patent search preset.</div></div></div>
+          <div class="board-body">
+            <div class="grid-2">
+              <div class="stack">
+                <div class="panel"><div class="panel-head">Primary source</div><div class="panel-body">
+                  <div id="dropZone" class="drop-zone"><div class="big">📄</div><div><strong>Drop one or more patent PDFs here or click to select</strong></div><div class="muted">Place <span class="mono">pdf.min.js</span> and <span class="mono">pdf.worker.min.js</span> in <span class="mono">./lib/</span></div><input type="file" id="pdfInput" accept="application/pdf,.pdf" multiple style="display:none" /></div>
+                  <div id="fileInfo" class="notice" style="display:none;margin-top:12px"></div>
+                  <div id="filePills" class="link-row" style="margin-top:12px"></div>
+                  <div class="fields" style="margin-top:12px"><label>Paste abstract, claims or description<textarea id="sourceText" placeholder="Paste text here if you do not want to use only PDFs."></textarea></label></div>
+                </div></div>
+                <div class="panel"><div class="panel-head">Publication reference for citations</div><div class="panel-body">
+                  <div class="fields inline-3">
+                    <label>Authority<select id="docAuthority"><option value="EP">EP</option><option value="WO">WO</option><option value="US">US</option><option value="AU">AU</option></select></label>
+                    <label>Reference number<input type="text" id="docNumber" placeholder="eg 1100000" /></label>
+                    <label>Kind<input type="text" id="docKind" placeholder="eg A1, A3, B1 or -" /></label>
+                  </div>
+                  <div class="notice" style="margin-top:10px">If no reference is loaded, citation harvesting works from the current EPO and Google results instead.</div>
+                </div></div>
+              </div>
+
+              <div class="stack">
+                <div class="panel"><div class="panel-head">Search preset and extraction profile</div><div class="panel-body">
+                  <div class="preset-bar" id="presetBar"></div>
+                  <div class="notice" id="presetSummary">Preset summary will appear here.</div>
+                  <div class="fields inline-2" style="margin-top:10px">
+                    <label>Top concepts<input type="number" id="topConcepts" min="6" max="40" value="18" /></label>
+                    <label>Query concepts<input type="number" id="queryConcepts" min="2" max="10" value="5" /></label>
+                  </div>
+                  <div class="fields inline-2" style="margin-top:10px">
+                    <label>Section focus<select id="sectionFocus"><option value="balanced">Balanced</option><option value="claims-first" selected>Claims first</option><option value="abstract-first">Abstract first</option><option value="description-first">Description first</option></select></label>
+                    <label>Boolean mode for abstract search<select id="abstractBooleanMode"><option value="AND" selected>AND</option><option value="OR">OR</option></select></label>
+                  </div>
+                  <div class="fields inline-2" style="margin-top:10px">
+                    <label>Max search words<input type="number" id="maxSearchWords" min="1" max="8" value="4" /></label>
+                    <label>Result limit per query<input type="number" id="resultLimit" min="5" max="50" value="18" /></label>
+                  </div>
+                  <div class="fields" style="margin-top:10px">
+                    <label><input type="checkbox" id="semanticEnabled" checked /> Enable semantic concept cleanup and reranking</label>
+                    <label><input type="checkbox" id="crossLingualEnabled" checked /> Use cross-lingual semantic matching when reranking</label>
+                    <label><input type="checkbox" id="autoSynonymiserEnabled" checked /> Enable automatic synonymiser</label>
+                    <label><input type="checkbox" id="googleParallelEnabled" checked /> Try Google Patents retrieval</label>
+                  </div>
+                  <div class="actions"><button type="button" id="analyseBtn">Analyse source</button><button type="button" class="secondary" id="loadReferenceBtn">Load reference</button></div>
+                  <div class="status"><span id="statusSpinner" class="spinner"></span><span id="statusText"></span></div>
+                </div></div>
+                <div class="panel"><div class="panel-head">Diagnostics</div><div class="panel-body"><div id="qaPanel" class="warning" style="display:none"></div><div id="runtimeDiag" class="notice" style="margin-top:10px">Runtime diagnostics will appear here when needed.</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="tab-concepts" class="tab-panel">
+        <div class="grid-2">
+          <div class="board-card"><div class="board-head"><div><div class="board-title">Inventive concept candidates</div><div class="board-meta">Selected concepts drive keyword search words, auto synonym families and optional semantic reranking.</div></div></div><div class="board-body">
+            <div id="conceptSummary" class="banner-note">Run analysis to populate concepts.</div>
+            <div id="conceptChips" class="chips" style="margin-top:12px"></div>
+            <div class="actions"><input type="text" id="manualConceptInput" placeholder="Add a manual concept" style="flex:1 1 260px;max-width:380px" /><button type="button" class="secondary" id="addManualConceptBtn">Add concept</button><button type="button" id="rebuildSearchBtn">Rebuild search strategy</button></div>
+            <div id="conceptList" class="phrase-list" style="margin-top:14px"></div>
+          </div></div>
+          <div class="stack">
+            <div class="panel"><div class="panel-head">Section split</div><div class="panel-body"><div id="sectionPills" class="section-pills"></div><div id="sectionPreview" class="notice" style="margin-top:12px">Section preview will appear after analysis.</div></div></div>
+            <div class="panel"><div class="panel-head">Weights</div><div class="panel-body"><div id="weightsPanel" class="weights-grid"></div></div></div>
+            <div class="panel"><div class="panel-head">Synonym families</div><div class="panel-body"><div id="synonymFamiliesBox" class="notice">Synonym families will appear after analysis.</div></div></div>
+            <div class="panel"><div class="panel-head">Semantic diagnostics</div><div class="panel-body" id="semanticDiagnostics">No semantic diagnostics yet.</div></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="tab-search" class="tab-panel">
+        <div class="grid-2">
+          <div class="board-card"><div class="board-head"><div><div class="board-title">Search strategy</div><div class="board-meta">The preset controls the Google fan-out, deduping behaviour, result counts and reranking intent. EPO linked-data search remains the primary path.</div></div></div><div class="board-body">
+            <div class="query-box"><div class="muted"><strong>Search words</strong></div><pre id="searchWordsBox">No search words yet.</pre></div>
+            <div class="query-box" style="margin-top:10px"><div class="muted"><strong>Abstract SPARQL</strong></div><pre id="abstractQueryBox">No query yet.</pre></div>
+            <div class="query-box" style="margin-top:10px"><div class="muted"><strong>Title SPARQL</strong></div><pre id="titleQueryBox">No query yet.</pre></div>
+            <div class="actions"><button type="button" id="runSearchBtn">Run search</button><button type="button" class="secondary" id="runCitationBtn">Fetch citations and prior art</button><button type="button" class="ghost" id="copyQueryBtn">Copy query bundle</button></div>
+          </div></div>
+          <div class="stack">
+            <div class="panel"><div class="panel-head">Execution plan</div><div class="panel-body" id="executionPlan"><div class="notice">After analysis this panel will show which words are going into the abstract and title searches, and how the active preset changes Google retrieval.</div></div></div>
+            <div class="panel"><div class="panel-head">Model status</div><div class="panel-body" id="modelStatusBox"><div class="notice">The embedding model is loaded lazily. If the page runs under the file protocol, v8 avoids repeated remote model errors and falls back to lexical synonym families.</div></div></div>
+            <div class="panel"><div class="panel-head">Reference lookup</div><div class="panel-body" id="referenceSummary"><div class="notice">If you load an EP, WO or US publication reference, the citation path will try to use it directly.</div></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="tab-results" class="tab-panel">
+        <div class="grid-2">
+          <div class="board-card"><div class="board-head"><div><div class="board-title">Results and prior art</div><div class="board-meta">Publication number first, then publication date, then title. CPC symbols are on their own line, matched concepts are on a separate line below, and relevance is no longer pinned near 99% for almost every card.</div></div></div><div class="board-body">
+            <div class="toggles-row" id="resultToggles"><label class="toggle-switch"><input type="checkbox" id="toggleEpoResults" checked /> EPO results</label><label class="toggle-switch"><input type="checkbox" id="toggleGoogleResults" checked /> Google results</label><label class="toggle-switch"><input type="checkbox" id="toggleCitationResults" checked /> Citation results</label></div>
+            <div id="resultsSummary" class="notice" style="margin-top:12px">No results yet.</div>
+            <div id="searchResults" class="stack" style="margin-top:12px"></div>
+          </div></div>
+          <div class="stack">
+            <div class="panel"><div class="panel-head">Citation and prior art results</div><div class="panel-body"><div id="citationSummary" class="notice">No citations fetched yet.</div><div id="citationResults" class="stack" style="margin-top:10px"></div></div></div>
+            <div class="panel"><div class="panel-head">Search diagnostics</div><div class="panel-body"><div id="diagnosticsBox" class="notice">Structured search diagnostics will appear here after a run. The raw response console has been removed from this Results workspace.</div></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="tab-settings" class="tab-panel">
+        <div class="board-card"><div class="board-head"><div><div class="board-title">Endpoints and semantic settings</div><div class="board-meta">Optional SerpApi integration is used for structured Google Patents retrieval. Without a key, v8 still provides direct Google Patents links.</div></div></div><div class="board-body">
+          <div class="grid-3">
+            <div class="panel"><div class="panel-head">EPO linked data</div><div class="panel-body fields"><label>SPARQL endpoint<input type="text" id="sparqlEndpoint" value="https://data.epo.org/linked-data/query" /></label><label>Query timeout in milliseconds<input type="number" id="queryTimeoutMs" min="3000" max="25000" value="10000" /></label><div class="notice">Queries use the <span class="mono">http://data.epo.org/linked-data/</span> namespace in SPARQL and the HTTPS endpoint for transport.</div></div></div>
+            <div class="panel"><div class="panel-head">Transformers and Google Patents</div><div class="panel-body fields"><label>Transformers module URL<input type="text" id="transformersUrl" value="https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2" /></label><label>Embedding model id<input type="text" id="embeddingModelId" value="Xenova/paraphrase-multilingual-MiniLM-L12-v2" /></label><label>Semantic dedupe threshold<input type="number" id="semanticDedupeThreshold" min="0.6" max="0.99" step="0.01" value="0.86" /></label><label>Result rerank threshold hint<input type="number" id="semanticResultThreshold" min="0.1" max="0.99" step="0.01" value="0.35" /></label><label>SerpApi key for Google Patents, optional<input type="password" id="serpApiKey" value="" placeholder="Leave blank for link-only Google behaviour" /></label><div class="notice">v8 fetches multiple Google Patents pages and uses the details endpoint for the top Google results when a key is supplied. The key stays in the browser and is not hardcoded into the file.</div></div></div>
+            <div class="panel"><div class="panel-head">PDF.js local paths</div><div class="panel-body fields"><label>PDF script path<input type="text" id="pdfScriptPath" value="lib/pdf.min.js" /></label><label>Worker path<input type="text" id="pdfWorkerPath" value="lib/pdf.worker.min.js" /></label><div class="warning">Commit both files under <span class="mono">lib/</span> if you want browser-side PDF extraction.</div></div></div>
+          </div>
+          <div class="actions" style="margin-top:14px"><button type="button" id="saveSettingsBtn">Save settings</button></div>
+        </div></div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+  'use strict';
+
+  const SEARCH_PRESETS = {
+    novelty: {
+      label: 'Novelty',
+      description: 'Tighter, claim-focused retrieval to surface the closest publications quickly.',
+      sectionFocus: 'claims-first',
+      booleanMode: 'AND',
+      maxSearchWords: 4,
+      resultLimit: 18,
+      googlePages: 2,
+      googleNum: 100,
+      googleDups: 'Publication',
+      semanticThreshold: 0.38,
+      citationDepth: 6
+    },
+    inventive_step: {
+      label: 'Inventive step',
+      description: 'Broader semantic and Google fan-out to reveal adjacent combinations and near-miss publications.',
+      sectionFocus: 'balanced',
+      booleanMode: 'OR',
+      maxSearchWords: 5,
+      resultLimit: 24,
+      googlePages: 3,
+      googleNum: 100,
+      googleDups: 'Publication',
+      semanticThreshold: 0.30,
+      citationDepth: 8
+    },
+    prior_art: {
+      label: 'Prior art scanning',
+      description: 'The broadest preset, favouring larger Google fan-out and looser matching for exploratory review.',
+      sectionFocus: 'abstract-first',
+      booleanMode: 'OR',
+      maxSearchWords: 6,
+      resultLimit: 30,
+      googlePages: 4,
+      googleNum: 100,
+      googleDups: 'Publication',
+      semanticThreshold: 0.24,
+      citationDepth: 10
+    }
+  };
+
+  const state = {
+    pdfFiles: [], rawText: '', sections: { title:'', abstract:'', claims:'', description:'', summary:'', other:'' }, qa: null,
+    concepts: [], selectedConcepts: new Set(), conceptWeights: new Map(), synonymFamilies: new Map(), searchBundle: null,
+    searchResults: [], googleResults: [], citationResults: [], reference: null, rawConsole: [], activePreset: 'novelty',
+    semantic: { module:null, extractor:null, modelLoaded:false, cache:new Map(), diagnostics:[], disabledReason:'' },
+    cpcHierarchyCache: new Map()
+  };
+
+  const PATENT_STOPWORDS = new Set(['a','an','the','and','or','of','to','in','on','for','with','within','from','into','by','as','at','be','is','are','was','were','it','its','this','that','those','these','comprising','comprise','comprises','including','include','includes','having','wherein','therein','thereof','thereby','therewith','therefrom','configured','adapted','arranged','plurality','least','based','provided','providing','provides','one','two','first','second','third','said','respective','system','device','method','apparatus','module','unit','member','portion','process','means','article','program','programme','medium','processor','memory','controller','data','information','signal','signals','user','interface','network','input','output','field','present','described','embodiment','embodiments','example','examples','claim','claims','according','consisting','consists','may','can','could','should','would','will','use','used','using']);
+  const GENERIC_HEADS = new Set(['system','device','method','apparatus','module','unit','member','process','platform','service','means','article','component','structure','circuit']);
+  const TECH_SUFFIXES = /(tion|sion|meter|scope|graph|logic|oxide|polymer|matrix|filter|sensor|catalyst|substrate|electrode|antenna|circuit|network|modulator|decoder|encoder|photonic|semiconductor|plasma|actuator|transceiver|composite|laminate|electrolyte|membrane)$/i;
+  const INVENTIVE_CUE_PATTERNS = [/configured to/gi,/adapted to/gi,/arranged to/gi,/to reduce/gi,/to increase/gi,/to improve/gi,/to control/gi,/technical effect/gi,/advantage/gi,/solves?/gi,/mitigat(?:e|es|ing)/gi,/avoid(?:s|ing)?/gi,/dynamically/gi,/selectively/gi,/correlat(?:e|es|ing)/gi,/beam state/gi,/signal quality/gi,/latency/gi,/classification/gi];
+  const SECTION_HEADINGS = { abstract:[/^abstract$/i,/^summary$/i,/^brief summary$/i], claims:[/^claims$/i,/^what is claimed is/i,/^claim\s*1$/i], description:[/^description$/i,/^detailed description$/i,/^detailed description of/i,/^background$/i,/^technical field$/i], summary:[/^summary$/i,/^summary of invention$/i,/^brief summary$/i] };
+  const SECTION_WEIGHTS_BY_PROFILE = { 'claims-first':{claims:1.8,abstract:1.35,summary:1.25,description:1.0,title:1.15,other:0.9}, 'abstract-first':{claims:1.35,abstract:1.8,summary:1.35,description:1.0,title:1.2,other:0.9}, 'description-first':{claims:1.35,abstract:1.25,summary:1.2,description:1.55,title:1.1,other:1.0}, 'balanced':{claims:1.5,abstract:1.4,summary:1.3,description:1.1,title:1.15,other:0.95} };
+  const BUILTIN_SYNONYMS = { antenna:['aerial','radiator'], nozzle:['spout','jet'], pipette:['dropper','dispenser'], frame:['housing','body'], calibration:['tuning','adjustment'], sensor:['detector','probe'], substrate:['wafer','base'], coating:['layer','film'], battery:['cell','accumulator'], wireless:['radio','rf'], actuator:['driver','mover'], semiconductor:['chip','silicon'], membrane:['barrier','film'], network:['mesh','communications network'], signal:['indication','transmission'], valve:['gate','flow control'], layer:['film','coating'] };
+
+  const $ = (id) => document.getElementById(id);
+  const escapeHtml = (s) => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  const normaliseSpace = (s) => String(s ?? '').replace(/\s+/g,' ').trim();
+  const sentenceSplit = (text) => String(text || '').replace(/\r/g,'').split(/(?<=[.!?])\s+|\n+/).map(x => normaliseSpace(x)).filter(Boolean);
+  const uniq = (arr) => Array.from(new Set(arr));
+  const tokenise = (text) => String(text || '').toLowerCase().replace(/[–—]/g,'-').match(/[\p{L}\p{N}]+(?:-[\p{L}\p{N}]+)*/gu) || [];
+
+  function applyBannerHeight(){ const h = $('topBanner').offsetHeight || 72; document.documentElement.style.setProperty('--banner-h', `${h}px`); document.body.style.paddingTop = `${h}px`; $('sidebar').style.top = `${h}px`; $('sidebar').style.maxHeight = `calc(100vh - ${h}px)`; }
+  window.addEventListener('resize', applyBannerHeight);
+  function updateNavCount(id, count){ const el=$(id); if(!el) return; if(count > 0){ el.hidden=false; el.textContent=String(count); } else { el.hidden=true; el.textContent=''; } }
+  function setActiveMode(label){ $('activeModeChip').textContent = `Mode: ${label}`; }
+  function setSemanticMode(label){ $('semanticModeChip').textContent = `Semantic mode: ${label}`; }
+  function setStatus(msg, busy){ $('statusText').textContent = msg || ''; $('statusSpinner').style.display = busy ? 'inline-block' : 'none'; }
+  function overlay(show,text){ $('loadingOverlay').style.display = show ? 'flex' : 'none'; $('overlayText').textContent = text || 'Working…'; }
+  function addConsoleEntry(label,payload){ const serial = typeof payload === 'string' ? payload : JSON.stringify(payload,null,2); const last = state.rawConsole[state.rawConsole.length - 1]; if(last && last.label === label && last.serial === serial) return; state.rawConsole.push({label,serial,time:new Date().toISOString()}); if(state.rawConsole.length > 30) state.rawConsole = state.rawConsole.slice(-30); }
+  function switchTab(tabId){ document.querySelectorAll('.tab-panel').forEach(el => el.classList.toggle('active', el.id === tabId)); document.querySelectorAll('.nav-link').forEach(el => el.classList.toggle('active', el.getAttribute('data-tab-target') === tabId)); const titleMap={ 'tab-source':'Load source', 'tab-concepts':'Inventive concepts', 'tab-search':'Search strategy', 'tab-results':'Results and prior art', 'tab-settings':'Endpoints and semantic settings' }; $('workspaceTitle').textContent = titleMap[tabId] || 'Patent Search Studio v8'; }
+  document.querySelectorAll('.nav-link').forEach(btn => btn.addEventListener('click', () => switchTab(btn.getAttribute('data-tab-target'))));
+
+  function getSettings(){ return {
+    sparqlEndpoint: normaliseSpace($('sparqlEndpoint').value) || 'https://data.epo.org/linked-data/query',
+    queryTimeoutMs: Math.max(3000, Number($('queryTimeoutMs').value || 10000)),
+    pdfScriptPath: normaliseSpace($('pdfScriptPath').value) || 'lib/pdf.min.js',
+    pdfWorkerPath: normaliseSpace($('pdfWorkerPath').value) || 'lib/pdf.worker.min.js',
+    transformersUrl: normaliseSpace($('transformersUrl').value) || 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2',
+    embeddingModelId: normaliseSpace($('embeddingModelId').value) || 'Xenova/paraphrase-multilingual-MiniLM-L12-v2',
+    semanticDedupeThreshold: Math.max(0.6, Math.min(0.99, Number($('semanticDedupeThreshold').value || 0.86))),
+    semanticResultThreshold: Math.max(0.1, Math.min(0.99, Number($('semanticResultThreshold').value || 0.35))),
+    serpApiKey: normaliseSpace($('serpApiKey').value || '')
+  }; }
+
+  function loadSavedSettings(){ try{ const raw = localStorage.getItem('patentSearchStudioV8Settings'); if(!raw) return; const cfg = JSON.parse(raw); ['sparqlEndpoint','queryTimeoutMs','pdfScriptPath','pdfWorkerPath','transformersUrl','embeddingModelId','semanticDedupeThreshold','semanticResultThreshold','serpApiKey'].forEach(k => { if(cfg[k] != null && $(k)) $(k).value = cfg[k]; }); ['semanticEnabled','crossLingualEnabled','autoSynonymiserEnabled','googleParallelEnabled'].forEach(k => { if(cfg[k] != null && $(k)) $(k).checked = !!cfg[k]; }); if(cfg.activePreset && SEARCH_PRESETS[cfg.activePreset]) state.activePreset = cfg.activePreset; }catch(err){ console.warn(err); } }
+  function saveSettings(){ const cfg=getSettings(); ['semanticEnabled','crossLingualEnabled','autoSynonymiserEnabled','googleParallelEnabled'].forEach(k => cfg[k] = !!$(k).checked); cfg.activePreset = state.activePreset; localStorage.setItem('patentSearchStudioV8Settings', JSON.stringify(cfg)); setStatus('Settings saved', false); }
+  $('saveSettingsBtn').addEventListener('click', saveSettings);
+
+  function renderPresetBar(){ const host=$('presetBar'); host.innerHTML = Object.entries(SEARCH_PRESETS).map(([key,preset]) => `<button type="button" class="preset-chip ${state.activePreset === key ? 'active' : ''}" data-preset="${key}">${escapeHtml(preset.label)}</button>`).join(''); host.onclick = (ev) => { const btn=ev.target.closest('[data-preset]'); if(!btn) return; state.activePreset = btn.getAttribute('data-preset'); applyPreset(true); renderPresetBar(); buildSearchBundle(); updateDiagnosticsBox(); } }
+  function applyPreset(userDriven){ const preset=SEARCH_PRESETS[state.activePreset]; $('sectionFocus').value = preset.sectionFocus; $('abstractBooleanMode').value = preset.booleanMode; $('maxSearchWords').value = preset.maxSearchWords; $('resultLimit').value = preset.resultLimit; $('semanticResultThreshold').value = preset.semanticThreshold; $('presetSummary').innerHTML = `<strong>${escapeHtml(preset.label)}</strong><br>${escapeHtml(preset.description)}<br><span class="muted">Google pages ${preset.googlePages}, Google page size ${preset.googleNum}, Google dedupe ${preset.googleDups}, citation depth ${preset.citationDepth}</span>`; if(userDriven) setStatus(`${preset.label} preset applied`, false); }
+
+  function renderFilePills(){ const host = $('filePills'); const files = state.pdfFiles; host.innerHTML = files.map((f, i) => `<span class="file-pill"><span>${escapeHtml(f.name)}</span><span class="remove" data-remove-file="${i}">×</span></span>`).join(''); $('fileInfo').style.display = files.length ? 'block' : 'none'; $('fileInfo').innerHTML = files.length ? `<strong>${files.length}</strong> PDF file${files.length === 1 ? '' : 's'} selected` : ''; host.onclick = (ev) => { const btn = ev.target.closest('[data-remove-file]'); if(!btn) return; const idx = Number(btn.getAttribute('data-remove-file')); state.pdfFiles.splice(idx, 1); renderFilePills(); if(!state.pdfFiles.length) setActiveMode('PDF or pasted text'); }; }
+
+  function updateDiagnosticsBox(){ const preset=SEARCH_PRESETS[state.activePreset]; $('diagnosticsBox').innerHTML = `<div><strong>Active preset:</strong> ${escapeHtml(preset.label)}</div><div class="muted" style="margin-top:6px">Google page fan-out ${preset.googlePages} × ${preset.googleNum}. Citation harvest depth ${preset.citationDepth}. The raw response console has been removed from this Results workspace.</div>`; }
+
+  function resetApp(){ state.pdfFiles=[]; state.rawText=''; state.sections={ title:'', abstract:'', claims:'', description:'', summary:'', other:'' }; state.qa=null; state.concepts=[]; state.selectedConcepts=new Set(); state.conceptWeights=new Map(); state.synonymFamilies=new Map(); state.searchBundle=null; state.searchResults=[]; state.googleResults=[]; state.citationResults=[]; state.reference=null; state.rawConsole=[]; state.semantic.cache.clear(); state.semantic.diagnostics=[]; state.semantic.disabledReason=''; $('pdfInput').value=''; $('sourceText').value=''; $('docAuthority').value='EP'; $('docNumber').value=''; $('docKind').value=''; $('conceptSummary').textContent='Run analysis to populate concepts.'; $('conceptChips').innerHTML=''; $('conceptList').innerHTML=''; $('weightsPanel').innerHTML=''; $('sectionPills').innerHTML=''; $('sectionPreview').textContent='Section preview will appear after analysis.'; $('synonymFamiliesBox').textContent='Synonym families will appear after analysis.'; $('semanticDiagnostics').textContent='No semantic diagnostics yet.'; $('searchWordsBox').textContent='No search words yet.'; $('abstractQueryBox').textContent='No query yet.'; $('titleQueryBox').textContent='No query yet.'; $('executionPlan').innerHTML='<div class="notice">After analysis this panel will show which words are going into the abstract and title searches, and how the active preset changes Google retrieval.</div>'; $('modelStatusBox').innerHTML='<div class="notice">The embedding model is loaded lazily. If the page runs under the file protocol, v8 avoids repeated remote model errors and falls back to lexical synonym families.</div>'; $('referenceSummary').innerHTML='<div class="notice">If you load an EP, WO or US publication reference, the citation path will try to use it directly.</div>'; $('resultsSummary').textContent='No results yet.'; $('searchResults').innerHTML=''; $('citationSummary').textContent='No citations fetched yet.'; $('citationResults').innerHTML=''; updateNavCount('navCountConcepts', 0); updateNavCount('navCountResults', 0); renderFilePills(); $('qaPanel').style.display='none'; $('runtimeDiag').className='notice'; $('runtimeDiag').innerHTML='Runtime diagnostics will appear here when needed.'; setActiveMode('PDF or pasted text'); setSemanticMode($('semanticEnabled').checked ? 'Armed' : 'Off'); setStatus('', false); renderPresetBar(); applyPreset(false); updateDiagnosticsBox(); switchTab('tab-source'); }
+  $('resetBtn').addEventListener('click', resetApp);
+  $('semanticEnabled').addEventListener('change', () => setSemanticMode($('semanticEnabled').checked ? 'Armed' : 'Off'));
+
+  async function ensurePdfJs(){ if(window.pdfjsLib) return true; const cfg = getSettings(); return await new Promise((resolve) => { const s = document.createElement('script'); s.src = cfg.pdfScriptPath; s.onload = () => { try { window.pdfjsLib.GlobalWorkerOptions.workerSrc = cfg.pdfWorkerPath; } catch(err) { console.warn(err); } resolve(true); }; s.onerror = () => resolve(false); document.head.appendChild(s); }); }
+  async function extractPdfText(file){ const ok = await ensurePdfJs(); if(!ok) throw new Error('PDF.js could not be loaded. Commit pdf.min.js and pdf.worker.min.js into ./lib/ and try again.'); const data = await file.arrayBuffer(); const pdf = await window.pdfjsLib.getDocument({data}).promise; const pageTexts=[]; for(let i=1;i<=pdf.numPages;i++){ const page=await pdf.getPage(i); const text=await page.getTextContent(); const items=(text.items || []).slice().sort((a,b)=>{ const ay=Number(a.transform?.[5] || 0), by=Number(b.transform?.[5] || 0); if(Math.abs(by - ay) > 2) return by - ay; return Number(a.transform?.[4] || 0) - Number(b.transform?.[4] || 0); }); const lines=[]; let current=null; for(const item of items){ const str=normaliseSpace(item.str); if(!str) continue; const y=Number(item.transform?.[5] || 0); if(!current || Math.abs(current.y - y) > 3){ current={y,parts:[str]}; lines.push(current); } else { const prev=current.parts[current.parts.length - 1] || ''; const joiner = /[-/]$/.test(prev) || /^[,.;:)]/.test(str) ? '' : ' '; current.parts.push(joiner + str); } } pageTexts.push(lines.map(line => normaliseSpace(line.parts.join(''))).join('\n')); } return pageTexts.join('\n\n'); }
+
+  function assessTextQuality(text){ const t=String(text || ''); const total=Math.max(1,t.length); const letters=(t.match(/[A-Za-z]/g) || []).length; const digits=(t.match(/[0-9]/g) || []).length; const weird=(t.match(/\uFFFD/g) || []).length; const nonAscii=(t.match(/[^\x09\x0A\x0D\x20-\x7E]/g) || []).length; const lines=t.split(/\r?\n/).filter(x => normaliseSpace(x)); const shortLines=lines.filter(x => x.length <= 2).length; let score=100; const reasons=[]; if(t.trim().length < 180){ score -= 35; reasons.push('Very little text was extracted.'); } if((letters / total) < 0.35){ score -= 18; reasons.push('Low readable letter ratio.'); } if((digits / total) > 0.24 && (letters / total) < 0.38){ score -= 10; reasons.push('Digits dominate the extracted text.'); } if((nonAscii / total) > 0.08){ score -= 18; reasons.push('A high proportion of non standard characters was found.'); } if(weird > 0){ score -= 20; reasons.push('Replacement characters suggest broken extraction.'); } if(lines.length && (shortLines / lines.length) > 0.24){ score -= 14; reasons.push('Many short fragments suggest line break corruption.'); } score=Math.max(0,Math.min(100,score)); return {score, low:score < 60, reasons}; }
+  function parseReference(){ const authority = normaliseSpace($('docAuthority').value || 'EP').toUpperCase(); const number = normaliseSpace($('docNumber').value).replace(/\s+/g,''); const kind = normaliseSpace($('docKind').value || '-').toUpperCase(); if(!number) return null; return {authority, number, kind: kind || '-'}; }
+  function normalisePatentText(raw){ return String(raw || '').replace(/\r/g,'').replace(/[ \t]+/g,' ').replace(/\n{3,}/g,'\n\n').trim(); }
+  function segmentSections(rawText){ const text=normalisePatentText(rawText); const lines=text.split(/\n+/).map(x => normaliseSpace(x)).filter(Boolean); const sections={title:'',abstract:'',claims:'',description:'',summary:'',other:''}; let current='other'; const bucket={title:[],abstract:[],claims:[],description:[],summary:[],other:[]}; if(lines.length && lines[0].length < 180) bucket.title.push(lines[0]); for(const line of lines){ let switched=false; for(const [key,rules] of Object.entries(SECTION_HEADINGS)){ if(rules.some(re => re.test(line))){ current=key; switched=true; break; } } if(switched) continue; bucket[current].push(line); } if(!bucket.claims.length){ const claimLines=lines.filter(line => /^\d+\s*(?:[.)]|claim\s+\d+)/i.test(line) || /^claim\s+\d+/i.test(line)); if(claimLines.length >= 2) bucket.claims.push(...claimLines); } if(!bucket.abstract.length){ const paras=text.split(/\n\n+/).map(x => normaliseSpace(x)).filter(Boolean).slice(0,3); const candidate=paras.find(p => p.length >= 200 && p.length <= 1800); if(candidate) bucket.abstract.push(candidate); } if(!bucket.description.length){ const taken = new Set([...(bucket.abstract || []), ...(bucket.claims || []), ...(bucket.summary || [])]); const remainder = lines.filter(line => !taken.has(line)); bucket.description = remainder.slice(0, Math.min(remainder.length, 220)); } Object.keys(sections).forEach(k => sections[k] = normaliseSpace(bucket[k].join(' '))); return sections; }
+  function canonicalToken(tok){ let t = String(tok || '').toLowerCase(); if(t.endsWith('ies') && t.length > 4) t = t.slice(0,-3) + 'y'; else if(t.endsWith('ses') && t.length > 5) t = t.slice(0,-2); else if(t.endsWith('s') && t.length > 4 && !t.endsWith('ss')) t = t.slice(0,-1); return t; }
+  function lexicalVariants(term){ const parts=tokenise(term).map(canonicalToken).filter(t => !PATENT_STOPWORDS.has(t) && t.length > 2); const out=new Set(); parts.forEach(p => { out.add(p); out.add(p.replace(/-/g,' ')); if(p.endsWith('y')) out.add(p.slice(0,-1) + 'ies'); else out.add(p + 's'); if(BUILTIN_SYNONYMS[p]) BUILTIN_SYNONYMS[p].forEach(x => out.add(x)); }); return Array.from(out).filter(Boolean); }
+  function buildCandidatesForSection(text, section, sectionWeight){ const sentences=sentenceSplit(text); const rows=[]; sentences.forEach((sentence, sentIdx) => { const tokens=tokenise(sentence).map(canonicalToken); const cueHits=INVENTIVE_CUE_PATTERNS.reduce((sum,re) => sum + ((sentence.match(re) || []).length), 0); for(let i=0;i<tokens.length;i++){ for(let n=1;n<=5 && i+n<=tokens.length;n++){ const slice=tokens.slice(i, i+n); if(slice.some(tok => PATENT_STOPWORDS.has(tok))) continue; if(slice.length === 1 && (slice[0].length < 4 || GENERIC_HEADS.has(slice[0]))) continue; const phrase=slice.join(' '); if(phrase.length < 4 || /^[0-9\-]+$/.test(phrase)) continue; const head=slice[slice.length - 1]; let techBonus=slice.some(tok => TECH_SUFFIXES.test(tok)) ? 1.4 : 0; if(slice.length === 2) techBonus += 0.9; if(slice.length === 3) techBonus += 0.6; if(GENERIC_HEADS.has(head)) techBonus -= 1.2; rows.push({term:phrase, section, score:sectionWeight + techBonus + (cueHits * 0.45) + Math.max(0, 0.6 - sentIdx * 0.03), sentence, sentIdx, cueHits}); } } }); return rows; }
+  function scoreConcepts(sections){ const profile=$('sectionFocus').value; const weights=SECTION_WEIGHTS_BY_PROFILE[profile] || SECTION_WEIGHTS_BY_PROFILE['claims-first']; const all=[]; Object.entries(sections).forEach(([section,text]) => { if(text) all.push(...buildCandidatesForSection(text, section, weights[section] || 1.0)); }); const byTerm=new Map(); all.forEach(row => { if(!byTerm.has(row.term)) byTerm.set(row.term,{term:row.term,totalScore:0,frequency:0,sections:new Set(),cueHits:0,examples:[],firstSent:999,head:row.term.split(' ').slice(-1)[0]}); const item=byTerm.get(row.term); item.totalScore += row.score; item.frequency += 1; item.sections.add(row.section); item.cueHits += row.cueHits; item.firstSent = Math.min(item.firstSent, row.sentIdx); if(item.examples.length < 2 && !item.examples.includes(row.sentence)) item.examples.push(row.sentence); }); const scored=Array.from(byTerm.values()).map(item => { let score=item.totalScore; score += item.sections.size * 1.7; score += Math.min(4, Math.log2(item.frequency + 1) * 1.8); score += Math.min(3, item.cueHits * 0.6); if(item.sections.has('claims')) score += 2.5; if(item.sections.has('abstract')) score += 1.2; if(item.firstSent <= 2) score += 0.8; if(item.head && GENERIC_HEADS.has(item.head)) score -= 2.2; if(item.term.split(' ').length >= 4) score -= 0.4; return {term:item.term, score:Number(score.toFixed(3)), frequency:item.frequency, sections:Array.from(item.sections), cueHits:item.cueHits, examples:item.examples, kind:item.sections.has('claims') || item.sections.has('abstract') ? 'core' : 'support'}; }).sort((a,b) => b.score - a.score || b.frequency - a.frequency || a.term.localeCompare(b.term)); const deduped=[]; for(const item of scored){ const overlaps=deduped.some(existing => existing.term === item.term || existing.term.includes(item.term) || item.term.includes(existing.term)); if(overlaps) continue; deduped.push(item); if(deduped.length >= Math.max(8, Number($('topConcepts').value || 18))) break; } return deduped; }
+  function setConceptSelectionDefaults(){ state.selectedConcepts = new Set(); state.conceptWeights = new Map(); const limit=Math.min(Math.max(2, Number($('queryConcepts').value || 5)), state.concepts.length); state.concepts.forEach((c,idx) => { if(idx < limit) state.selectedConcepts.add(c.term); state.conceptWeights.set(c.term, c.score); }); }
+
+  async function ensureSemanticModel(){ if(!$('semanticEnabled').checked){ setSemanticMode('Off'); return false; } if(window.location.protocol === 'file:'){ state.semantic.disabledReason='Semantic model loading is suppressed under the file protocol to avoid repeated remote model access errors. Serve the page over HTTP(S) if you want browser-side embeddings.'; setSemanticMode('Fallback'); $('modelStatusBox').innerHTML = `<div class="warning">${escapeHtml(state.semantic.disabledReason)}</div>`; return false; } const cfg=getSettings(); if(state.semantic.modelLoaded && state.semantic.extractor) return true; try{ setSemanticMode('Loading'); $('modelStatusBox').innerHTML='<div class="notice">Loading the browser-side embedding model…</div>'; if(!state.semantic.module) state.semantic.module = await import(cfg.transformersUrl); const mod=state.semantic.module; if(mod.env){ mod.env.allowLocalModels = false; mod.env.useBrowserCache = true; } state.semantic.extractor = await mod.pipeline('feature-extraction', cfg.embeddingModelId, {quantized:true}); state.semantic.modelLoaded = true; setSemanticMode('Ready'); $('modelStatusBox').innerHTML = `<div class="ok"><strong>Model ready</strong><br>${escapeHtml(cfg.embeddingModelId)}</div>`; return true; } catch(err){ addConsoleEntry('Semantic model error', String(err)); setSemanticMode('Fallback'); $('modelStatusBox').innerHTML = `<div class="warning">Semantic model is unavailable in this browser context. v8 will fall back to lexical synonym families and keyword scoring only.<br><span class="muted">${escapeHtml(String(err.message || err))}</span></div>`; return false; } }
+  function cosine(a,b){ let dot=0, na=0, nb=0; const len=Math.min(a.length,b.length); for(let i=0;i<len;i++){ dot += a[i] * b[i]; na += a[i] * a[i]; nb += b[i] * b[i]; } return dot / ((Math.sqrt(na) * Math.sqrt(nb)) || 1); }
+  async function embedText(text){ const key=normaliseSpace(text).slice(0,1800); if(state.semantic.cache.has(key)) return state.semantic.cache.get(key); const ok=await ensureSemanticModel(); if(!ok) return null; const result = await state.semantic.extractor(key, { pooling:'mean', normalize:true }); const vec = Array.from(result.data || result); state.semantic.cache.set(key, vec); return vec; }
+  async function embedTexts(texts){ const out=[]; for(const text of texts) out.push(await embedText(text)); return out; }
+  function averageVectors(vectors){ if(!vectors.length) return null; const len=vectors[0].length; const out=new Array(len).fill(0); vectors.forEach(v => { for(let i=0;i<len;i++) out[i] += v[i] || 0; }); for(let i=0;i<len;i++) out[i] /= vectors.length; const norm=Math.sqrt(out.reduce((s,x) => s + x*x,0)) || 1; return out.map(x => x / norm); }
+  async function semanticDedupConcepts(){ if(!$('semanticEnabled').checked || !state.concepts.length) return; const cfg=getSettings(); const texts=state.concepts.map(c => c.term); const vecs=await embedTexts(texts); if(vecs.some(v => !v)) return; const kept=[]; const dropped=[]; for(let i=0;i<state.concepts.length;i++){ const current=state.concepts[i]; let duplicateOf=null; for(const keptItem of kept){ const j=texts.indexOf(keptItem.term); const sim=cosine(vecs[i], vecs[j]); if(sim >= cfg.semanticDedupeThreshold){ duplicateOf={term:keptItem.term, sim}; break; } } if(duplicateOf) dropped.push({term:current.term, of:duplicateOf.term, sim:duplicateOf.sim}); else kept.push(current); } if(dropped.length){ state.semantic.diagnostics.push(`Semantic dedupe removed ${dropped.length} concept(s)`); state.semantic.diagnostics.push(...dropped.slice(0,8).map(x => `${x.term} → ${x.of} (${x.sim.toFixed(2)})`)); } state.concepts = kept; }
+  async function buildSynonymFamilies(){ state.synonymFamilies = new Map(); const baseTerms=state.concepts.map(c => c.term); const lexical = new Map(); baseTerms.forEach(term => lexical.set(term, lexicalVariants(term))); if($('autoSynonymiserEnabled').checked){ if($('semanticEnabled').checked){ const vecs=await embedTexts(baseTerms); if(vecs.every(Boolean)){ for(let i=0;i<baseTerms.length;i++){ const family=new Set(lexical.get(baseTerms[i]) || []); family.add(baseTerms[i]); for(let j=0;j<baseTerms.length;j++){ if(i === j) continue; const sim=cosine(vecs[i], vecs[j]); if(sim >= 0.78) family.add(baseTerms[j]); } state.synonymFamilies.set(baseTerms[i], Array.from(family).slice(0,12)); } } } }
+    if(!state.synonymFamilies.size) baseTerms.forEach(term => state.synonymFamilies.set(term, uniq([term, ...(lexical.get(term) || [])]).slice(0,12)));
   }
-  document.getElementById('searchResults').innerHTML = html;
-}
 
-function copySearchQuery() {
-  const query = document.getElementById('searchQuery').value;
-  if (query) navigator.clipboard.writeText(query).then(() => showStatus('✓ Query copied', 'success', 'searchStatus'));
-}
+  function deriveSearchWords(){ const selected=state.concepts.filter(c => state.selectedConcepts.has(c.term)).sort((a,b) => (state.conceptWeights.get(b.term) || b.score) - (state.conceptWeights.get(a.term) || a.score)); const wordScores=new Map(); selected.forEach((concept, conceptIdx) => { const baseWeight=Number(state.conceptWeights.get(concept.term) || concept.score || 1); const familyTerms=state.synonymFamilies.get(concept.term) || [concept.term, ...lexicalVariants(concept.term)]; familyTerms.forEach((familyTerm, familyIdx) => { tokenise(familyTerm).map(canonicalToken).forEach((word, wordIdx) => { if(PATENT_STOPWORDS.has(word) || word.length < 4) return; let score=baseWeight; if(TECH_SUFFIXES.test(word)) score += 2; if(concept.sections.includes('claims')) score += 1.2; if(concept.sections.includes('abstract')) score += 0.8; score += Math.max(0, 0.5 - conceptIdx * 0.05); score += Math.max(0, 0.3 - familyIdx * 0.02); score += Math.max(0, 0.2 - wordIdx * 0.02); wordScores.set(word, Math.max(score, wordScores.get(word) || 0)); }); }); }); return Array.from(wordScores.entries()).sort((a,b) => b[1] - a[1] || a[0].localeCompare(b[0])).map(([word]) => word).slice(0, Math.max(1, Number($('maxSearchWords').value || 4))); }
 
-// Utilities
-function switchTab(tabId) {
-  document.querySelectorAll('.tab-panel').forEach(el => el.classList.remove('active'));
-  document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
-  document.getElementById(tabId).classList.add('active');
-  document.querySelector(`[data-tab-target="${tabId}"]`).classList.add('active');
-}
+  function buildAbstractQuery(words){ const operator=$('abstractBooleanMode').value || 'AND'; const limit=Math.max(5, Number($('resultLimit').value || 18)); const booleanText=words.length <= 1 ? words[0] : `(${words.join(` ${operator} `)})`; return ['PREFIX patent: <http://data.epo.org/linked-data/def/patent/>','PREFIX dcterms: <http://purl.org/dc/terms/>','PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>','PREFIX text: <http://jena.apache.org/text#>','SELECT ?publn ?title ?abstract {',`  ?publn text:query ( dcterms:abstract "${booleanText}" ) ;`,'        rdf:type patent:Publication ;','        patent:titleOfInvention ?title ;','        dcterms:abstract ?abstract .','  FILTER(langMatches(lang(?title), "en"))','  FILTER(langMatches(lang(?abstract), "en"))',`} LIMIT ${limit}`].join('\n'); }
+  function buildTitleQuery(words){ const operator=$('abstractBooleanMode').value || 'AND'; const limit=Math.max(5, Number($('resultLimit').value || 18)); const booleanText=words.length <= 1 ? words[0] : `(${words.join(` ${operator} `)})`; return ['PREFIX patent: <http://data.epo.org/linked-data/def/patent/>','PREFIX dcterms: <http://purl.org/dc/terms/>','PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>','PREFIX text: <http://jena.apache.org/text#>','SELECT ?publn ?title ?abstract {',`  ?publn text:query ( patent:titleOfInvention "${booleanText}" ) ;`,'        rdf:type patent:Publication ;','        patent:titleOfInvention ?title .','  OPTIONAL { ?publn dcterms:abstract ?abstract . FILTER(langMatches(lang(?abstract), "en")) }','  FILTER(langMatches(lang(?title), "en"))',`} LIMIT ${limit}`].join('\n'); }
 
-function showStatus(msg, type, elemId) {
-  const elem = document.getElementById(elemId);
-  if (!elem) return;
-  elem.innerHTML = `<div style="padding:10px;margin-top:10px;background:${type==='success'?'#e8f5e9':type==='error'?'#fff3f3':'#f0f9ff'};border-left:3px solid ${type==='success'?'#2e7d32':type==='error'?'#8a1f1f':'var(--ipa-web-teal)'};border-radius:6px;font-size:13px;color:${type==='success'?'#2e7d32':type==='error'?'#8a1f1f':'#004d61'}">${msg}</div>`;
-}
+  function buildSearchBundle(){ const selectedConcepts=state.concepts.filter(c => state.selectedConcepts.has(c.term)); const words=deriveSearchWords(); const abstractQuery=words.length ? buildAbstractQuery(words) : ''; const titleQuery=words.length ? buildTitleQuery(words) : ''; state.searchBundle={ selectedConcepts, words, abstractQuery, titleQuery }; $('searchWordsBox').textContent = words.length ? words.join(' | ') : 'No search words yet.'; $('abstractQueryBox').textContent = abstractQuery || 'No query yet.'; $('titleQueryBox').textContent = titleQuery || 'No query yet.'; const preset=SEARCH_PRESETS[state.activePreset]; $('executionPlan').innerHTML = `<div class="notice"><ul style="margin:0;padding-left:18px;line-height:1.55"><li><strong>Preset:</strong> ${escapeHtml(preset.label)}</li><li><strong>Selected concepts:</strong> ${selectedConcepts.length}</li><li><strong>Searchable words:</strong> ${words.length ? escapeHtml(words.join(', ')) : 'None yet'}</li><li><strong>Semantic enabled:</strong> ${$('semanticEnabled').checked ? 'Yes' : 'No'}</li><li><strong>Auto synonymiser:</strong> ${$('autoSynonymiserEnabled').checked ? 'Yes' : 'No'}</li><li><strong>Google fan-out:</strong> ${preset.googlePages} page(s) × ${preset.googleNum}</li><li><strong>Google dedupe:</strong> ${preset.googleDups}</li><li><strong>Citation depth:</strong> ${preset.citationDepth}</li></ul></div>`; }
 
-function escapeHtml(text) {
-  const div = document.createElement('div');
-  div.textContent = text;
-  return div.innerHTML;
-}
+  function renderSections(){ const entries=Object.entries(state.sections).filter(([,v]) => normaliseSpace(v).length); $('sectionPills').innerHTML = entries.map(([k,v]) => `<div class="badge section">${escapeHtml(k)} • ${v.length.toLocaleString()} chars</div>`).join(''); $('sectionPreview').innerHTML = entries.length ? entries.map(([k,v]) => `<div style="margin-bottom:10px"><strong>${escapeHtml(k)}</strong><div class="muted">${escapeHtml(v.slice(0,420))}${v.length > 420 ? '…' : ''}</div></div>`).join('') : 'No section split available.'; }
+  function renderQa(){ if(!state.qa){ $('qaPanel').style.display='none'; return; } $('qaPanel').style.display='block'; $('qaPanel').innerHTML = state.qa.low ? `<strong>PDF quality warning</strong><br>Score ${state.qa.score}. ${state.qa.reasons.map(escapeHtml).join(' ')}` : `<strong>PDF quality looks usable</strong><br>Score ${state.qa.score}.`; }
+  function renderSemanticDiagnostics(){ $('semanticDiagnostics').innerHTML = state.semantic.diagnostics.length ? state.semantic.diagnostics.map(x => `<div>• ${escapeHtml(x)}</div>`).join('') : 'No semantic diagnostics yet.'; }
+  function renderSynonymFamilies(){ const items=Array.from(state.synonymFamilies.entries()); $('synonymFamiliesBox').innerHTML = items.length ? items.map(([term,family]) => `<div style="margin-bottom:10px"><strong>${escapeHtml(term)}</strong><div class="muted">${family.map(escapeHtml).join(' • ')}</div></div>`).join('') : 'Synonym families will appear after analysis.'; }
+  function renderConcepts(){ updateNavCount('navCountConcepts', state.concepts.length); $('conceptSummary').innerHTML = state.concepts.length ? `<strong>${state.concepts.length}</strong> concept candidates detected. Selected concepts feed keyword search words, synonym families and reranking.` : 'No concepts found.'; $('conceptChips').innerHTML = state.concepts.map(c => { const sel = state.selectedConcepts.has(c.term); const familySize = (state.synonymFamilies.get(c.term) || []).length; return `<div class="chip" data-term="${escapeHtml(c.term)}" data-selected="${sel ? 'true' : 'false'}"><span>${escapeHtml(c.term)} <small>${(state.conceptWeights.get(c.term) || c.score).toFixed(1)}</small></span>${familySize ? `<span class="badge good">family ${familySize}</span>` : ''}<span class="mini-btn" data-action="remove">×</span></div>`; }).join(''); $('conceptList').innerHTML = state.concepts.map(c => `<div class="phrase-card"><div class="phrase-head"><div><div class="phrase-term">${escapeHtml(c.term)}</div><div class="muted">${c.examples.map(escapeHtml).join(' • ') || 'No example sentence captured.'}</div></div><div class="badge ${c.kind === 'core' ? 'good' : ''}">${c.kind}</div></div><div class="meta-row" style="margin-top:8px"><span class="badge">score ${(state.conceptWeights.get(c.term) || c.score).toFixed(2)}</span><span class="badge">frequency ${c.frequency}</span><span class="badge">cue hits ${c.cueHits}</span>${c.sections.map(s => `<span class="badge section">${escapeHtml(s)}</span>`).join('')}</div></div>`).join(''); $('weightsPanel').innerHTML = state.concepts.map(c => `<div class="weights-row"><div>${escapeHtml(c.term)}</div><input type="number" step="0.1" min="0.1" max="999" data-weight-term="${escapeHtml(c.term)}" value="${(state.conceptWeights.get(c.term) || c.score).toFixed(1)}" /></div>`).join(''); $('conceptChips').onclick = (ev) => { const chip = ev.target.closest('.chip'); if(!chip) return; const term = chip.getAttribute('data-term'); if(ev.target.getAttribute('data-action') === 'remove'){ state.concepts = state.concepts.filter(c => c.term !== term); state.selectedConcepts.delete(term); state.conceptWeights.delete(term); state.synonymFamilies.delete(term); } else { if(state.selectedConcepts.has(term)) state.selectedConcepts.delete(term); else state.selectedConcepts.add(term); } buildSearchBundle(); renderConcepts(); renderSynonymFamilies(); }; $('weightsPanel').querySelectorAll('[data-weight-term]').forEach(input => input.addEventListener('change', () => { const term=input.getAttribute('data-weight-term'); state.conceptWeights.set(term, Math.max(0.1, Number(input.value || 1))); buildSearchBundle(); renderConcepts(); })); }
 
-// Tab switching
-document.querySelectorAll('.nav-link').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const tabId = btn.dataset.tabTarget;
-    if (tabId) switchTab(tabId);
-  });
-});
+  async function analyseCurrentSource(){ try{ overlay(true, 'Analysing source and extracting inventive concepts…'); setStatus('Analysing source', true); state.reference = parseReference(); state.rawText = normaliseSpace($('sourceText').value); state.semantic.diagnostics = []; let extractedTexts=[]; if(state.pdfFiles.length){ for(const file of state.pdfFiles){ extractedTexts.push(await extractPdfText(file)); } } const mergedPdfText = extractedTexts.filter(Boolean).join('\n\n'); state.rawText = [mergedPdfText, state.rawText].filter(Boolean).join('\n\n').trim(); if(!state.rawText && !state.reference) throw new Error('Provide one or more PDFs, paste text, or enter a reference number.'); if(state.rawText){ $('sourceText').value = state.rawText; state.qa = assessTextQuality(state.rawText); state.sections = segmentSections(state.rawText); state.concepts = scoreConcepts(state.sections); if($('semanticEnabled').checked) await semanticDedupConcepts(); setConceptSelectionDefaults(); await buildSynonymFamilies(); renderQa(); renderSections(); buildSearchBundle(); renderSynonymFamilies(); renderSemanticDiagnostics(); renderConcepts(); } if(state.reference){ setActiveMode('Reference loaded'); $('referenceSummary').innerHTML = `<div class="notice">Reference loaded: <strong>${escapeHtml(state.reference.authority + ' ' + state.reference.number + ' ' + state.reference.kind)}</strong>. Citation retrieval can now use the loaded reference directly where possible.</div>`; } else { setActiveMode(state.pdfFiles.length ? `${state.pdfFiles.length} PDF file${state.pdfFiles.length === 1 ? '' : 's'} + text` : 'Pasted text'); } switchTab(state.rawText ? 'tab-concepts' : 'tab-search'); setStatus('Analysis complete', false); if(window.location.protocol === 'file:' && $('semanticEnabled').checked){ $('runtimeDiag').className='warning'; $('runtimeDiag').innerHTML='The page is currently running under the file protocol. v8 will avoid the remote transformer load in this context and will use lexical synonym families instead.'; } } catch(err){ setStatus(String(err.message || err), false); alert(String(err.message || err)); } finally { overlay(false, ''); setStatus($('statusText').textContent, false); } }
 
-// Sidebar collapse
-document.getElementById('navCollapseBtn').addEventListener('click', () => {
-  document.getElementById('shell').classList.toggle('nav-collapsed');
-});
-</script>
+  async function loadReferenceOnly(){ state.reference = parseReference(); if(!state.reference){ alert('Enter a reference number first.'); return; } $('referenceSummary').innerHTML = `<div class="notice">Reference loaded: <strong>${escapeHtml(state.reference.authority + ' ' + state.reference.number + ' ' + state.reference.kind)}</strong>. You can now use the citation path directly.</div>`; setActiveMode('Reference loaded'); switchTab('tab-search'); }
+  $('analyseBtn').addEventListener('click', analyseCurrentSource); $('loadReferenceBtn').addEventListener('click', loadReferenceOnly); $('rebuildSearchBtn').addEventListener('click', async () => { await buildSynonymFamilies(); buildSearchBundle(); renderSynonymFamilies(); renderConcepts(); switchTab('tab-search'); }); $('addManualConceptBtn').addEventListener('click', async () => { const term=normaliseSpace($('manualConceptInput').value); if(!term) return; if(!state.concepts.some(c => c.term === term)){ state.concepts.unshift({term, score:999, frequency:1, sections:['manual'], cueHits:1, examples:['Added manually'], kind:'core'}); state.conceptWeights.set(term, 999); } state.selectedConcepts.add(term); $('manualConceptInput').value=''; await buildSynonymFamilies(); buildSearchBundle(); renderSynonymFamilies(); renderConcepts(); }); $('manualConceptInput').addEventListener('keydown', (ev) => { if(ev.key === 'Enter'){ ev.preventDefault(); $('addManualConceptBtn').click(); } });
+
+  async function runSparql(query,label){ const cfg=getSettings(); const controller=new AbortController(); const timeout=setTimeout(() => controller.abort(), cfg.queryTimeoutMs); try{ const body=new URLSearchParams(); body.set('query', query); body.set('format', 'application/sparql-results+json'); const res=await fetch(cfg.sparqlEndpoint, { method:'POST', headers:{ 'Accept':'application/sparql-results+json, application/json, text/plain', 'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8' }, body: body.toString(), signal: controller.signal }); const text=await res.text(); let data; try{ data = JSON.parse(text); } catch { data = text; } addConsoleEntry(label, data); return {ok:res.ok, status:res.status, data}; } finally { clearTimeout(timeout); } }
+  function parsePublicationFromUri(uri){ const m=String(uri || '').match(/\/publication\/([A-Z]{2})\/([^\/]+)\/([^\/]+)\//i); if(!m) return null; const authority=m[1].toUpperCase(); const number=m[2].toUpperCase(); const kind=m[3].toUpperCase(); const id=`${authority}${number}${kind}`; return {authority, number, kind, id}; }
+  function formatDate(dateStr){ if(!dateStr) return ''; const d=new Date(dateStr); if(Number.isNaN(d.getTime())) return ''; return new Intl.DateTimeFormat('en-AU', { day:'2-digit', month:'short', year:'numeric' }).format(d).replace(',', ''); }
+  function googlePatentsLink(pub){ return pub ? `https://patents.google.com/patent/${encodeURIComponent(pub.id)}/en` : '#'; }
+  function googlePatentsSearchLink(q){ return `https://patents.google.com/?q=${encodeURIComponent(q)}`; }
+  function espacenetLink(pub){ return pub ? `https://worldwide.espacenet.com/patent/search?q=pn%3D${encodeURIComponent(pub.id)}` : '#'; }
+  function bindingsToResults(payload, sourceLabel){ const bindings=payload?.results?.bindings || []; return bindings.map(row => ({ title: row.title?.value || row.publn?.value || 'Publication', abstract: row.abstract?.value || '', uri: row.publn?.value || '', sourceLabel, publicationDate: row.publicationDate?.value || '', cpcSymbols: row.cpcSymbol?.value ? [row.cpcSymbol.value] : [], pubMeta: parsePublicationFromUri(row.publn?.value || ''), citationCount: 0, rank: scoreTextAgainstConcepts(`${row.title?.value || ''} ${row.abstract?.value || ''}`) })); }
+  function scoreTextAgainstConcepts(text){ const lower=String(text || '').toLowerCase(); const concepts=state.searchBundle?.selectedConcepts || []; const words=state.searchBundle?.words || []; let matches=0, weight=0; const hitTerms=[]; concepts.forEach(concept => { const family=state.synonymFamilies.get(concept.term) || [concept.term]; let localMatches=0; family.forEach(term => { if(lower.includes(String(term).toLowerCase())) localMatches += 1; }); if(localMatches){ matches += 1; weight += Number(state.conceptWeights.get(concept.term) || 1) + Math.min(2, localMatches * 0.25); hitTerms.push(concept.term); } }); words.forEach(word => { if(lower.includes(word) && !hitTerms.includes(word)){ weight += 0.4; hitTerms.push(word); } }); const coverage=concepts.length ? matches / concepts.length : 0; const pct=Math.round((coverage * 70) + Math.min(25, weight * 1.6)); return {matches, weight, hitTerms, score: pct, semanticBoost:0, semanticScore:null}; }
+  function mergeResults(rows){ const map=new Map(); rows.forEach(row => { const key=row.uri || row.title; if(!map.has(key)) map.set(key,row); else { const existing=map.get(key); existing.rank.matches=Math.max(existing.rank.matches, row.rank.matches); existing.rank.weight=Math.max(existing.rank.weight, row.rank.weight); existing.rank.score=Math.max(existing.rank.score, row.rank.score); existing.rank.hitTerms=uniq(existing.rank.hitTerms.concat(row.rank.hitTerms)); existing.sourceLabel=uniq(existing.sourceLabel.split(' + ').concat(row.sourceLabel)).join(' + '); if(!existing.abstract && row.abstract) existing.abstract=row.abstract; if(!existing.publicationDate && row.publicationDate) existing.publicationDate=row.publicationDate; existing.cpcSymbols=uniq((existing.cpcSymbols || []).concat(row.cpcSymbols || [])).slice(0,10); if(!existing.pubMeta && row.pubMeta) existing.pubMeta=row.pubMeta; } }); return Array.from(map.values()).sort((a,b) => b.rank.weight - a.rank.weight || b.rank.matches - a.rank.matches || a.title.localeCompare(b.title)); }
+  async function rerankResultsSemantically(rows){ if(!$('semanticEnabled').checked || !rows.length) return rows; const ok=await ensureSemanticModel(); if(!ok) return rows; const selectedTexts=(state.searchBundle?.selectedConcepts || []).map(c => c.term); if(!selectedTexts.length) return rows; const conceptVecs=await embedTexts(selectedTexts); const resultTexts=rows.map(r => `${r.title}. ${r.abstract || ''}`); const resultVecs=await embedTexts(resultTexts); const centroid=averageVectors(conceptVecs.filter(Boolean)); const threshold=Number($('semanticResultThreshold').value || getSettings().semanticResultThreshold || 0.35); rows.forEach((row,idx) => { if(!resultVecs[idx] || !centroid) return; const sim=cosine(centroid, resultVecs[idx]); row.rank.semanticScore=sim; if(sim >= threshold){ row.rank.semanticBoost=sim * 28; row.rank.weight += row.rank.semanticBoost; } if($('crossLingualEnabled').checked && sim >= threshold) row.rank.hitTerms=uniq(row.rank.hitTerms.concat(['semantic match'])); row.rank.displayPercent = computeDisplayPercent(row.rank, row.citationCount || 0); }); rows.sort((a,b) => (b.rank.displayPercent || 0) - (a.rank.displayPercent || 0) || b.rank.weight - a.rank.weight || a.title.localeCompare(b.title)); return rows; }
+
+  function computeDisplayPercent(rank, citationCount){ const conceptPart=Math.min(62, Math.round((rank.matches || 0) * 11)); const lexicalPart=Math.min(22, Math.round(Math.max(0, rank.weight || 0) * 0.45)); const semanticPart=rank.semanticScore != null ? Math.min(12, Math.round(Math.max(0, rank.semanticScore) * 22)) : 0; const citationPart=Math.min(8, citationCount || 0); return Math.max(12, Math.min(97, conceptPart + lexicalPart + semanticPart + citationPart)); }
+
+  async function fetchPublicationDetails(pubUri){ try{ if(!pubUri) return null; const httpsUri=pubUri.replace(/^http:\/\//i,'https://'); const res=await fetch(httpsUri + '?_view=normal', { headers:{ 'Accept':'application/json, application/ld+json, text/plain' } }); const text=await res.text(); let data; try{ data=JSON.parse(text); } catch { data=text; } const serial=typeof data === 'string' ? data : JSON.stringify(data); const dateMatch=serial.match(/publicationDate[^\d]*(\d{4}-\d{2}-\d{2})/i); const cpcMatches=uniq((serial.match(/[A-HY]\d{2}[A-Z]\s?\d+\/\d+/g) || [])).slice(0,10); return { publicationDate: dateMatch ? dateMatch[1] : '', cpcSymbols: cpcMatches }; } catch(err){ addConsoleEntry('Publication detail fetch warning', String(err)); return null; } }
+  async function fetchCitationCount(pubMeta){ if(!pubMeta) return 0; try{ const path=`/data/publication/${encodeURIComponent(pubMeta.authority)}/${encodeURIComponent(pubMeta.number)}/${encodeURIComponent(pubMeta.kind)}/-/citation?_view=normal&_pageSize=60`; const resp=await linkedDataFetchJson(path); if(!resp.ok || !resp.data) return 0; const items=simplifyCitationPayload(resp.data, `Cited from ${pubMeta.authority}${pubMeta.number}${pubMeta.kind}`); return items.length; }catch(err){ addConsoleEntry('Citation count warning', String(err)); return 0; } }
+  async function enrichResultsFromApi(rows){ const out=[]; for(const row of rows){ if((row.publicationDate && row.cpcSymbols?.length && row.citationCount != null) || !row.uri){ row.rank.displayPercent = computeDisplayPercent(row.rank, row.citationCount || 0); out.push(row); continue; } const details=await fetchPublicationDetails(row.uri); if(details){ if(!row.publicationDate && details.publicationDate) row.publicationDate = details.publicationDate; row.cpcSymbols = uniq((row.cpcSymbols || []).concat(details.cpcSymbols || [])).slice(0,10); } row.citationCount = await fetchCitationCount(row.pubMeta); row.rank.displayPercent = computeDisplayPercent(row.rank, row.citationCount || 0); out.push(row); } return out; }
+
+  function parsePatentIdFlexible(id){ const s=String(id || '').trim().toUpperCase().replace(/\s+/g,''); const m=s.match(/^([A-Z]{2})(\d+)([A-Z]\d?)$/); if(!m) return null; return { authority:m[1], number:m[2], kind:m[3], id:s }; }
+  async function fetchGooglePatentsViaSerpApi(){ state.googleResults=[]; if(!$('googleParallelEnabled').checked || !state.searchBundle?.words?.length) return; const apiKey=getSettings().serpApiKey; if(!apiKey){ addConsoleEntry('Google retrieval notice', 'No SerpApi key configured. Google result cards stay link-only.'); return; } const q=state.searchBundle.words.join(' '); const preset=SEARCH_PRESETS[state.activePreset]; const pages=[]; try{
+      for(let page=1; page<=preset.googlePages; page++){
+        const url=`https://serpapi.com/search.json?engine=google_patents&q=${encodeURIComponent(q)}&num=${preset.googleNum}&page=${page}&dups=${encodeURIComponent(preset.googleDups)}&patents=true&scholar=false&api_key=${encodeURIComponent(apiKey)}`;
+        const res=await fetch(url, { headers:{ 'Accept':'application/json' } });
+        const data=await res.json();
+        addConsoleEntry(`SerpApi Google Patents page ${page}`, data);
+        pages.push(data);
+      }
+      const organic=pages.flatMap(page => page.organic_results || []);
+      const mergedMap=new Map();
+      organic.forEach(item => {
+        const patentId=String(item.patent_id || item.publication_number || '').toUpperCase().replace(/\s+/g,'');
+        const key=patentId || `${item.title || ''}|${item.link || ''}`;
+        if(!mergedMap.has(key)) mergedMap.set(key, item);
+      });
+      const baseItems=Array.from(mergedMap.values()).map(item => {
+        const patentId=String(item.patent_id || item.publication_number || '').toUpperCase().replace(/\s+/g,'');
+        const pubMeta=patentId ? parsePatentIdFlexible(patentId) : null;
+        const rank=scoreTextAgainstConcepts(`${item.title || ''} ${item.snippet || ''}`);
+        return {
+          title:item.title || 'Google Patents result', abstract:item.snippet || '', publicationDate:item.publication_date || item.filing_date || '', sourceLabel:'google',
+          cpcSymbols: Array.isArray(item.cpcs) ? item.cpcs.slice(0,8) : (Array.isArray(item.cpc) ? item.cpc.slice(0,8) : []),
+          googleUrl:item.link || (patentId ? `https://patents.google.com/patent/${encodeURIComponent(patentId)}/en` : googlePatentsSearchLink(q)),
+          pubMeta: pubMeta ? { authority:pubMeta.authority, number:pubMeta.number, kind:pubMeta.kind, id:pubMeta.id } : null,
+          patentId, citationCount: Array.isArray(item.cited_by) ? item.cited_by.length : (Number(item.citation_count || 0) || 0), rank
+        };
+      });
+      baseItems.sort((a,b) => (b.rank.weight || 0) - (a.rank.weight || 0));
+      const detailTop=baseItems.slice(0, Math.min(12, baseItems.length));
+      for(const row of detailTop){
+        if(!row.patentId) continue;
+        try{
+          const detailUrl=`https://serpapi.com/search.json?engine=google_patents_details&patent_id=${encodeURIComponent(row.patentId)}&api_key=${encodeURIComponent(apiKey)}`;
+          const res=await fetch(detailUrl, { headers:{ 'Accept':'application/json' } });
+          const data=await res.json();
+          addConsoleEntry(`SerpApi Google details ${row.patentId}`, data);
+          const patent=data.patent || data;
+          if(!row.publicationDate) row.publicationDate = patent.publication_date || patent.filing_date || '';
+          const cpcs = Array.isArray(patent.cpcs) ? patent.cpcs : Array.isArray(patent.classifications) ? patent.classifications : [];
+          if(cpcs.length) row.cpcSymbols = uniq(row.cpcSymbols.concat(cpcs.map(x => typeof x === 'string' ? x : (x.symbol || x.cpc || '')).filter(Boolean))).slice(0,8);
+          if(!row.citationCount){ row.citationCount = Number(patent.citation_count || 0) || (Array.isArray(patent.citations) ? patent.citations.length : 0) || 0; }
+          const enrichedText=[row.title || '', row.abstract || '', JSON.stringify(patent || {})].join(' ');
+          row.rank = scoreTextAgainstConcepts(enrichedText);
+        } catch(detailErr){ addConsoleEntry('SerpApi details warning', String(detailErr)); }
+      }
+      baseItems.forEach(row => row.rank.displayPercent = computeDisplayPercent(row.rank, row.citationCount || 0));
+      state.googleResults = await rerankResultsSemantically(baseItems);
+      if(!state.googleResults.length){ $('runtimeDiag').className='warning'; $('runtimeDiag').innerHTML='The Google Patents retrieval returned no structured results for the current query and preset. Try the Prior art scanning preset for a broader fan-out.'; }
+    } catch(err){ addConsoleEntry('SerpApi Google retrieval error', String(err)); $('runtimeDiag').className='warning'; $('runtimeDiag').innerHTML='Structured Google Patents retrieval failed in this browser context. Direct Google links are still available on result cards.'; }
+  }
+
+  function extractPatentTokensFromText(text){ const tokens=new Set(); const patterns=[/\b(EP\/?\d{4,}[A-Z]\d?)\b/gi,/\b(WO\/?\d{4,}[A-Z]?\d*)\b/gi,/\b(US\/?\d{4,}[A-Z]?\d*)\b/gi,/\b(AU\/?\d{4,}[A-Z]?\d*)\b/gi,/\b([A-Z]{2}\d{6,}[A-Z]\d?)\b/g]; patterns.forEach(re => { let m; while((m=re.exec(text))){ tokens.add(String(m[1]).replace(/\//g,'').toUpperCase()); if(re.lastIndex === m.index) re.lastIndex++; } }); return Array.from(tokens); }
+  function simplifyCitationPayload(payload, sourceHint){ if(!payload) return []; const text=typeof payload === 'string' ? payload : JSON.stringify(payload); const uriMatches=[...text.matchAll(/\/publication\/([A-Z]{2})\/([^\/]+)\/([^\/]+)\//g)].map(m => `${String(m[1]).toUpperCase()}${String(m[2]).toUpperCase()}${String(m[3]).toUpperCase()}`); const tokens=uniq(uriMatches.concat(extractPatentTokensFromText(text))); return tokens.slice(0,100).map((token, idx) => ({ label:token, evidence: sourceHint || `Citation-like publication token ${idx + 1} detected in the linked-data response` })); }
+  async function linkedDataFetchJson(path){ const base='https://data.epo.org/linked-data'; const res=await fetch(base + path, { headers:{ 'Accept':'application/json' } }); const text=await res.text(); let data; try{ data=JSON.parse(text); } catch { data=text; } addConsoleEntry(`Linked data ${path}`, data); return {ok:res.ok, data}; }
+  async function fetchCitationsForReference(){ if(!state.reference) throw new Error('A reference is needed for reference-based citation lookup.'); const ref=state.reference; const kind=ref.kind || '-'; const paths=[`/data/publication/${encodeURIComponent(ref.authority)}/${encodeURIComponent(ref.number)}/${encodeURIComponent(kind)}/-/citation?_view=normal&_pageSize=100`,`/data/publication/${encodeURIComponent(ref.authority)}/${encodeURIComponent(ref.number)}/${encodeURIComponent(kind)}/citation?_view=normal&_pageSize=100`,`/data/publication/${encodeURIComponent(ref.authority)}/${encodeURIComponent(ref.number)}/${encodeURIComponent(kind)}/-/citation`]; for(const path of paths){ const resp=await linkedDataFetchJson(path); if(resp.ok && resp.data) return resp.data; } return null; }
+
+  async function harvestCitationsFromResults(){ const items=[]; const seen=new Set(); const preset=SEARCH_PRESETS[state.activePreset]; const epoRows=state.searchResults.slice(0,preset.citationDepth).filter(r => r.pubMeta); for(const row of epoRows){ const pub=row.pubMeta; const path=`/data/publication/${encodeURIComponent(pub.authority)}/${encodeURIComponent(pub.number)}/${encodeURIComponent(pub.kind)}/-/citation?_view=normal&_pageSize=60`; const resp=await linkedDataFetchJson(path); if(resp.ok && resp.data){ simplifyCitationPayload(resp.data, `Cited from ${pub.authority}${pub.number}${pub.kind}`).forEach(item => { if(!seen.has(item.label)){ seen.add(item.label); items.push(item); } }); } }
+    const googleRows=state.googleResults.slice(0,preset.citationDepth).filter(r => r.patentId || r.googleUrl || r.title);
+    googleRows.forEach(row => { const serial=[row.patentId || '', row.googleUrl || '', row.title || '', row.abstract || '', (row.citationCount || 0)].join(' '); simplifyCitationPayload(serial, `Harvested from Google result ${row.patentId || row.title || 'result'}`).forEach(item => { if(!seen.has(item.label)){ seen.add(item.label); items.push(item); } }); });
+    return items.slice(0,80).map((item, idx) => ({ ...item, percent: Math.max(18, Math.min(92, 62 - idx)) }));
+  }
+
+  async function runCitationLookup(){ overlay(true, 'Fetching citations and prior art…'); try{ if(state.reference){ const payload=await fetchCitationsForReference(); state.citationResults=simplifyCitationPayload(payload, 'Captured from the loaded reference').map((item, idx) => ({ ...item, percent: Math.max(18, Math.min(92, 64 - idx)) })); $('citationSummary').innerHTML = state.citationResults.length ? `<strong>${state.citationResults.length}</strong> citation or prior art item${state.citationResults.length === 1 ? '' : 's'} captured from the loaded reference.` : 'No citations were returned for the loaded reference.'; } else if(state.searchResults.length || state.googleResults.length){ state.citationResults=await harvestCitationsFromResults(); $('citationSummary').innerHTML = state.citationResults.length ? `<strong>${state.citationResults.length}</strong> citation or prior art item${state.citationResults.length === 1 ? '' : 's'} harvested from the current results.` : 'No citations were harvested from the current results.'; } else { state.citationResults=[]; $('citationSummary').textContent='Run a search first or load a publication reference before fetching citations.'; } renderSearchResults(); switchTab('tab-results'); } catch(err){ addConsoleEntry('Citation error', String(err)); alert('Citation lookup failed: ' + String(err.message || err)); } finally { overlay(false, ''); } }
+
+  function buildGoogleResultsBlock(){ if(!$('toggleGoogleResults').checked) return ''; if(!$('googleParallelEnabled').checked) return ''; const q=(state.searchBundle?.words || []).join(' '); const openLink=q ? `<a class="link-pill google" href="${googlePatentsSearchLink(q)}" target="_blank" rel="noopener">Open Google Patents search</a>` : ''; if(!state.googleResults.length){ return `<div class="result-card"><div class="phrase-term">Google results</div><div class="muted">${escapeHtml(getSettings().serpApiKey ? 'No structured Google Patents results were returned.' : 'No SerpApi key is configured. Google retrieval stays link-only, but direct search links are available.')}</div><div class="link-row">${openLink}</div></div>`; }
+    return state.googleResults.map(row => renderResultCard(row, 'google')).join(''); }
+  function buildEpoResultsBlock(){ if(!$('toggleEpoResults').checked) return ''; if(!state.searchResults.length) return '<div class="notice">Run a search to populate EPO results.</div>'; return state.searchResults.map(row => renderResultCard(row, 'epo')).join(''); }
+
+  function renderResultCard(row, sourceKind){ const pub=row.pubMeta; const patentId=row.patentId || (pub ? `${pub.authority}${pub.number}${pub.kind}` : 'Unknown publication'); const formattedDate=formatDate(row.publicationDate); const dateText=formattedDate || 'Date unavailable'; const relevance=row.rank.displayPercent || computeDisplayPercent(row.rank, row.citationCount || 0); const cpc=(row.cpcSymbols || []).filter(Boolean).slice(0,8); const semanticBadge=row.rank.semanticScore != null ? `<span class="badge good">semantic ${(row.rank.semanticScore || 0).toFixed(2)}</span>` : ''; const googleLink=row.googleUrl || (pub ? googlePatentsLink(pub) : googlePatentsSearchLink((state.searchBundle?.words || []).join(' ') || row.title || '')); const espacenet=row.pubMeta ? `<a class="link-pill espacenet" href="${espacenetLink(row.pubMeta)}" target="_blank" rel="noopener">Espacenet</a>` : ''; const epoLink=row.uri ? `<a class="link-pill epo" href="${escapeHtml(String(row.uri).replace(/^http:\/\//i,'https://'))}" target="_blank" rel="noopener">EPO linked data</a>` : ''; const citationBadge=row.citationCount ? `<span class="badge amber">citations ${row.citationCount}</span>` : ''; return `<div class="result-card"><div class="relevance-pill">${relevance}%</div><div class="result-header-text"><div class="result-title-line"><span class="pubno">${escapeHtml(patentId)}</span> <span class="pubdate">- ${escapeHtml(dateText)}</span> <span class="titlepart">- ${escapeHtml(row.title || 'Publication')}</span></div><div class="result-subline">${escapeHtml(row.sourceLabel || sourceKind)}</div></div><div class="result-body"><div class="result-line">${cpc.length ? cpc.map(sym => renderCpcPill(sym)).join('') : '<span class="muted">No CPC symbols available</span>'}</div><div class="result-line">${citationBadge}${semanticBadge}${(row.rank.hitTerms || []).slice(0,8).map(t => `<span class="badge section">${escapeHtml(t)}</span>`).join('')}</div><div class="result-line"><a class="link-pill google" href="${googleLink}" target="_blank" rel="noopener">Google</a>${espacenet}${epoLink}</div><div class="result-line"><span class="abstract-label">abstract</span><span class="muted">${escapeHtml((row.abstract || '').slice(0,560))}${(row.abstract || '').length > 560 ? '…' : ''}</span></div></div></div>`; }
+
+  function renderSearchResults(){ updateNavCount('navCountResults', state.searchResults.length + state.googleResults.length + state.citationResults.length); $('resultsSummary').innerHTML = (state.searchResults.length || state.googleResults.length) ? `<strong>${state.searchResults.length}</strong> EPO result item${state.searchResults.length === 1 ? '' : 's'} and <strong>${state.googleResults.length}</strong> Google result item${state.googleResults.length === 1 ? '' : 's'} captured.` : 'No search results captured.'; const blocks=[]; if($('toggleGoogleResults').checked) blocks.push(buildGoogleResultsBlock()); if($('toggleEpoResults').checked) blocks.push(buildEpoResultsBlock()); $('searchResults').innerHTML = blocks.join('') || '<div class="notice">All result sections are hidden. Use the toggles above to show them again.</div>'; if($('toggleCitationResults').checked){ $('citationSummary').style.display='block'; $('citationResults').innerHTML = state.citationResults.length ? state.citationResults.map(row => `<div class="result-card"><div class="relevance-pill">${row.percent || 24}%</div><div class="result-head"><div><div class="phrase-term">${escapeHtml(row.label || 'Citation')}</div><div class="muted">${escapeHtml(row.evidence || '')}</div></div><div class="badge section">prior art</div></div></div>`).join('') : '<div class="notice">Use the citation button, or run a search first so v8 can harvest citations from the current results.</div>'; $('citationSummary').innerHTML = state.citationResults.length ? `<strong>${state.citationResults.length}</strong> citation or prior art item${state.citationResults.length === 1 ? '' : 's'} captured.` : 'No citations fetched yet.'; } else { $('citationSummary').style.display='none'; $('citationResults').innerHTML='<div class="notice">Citation results are currently hidden.</div>'; }
+    updateDiagnosticsBox(); initCpcHoverPositioning(); }
+
+  function renderCpcPill(symbol){ const safe=escapeHtml(symbol); return `<span class="cpc-code-wrap"><span class="badge cpc">${safe}</span><span class="cpc-hover-card">${renderCpcHierarchyTooltip(symbol)}</span></span>`; }
+  function renderCpcPlainTitle(title){ const safe=escapeHtml(String(title || '').trim()); return safe.replace(/(\[[^\]]+\])/g,'<span class="cpc-bracket">$1</span>'); }
+  function parseCpcSymbolParts(symbol){ const s=String(symbol || '').trim().toUpperCase().replace(/\s+/g,''); const m=s.match(/^([A-Z]\d{2}[A-Z])(\d+)\/(\d+)$/); if(!m) return null; return {subclass:m[1], groupDigits:m[2], subgroupDigits:m[3], symbol:s}; }
+  function getLogicalMainGroupSymbol(symbol){ const parts=parseCpcSymbolParts(symbol); if(!parts) return String(symbol || '').trim().toUpperCase(); let mainDigits=parts.groupDigits; if(mainDigits.length >= 4 && /^20\d{2,}$/.test(mainDigits)) mainDigits = mainDigits.slice(2); mainDigits = mainDigits.replace(/^0+(?=\d)/,''); if(!mainDigits) mainDigits = parts.groupDigits; return parts.subclass + mainDigits + '/00'; }
+  function buildCpcHierarchy(symbol){ const key=String(symbol || '').trim().toUpperCase(); if(state.cpcHierarchyCache.has(key)) return state.cpcHierarchyCache.get(key); const chain=[]; const stopAt=getLogicalMainGroupSymbol(key); if(stopAt !== key) chain.push({symbol:stopAt,title:'Logical main group',level:0}); chain.push({symbol:key,title:'Selected CPC symbol',level:1}); state.cpcHierarchyCache.set(key, chain); return chain; }
+  function renderCpcHierarchyRows(symbol){ const chain=buildCpcHierarchy(symbol); if(!chain.length) return `<div class="cpc-h-row"><span class="cpc-h-code">${escapeHtml(symbol)}</span><span class="cpc-h-desc">No hierarchy available.</span></div>`; return chain.map((node,idx) => { const bullets=idx===0 ? '' : `<span class="cpc-h-bullets">${'•'.repeat(idx)}</span>`; const cls=idx===chain.length - 1 ? ' cpc-h-row selected' : ' cpc-h-row'; return `<div class="${cls.trim()}"><span class="cpc-h-code">${escapeHtml(node.symbol)}</span><span class="cpc-h-desc">${bullets}${renderCpcPlainTitle(node.title)}</span></div>`; }).join(''); }
+  function renderCpcHierarchyTooltip(symbol){ return `<div class="cpc-hierarchy-block"><div class="cpc-hierarchy-label">Hierarchy</div>${renderCpcHierarchyRows(symbol)}</div>`; }
+  function positionCpcHoverCard(wrap){ if(!wrap) return; const card=wrap.querySelector('.cpc-hover-card'); if(!card) return; const container=wrap.closest('.panel') || wrap.closest('#searchResults') || document.body; if(!container) return; card.style.left='0px'; card.style.right='auto'; const containerRect=container.getBoundingClientRect(); const wrapRect=wrap.getBoundingClientRect(); const available=Math.max(320, Math.min(680, Math.floor(containerRect.width - 24))); card.style.width=available+'px'; card.style.maxWidth=available+'px'; let left=0; const overflowRight=(wrapRect.left + available) - containerRect.right; const overflowLeft=containerRect.left - wrapRect.left; if(overflowRight > 0) left -= overflowRight + 8; if(overflowLeft > 0) left += overflowLeft + 8; card.style.left=left+'px'; }
+  function initCpcHoverPositioning(){ const host=$('searchResults'); if(!host || host.dataset.hoverPositionInit === '1') return; host.dataset.hoverPositionInit='1'; const handler=(e) => { const wrap=e.target.closest('.cpc-code-wrap'); if(wrap) positionCpcHoverCard(wrap); }; host.addEventListener('mouseenter', handler, true); host.addEventListener('focusin', handler, true); window.addEventListener('resize', () => { host.querySelectorAll('.cpc-code-wrap').forEach(wrap => positionCpcHoverCard(wrap)); }); }
+
+  async function runSearch(){ if(!state.searchBundle) buildSearchBundle(); if(!state.searchBundle?.words?.length){ alert('Analyse a source first so the tool can build search words.'); return; } overlay(true, 'Executing title and abstract search…'); try{ const abstractResp=await runSparql(state.searchBundle.abstractQuery, 'Abstract query'); const titleResp=await runSparql(state.searchBundle.titleQuery, 'Title query'); const abstractRows=abstractResp.ok ? bindingsToResults(abstractResp.data, 'abstract') : []; const titleRows=titleResp.ok ? bindingsToResults(titleResp.data, 'title') : []; let rows=mergeResults(abstractRows.concat(titleRows)); rows=await enrichResultsFromApi(rows); rows=await rerankResultsSemantically(rows); state.searchResults=rows; await fetchGooglePatentsViaSerpApi(); await runAutoCitationHarvest(); renderSearchResults(); switchTab('tab-results'); } catch(err){ addConsoleEntry('Search error', String(err)); alert('Search failed: ' + String(err.message || err)); } finally { overlay(false, ''); } }
+  async function runAutoCitationHarvest(){ try{ if(state.searchResults.length || state.googleResults.length) state.citationResults = await harvestCitationsFromResults(); } catch(err){ addConsoleEntry('Auto citation harvest warning', String(err)); } }
+
+  $('runSearchBtn').addEventListener('click', runSearch); $('runCitationBtn').addEventListener('click', runCitationLookup); $('copyQueryBtn').addEventListener('click', async () => { if(!state.searchBundle) buildSearchBundle(); const payload=['Preset:', SEARCH_PRESETS[state.activePreset].label, '', 'Search words:', (state.searchBundle?.words || []).join(' | '), '', 'Abstract query:', state.searchBundle?.abstractQuery || '', '', 'Title query:', state.searchBundle?.titleQuery || ''].join('\n'); await navigator.clipboard.writeText(payload); setStatus('Query bundle copied', false); });
+
+  $('toggleEpoResults').addEventListener('change', renderSearchResults); $('toggleGoogleResults').addEventListener('change', renderSearchResults); $('toggleCitationResults').addEventListener('change', renderSearchResults);
+
+  $('pdfInput').addEventListener('change', () => { const files=Array.from($('pdfInput').files || []).filter(f => /pdf$/i.test(f.name)); if(!files.length) return; state.pdfFiles = state.pdfFiles.concat(files); renderFilePills(); setActiveMode(`${state.pdfFiles.length} PDF file${state.pdfFiles.length === 1 ? '' : 's'}`); });
+  const dz=$('dropZone'); dz.addEventListener('click', () => $('pdfInput').click()); dz.addEventListener('dragover', (ev) => { ev.preventDefault(); dz.classList.add('hover'); }); dz.addEventListener('dragleave', () => dz.classList.remove('hover')); dz.addEventListener('drop', (ev) => { ev.preventDefault(); dz.classList.remove('hover'); const files=Array.from(ev.dataTransfer?.files || []).filter(f => /pdf$/i.test(f.name)); if(files.length){ state.pdfFiles = state.pdfFiles.concat(files); renderFilePills(); setActiveMode(`${state.pdfFiles.length} PDF file${state.pdfFiles.length === 1 ? '' : 's'}`); } });
+
+  loadSavedSettings(); resetApp(); applyBannerHeight();
+  </script>
 </body>
 </html>
