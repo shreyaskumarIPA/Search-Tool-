@@ -1,3 +1,5 @@
+<!-- GENERATED: index-v17.1 | based on index-v17.html | performance debug panel -->
+<!-- GENERATED: index-v17 | based on uploaded index-v16.html | CORS-safe Google handling + faster EPO + rebuild fix -->
 <!-- GENERATED: index-v16 | based on index-v12.html | retrieval paging + improved scoring -->
 <!-- GENERATED: index-v12 | based on index-v9.html | fixes resultsDisplayLimit runtime error | syntax-safe runtime patch -->
 <!DOCTYPE html>
@@ -5,7 +7,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Patent Search Studio v16</title>
+<title>Patent Search Studio v17.1</title>
 <style>
 :root{--ipa-charcoal:#1D252C;--ipa-purple:#5D2067;--ipa-web-teal:#00819C;--ipa-light-grey:#E5E8EC;--bg:#f4f5f7;--panel:#ffffff;--border:#dfe4ea;--border-strong:#c8d0d9;--banner-h:72px;--nav-w:272px;--good-bg:#e8f5e9;--good-border:#86c28b;--good-text:#1D252C;--gp-bg:#eef4ff;--gp-border:#9bb7ff;--gp-text:#2048a8;--ep-bg:#f2efff;--ep-border:#b9a7ff;--ep-text:#5533b3;--epo-bg:#f5f7f8;--epo-border:#cfd8de;--epo-text:#31434f;--warn:#fff7d6;--warn-border:#e7cc56;--warn-text:#5d5224}
 *{box-sizing:border-box}html,body{height:100%}body{margin:0;background:var(--bg);color:var(--ipa-charcoal);font-family:Segoe UI,Arial,Helvetica,sans-serif;font-size:14px;padding-top:var(--banner-h)}
@@ -44,11 +46,21 @@ textarea{width:100%;min-height:220px;padding:12px;border:1px solid var(--border-
 .result-header-text{padding-right:0!important}.result-card{padding:12px 12px 10px!important}.result-top-row{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.result-title-line{display:block!important;font-size:16px!important;line-height:1.3!important;font-weight:800!important;color:#213544!important}.result-side-actions{display:flex;gap:6px;align-items:center;justify-content:flex-end;flex-wrap:wrap;min-width:260px;max-width:44%}.result-side-actions .relevance-pill{position:static!important;top:auto!important;right:auto!important;margin:0!important;min-width:72px;padding:4px 9px!important}.result-classifications{display:flex;flex-wrap:wrap;gap:6px}.result-keywords-plain{font-size:12px;color:#516370;line-height:1.35;margin-top:2px}.result-keywords-plain strong{color:#213544}.result-abstract{font-size:12px;line-height:1.38;color:#42505a;display:block;-webkit-line-clamp:unset!important}.result-body{margin-top:8px!important}.result-line{margin-top:7px!important}.result-line:first-child{margin-top:0!important}.link-pill.mini{padding:3px 8px!important;font-size:11px!important}.score-breakdown{display:flex;flex-wrap:wrap;gap:6px}.score-badge{font-size:10px;padding:2px 7px;border-radius:999px;border:1px solid rgba(29,37,44,.12);background:#f3f6f8;color:#42505a}.score-badge.query{background:#eef7ff;border-color:#9bb7ff;color:#2048a8}.score-badge.followup{background:#f2efff;border-color:#b9a7ff;color:#5533b3}.score-badge.pending{background:#fff7d6;border-color:#e7cc56;color:#6d5c12}.score-badge.unavailable{background:#fff3f3;border-color:#d89595;color:#8a1f1f}.preview-browser-empty,.preview-browser-message{display:flex;align-items:center;justify-content:center;min-height:260px;border:1px dashed var(--border-strong);border-radius:10px;background:#fcfdfe;color:#5d6b74;padding:20px;text-align:center}.preview-browser-toolbar{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}.preview-open-btn{display:inline-flex;align-items:center;padding:4px 10px;border-radius:999px;border:1px solid rgba(29,37,44,.12);font-size:12px;color:#234350;text-decoration:none;background:#fff}.preview-help{font-size:11px;color:#6a7680}.preview-url{font-size:11px;color:#6a7680;word-break:break-all}.mini-browser-panel .panel-body{padding:12px}.mini-browser-title{font-weight:700;color:var(--ipa-web-teal)}.date-pending{color:#8b6f00}.match-pill{cursor:help}.model-note{margin-top:8px;font-size:11px;line-height:1.45;color:#5d6b74}.model-note code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;background:#f4f7f9;border:1px solid var(--border);border-radius:4px;padding:1px 4px}.model-status-compact{font-size:12px;line-height:1.5}.model-status-compact strong{display:block;margin-bottom:4px}@media (max-width:1180px){.result-top-row{flex-direction:column}.result-side-actions{max-width:none;min-width:0;justify-content:flex-start}}
 </style>
 
+
+<style id="v17-style-patch">
+.setup-callout{margin-top:10px;padding:10px 12px;border:1px solid #dcca57;border-radius:8px;background:#fff7d6;color:#5d5224;font-size:12px;line-height:1.5}.setup-callout code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;background:#fff;border:1px solid rgba(29,37,44,.12);border-radius:4px;padding:1px 4px}.result-side-actions .relevance-pill{min-width:72px!important}.score-breakdown{display:flex;flex-wrap:wrap;gap:6px}.score-badge{font-size:10px;padding:2px 7px;border-radius:999px;border:1px solid rgba(29,37,44,.12);background:#f3f6f8;color:#42505a}.score-badge.query{background:#eef7ff;border-color:#9bb7ff;color:#2048a8}.score-badge.followup{background:#f2efff;border-color:#b9a7ff;color:#5533b3}.score-badge.pending{background:#fff7d6;border-color:#e7cc56;color:#6d5c12}.score-badge.unavailable{background:#fff3f3;border-color:#d89595;color:#8a1f1f}
+</style>
+
+
+<style id="v17_1-style-patch">
+.perf-panel-grid{display:grid;grid-template-columns:1fr;gap:8px}.perf-row{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;padding:6px 0;border-bottom:1px solid rgba(29,37,44,.08)}.perf-row:last-child{border-bottom:0}.perf-key{font-weight:600;color:#355062}.perf-val{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;color:#234350;text-align:right;white-space:nowrap}.perf-meta{font-size:11px;color:#6a7680;margin-top:2px}.perf-empty{font-size:12px;color:#6a7680;line-height:1.5}.perf-badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:999px;border:1px solid rgba(29,37,44,.12);background:#f3f6f8;color:#42505a;font-size:11px}.perf-badge.good{background:#e8f5e9;border-color:#b6dab8;color:#256528}.perf-badge.warn{background:#fff7d6;border-color:#e7cc56;color:#6d5c12}
+</style>
+
 </head>
 <body>
 <div class="overlay" id="loadingOverlay"><div class="overlay-card"><div class="overlay-spinner"></div><div class="overlay-text" id="overlayText">Working…</div></div></div>
-<div class="top-banner" id="topBanner"><div><h1>Patent Search Studio v16</h1><div class="sub">v9 improves SerpApi result handling, tightens relevance pill styling, adds an All authorities option for citation reference lookups, explains what a reference number means, removes the stray abstract marker from prior-art cards, and adds top 10, 50, 100 and All display controls for prior-art results.</div></div></div>
-<div class="shell"><aside class="sidebar" id="sidebar"><div class="nav-scroll"><button type="button" class="nav-link active" data-tab-target="tab-source"><span class="nav-ico">①</span><span>Load source</span></button><button type="button" class="nav-link" data-tab-target="tab-concepts"><span class="nav-ico">②</span><span>Inventive concepts</span><span id="navCountConcepts" class="nav-count" hidden></span></button><button type="button" class="nav-link" data-tab-target="tab-search"><span class="nav-ico">③</span><span>Search strategy</span></button><button type="button" class="nav-link" data-tab-target="tab-results"><span class="nav-ico">④</span><span>Results and prior art</span><span id="navCountResults" class="nav-count" hidden></span></button><button type="button" class="nav-link" data-tab-target="tab-settings"><span class="nav-ico">⚙</span><span>Endpoints and semantic settings</span></button></div><div class="sidebar-footer"><div class="mini"><strong>What changed in v16</strong><br>Built from your v12 working version. Fixes the 60-result ceiling with retrieval paging, adds stronger match scoring, normalises scores across the current result set, improves publication date hydration, and keeps the safer Google preview panel.</div></div></aside>
+<div class="top-banner" id="topBanner"><div><h1>Patent Search Studio v17.1</h1><div class="sub">v9 improves SerpApi result handling, tightens relevance pill styling, adds an All authorities option for citation reference lookups, explains what a reference number means, removes the stray abstract marker from prior-art cards, and adds top 10, 50, 100 and All display controls for prior-art results.</div></div></div>
+<div class="shell"><aside class="sidebar" id="sidebar"><div class="nav-scroll"><button type="button" class="nav-link active" data-tab-target="tab-source"><span class="nav-ico">①</span><span>Load source</span></button><button type="button" class="nav-link" data-tab-target="tab-concepts"><span class="nav-ico">②</span><span>Inventive concepts</span><span id="navCountConcepts" class="nav-count" hidden></span></button><button type="button" class="nav-link" data-tab-target="tab-search"><span class="nav-ico">③</span><span>Search strategy</span></button><button type="button" class="nav-link" data-tab-target="tab-results"><span class="nav-ico">④</span><span>Results and prior art</span><span id="navCountResults" class="nav-count" hidden></span></button><button type="button" class="nav-link" data-tab-target="tab-settings"><span class="nav-ico">⚙</span><span>Endpoints and semantic settings</span></button></div><div class="sidebar-footer"><div class="mini"><strong>What changed in v17.1</strong><br>Built from your stable v17 base. Adds a visible performance debug panel, keeps the GitHub Pages CORS-safe Google handling, and shows timings for EPO queries, rerank, render and metadata hydration.</div></div></aside>
 <main class="main"><div class="workspace-head"><div class="workspace-title" id="workspaceTitle">Load source</div><div style="display:flex;gap:8px;flex-wrap:wrap"><span class="workspace-chip" id="activeModeChip">Mode: PDF or pasted text</span><span class="workspace-chip" id="semanticModeChip">Semantic mode: Off</span><button type="button" class="ghost" id="resetBtn">Reset</button></div></div>
 <section id="tab-source" class="tab-panel active"><div class="board-card"><div class="board-head"><div><div class="board-title">Load source documents</div><div class="board-meta">Upload one or more PDFs and optionally add pasted text. v9 combines all uploaded PDFs for a single analysis pass, then applies the selected patent search preset.</div></div></div><div class="board-body"><div class="grid-2"><div class="stack"><div class="panel"><div class="panel-head">Primary source</div><div class="panel-body"><div id="dropZone" class="drop-zone"><div class="big">📄</div><div><strong>Drop one or more patent PDFs here or click to select</strong></div><div class="muted">Place <span class="mono">pdf.min.js</span> and <span class="mono">pdf.worker.min.js</span> in <span class="mono">./lib/</span></div><input type="file" id="pdfInput" accept="application/pdf,.pdf" multiple style="display:none" /></div><div id="fileInfo" class="notice" style="display:none;margin-top:12px"></div><div id="filePills" class="link-row" style="margin-top:12px"></div><div class="fields" style="margin-top:12px"><label>Paste abstract, claims or description<textarea id="sourceText" placeholder="Paste text here if you do not want to use only PDFs."></textarea></label></div></div></div><div class="panel"><div class="panel-head">Publication reference for citations</div><div class="panel-body"><div class="fields inline-3"><label>Authority<select id="docAuthority"><option value="ALL">All authorities</option><option value="EP">EP</option><option value="WO">WO</option><option value="US">US</option><option value="AU">AU</option></select></label><label>Reference number<input type="text" id="docNumber" placeholder="eg 1100000 or 20240003950" /></label><label>Kind<input type="text" id="docKind" placeholder="eg A1, A3, B1 or -" /></label></div><div class="notice" style="margin-top:10px"><strong>What does reference number mean?</strong><br>Use the publication number digits without the authority prefix if you know them. Examples include <span class="mono">1100000</span> for an EP publication or <span class="mono">20240003950</span> for a US publication. Choose <strong>All authorities</strong> if you want v9 to try the same number across EP, WO, US and AU in the citation lookup.</div></div></div></div><div class="stack"><div class="panel"><div class="panel-head">Search preset and extraction profile</div><div class="panel-body"><div class="preset-bar" id="presetBar"></div><div class="notice" id="presetSummary">Preset summary will appear here.</div><div class="fields inline-2" style="margin-top:10px"><label>Top concepts<input type="number" id="topConcepts" min="6" max="40" value="18" /></label><label>Query concepts<input type="number" id="queryConcepts" min="2" max="10" value="5" /></label></div><div class="fields inline-2" style="margin-top:10px"><label>Section focus<select id="sectionFocus"><option value="balanced">Balanced</option><option value="claims-first" selected>Claims first</option><option value="abstract-first">Abstract first</option><option value="description-first">Description first</option></select></label><label>Boolean mode for abstract search<select id="abstractBooleanMode"><option value="AND" selected>AND</option><option value="OR">OR</option></select></label></div><div class="fields inline-2" style="margin-top:10px"><label>Max search words<input type="number" id="maxSearchWords" min="1" max="8" value="4" /></label><label>Result limit per query<input type="number" id="resultLimit" min="5" max="50" value="18" /></label></div><div class="fields" style="margin-top:10px"><label><input type="checkbox" id="semanticEnabled" checked /> Enable semantic concept cleanup and reranking</label><label><input type="checkbox" id="crossLingualEnabled" checked /> Use cross-lingual semantic matching when reranking</label><label><input type="checkbox" id="autoSynonymiserEnabled" checked /> Enable automatic synonymiser</label><label><input type="checkbox" id="googleParallelEnabled" checked /> Try Google Patents retrieval</label></div><div class="actions"><button type="button" id="analyseBtn">Analyse source</button><button type="button" class="secondary" id="loadReferenceBtn">Load reference</button></div><div class="status"><span id="statusSpinner" class="spinner"></span><span id="statusText"></span></div></div></div><div class="panel"><div class="panel-head">Diagnostics</div><div class="panel-body"><div id="qaPanel" class="warning" style="display:none"></div><div id="runtimeDiag" class="notice" style="margin-top:10px">Runtime diagnostics will appear here when needed.</div></div></div></div></div></div></div></section>
 <section id="tab-concepts" class="tab-panel"><div class="grid-2"><div class="board-card"><div class="board-head"><div><div class="board-title">Inventive concept candidates</div><div class="board-meta">Selected concepts drive keyword search words, auto synonym families and optional semantic reranking.</div></div></div><div class="board-body"><div id="conceptSummary" class="banner-note">Run analysis to populate concepts.</div><div id="conceptChips" class="chips" style="margin-top:12px"></div><div class="actions"><input type="text" id="manualConceptInput" placeholder="Add a manual concept" style="flex:1 1 260px;max-width:380px" /><button type="button" class="secondary" id="addManualConceptBtn">Add concept</button><button type="button" id="rebuildSearchBtn">Rebuild search strategy</button></div><div id="conceptList" class="phrase-list" style="margin-top:14px"></div></div></div><div class="stack"><div class="panel"><div class="panel-head">Section split</div><div class="panel-body"><div id="sectionPills" class="section-pills"></div><div id="sectionPreview" class="notice" style="margin-top:12px">Section preview will appear after analysis.</div></div></div><div class="panel"><div class="panel-head">Weights</div><div class="panel-body"><div id="weightsPanel" class="weights-grid"></div></div></div><div class="panel"><div class="panel-head">Synonym families</div><div class="panel-body"><div id="synonymFamiliesBox" class="notice">Synonym families will appear after analysis.</div></div></div><div class="panel"><div class="panel-head">Semantic diagnostics</div><div class="panel-body" id="semanticDiagnostics">No semantic diagnostics yet.</div></div></div></div></section>
@@ -828,6 +840,779 @@ loadSavedSettings();resetApp();applyBannerHeight();
     installModelHelpNote();
     if(document.getElementById('generated-file-marker')) document.getElementById('generated-file-marker').textContent = 'index-v16.html';
     if (typeof applyPreset === 'function') applyPreset(false);
+  });
+})();
+</script>
+
+
+<script id="v17-runtime-patch">
+(function(){
+  'use strict';
+  var v17MetaHydrationInFlight = false;
+  var v17MetaQueueScheduled = false;
+  var V17_PROXY_STORAGE_KEY = 'patentSearchStudioV17Extras';
+
+  function readV17Extras(){
+    try { return JSON.parse(localStorage.getItem(V17_PROXY_STORAGE_KEY) || '{}'); }
+    catch(e){ return {}; }
+  }
+  function saveV17Extras(){
+    try {
+      var proxyInput = document.getElementById('serpApiProxyUrl');
+      localStorage.setItem(V17_PROXY_STORAGE_KEY, JSON.stringify({ serpApiProxyUrl: proxyInput ? String(proxyInput.value || '').trim() : '' }));
+    } catch(e){}
+  }
+
+  var originalGetSettings = window.getSettings;
+  window.getSettings = function(){
+    var cfg = originalGetSettings ? originalGetSettings() : {};
+    var proxyInput = document.getElementById('serpApiProxyUrl');
+    cfg.serpApiProxyUrl = proxyInput ? String(proxyInput.value || '').trim() : '';
+    return cfg;
+  };
+
+  function installProxyField(){
+    var panel = document.querySelector('#tab-settings .panel:nth-child(2) .panel-body');
+    if(!panel || document.getElementById('serpApiProxyUrl')) return;
+    var extras = readV17Extras();
+    var label = document.createElement('label');
+    label.innerHTML = 'SerpApi proxy URL, optional<input type="text" id="serpApiProxyUrl" placeholder="Use a same-origin proxy if you want structured Google results on GitHub Pages" />';
+    panel.appendChild(label);
+    var input = label.querySelector('input');
+    if(input) input.value = String(extras.serpApiProxyUrl || '');
+    var note = document.createElement('div');
+    note.className = 'setup-callout';
+    note.innerHTML = '<strong>GitHub Pages CORS fix.</strong><br>Direct browser calls to <code>serpapi.com</code> are disabled in v17 because they fail under GitHub Pages. Leave the proxy blank to use direct Google Patents links only, or supply a same-origin proxy URL if you later deploy one.';
+    panel.appendChild(note);
+    if(input) input.addEventListener('change', saveV17Extras);
+  }
+
+  function updateRuntimeDiag(message, cls){
+    var box = document.getElementById('runtimeDiag');
+    if(!box) return;
+    box.className = cls || 'notice';
+    box.innerHTML = message;
+  }
+
+  function formatDisplayDate(dateStr){
+    if(!dateStr) return '';
+    var raw = String(dateStr).trim();
+    var d = null;
+    var m = raw.match(/^(\d{4})(\d{2})(\d{2})$/);
+    if(m) d = new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
+    if((!d || Number.isNaN(d.getTime())) && /^\d{4}-\d{2}-\d{2}$/.test(raw)) d = new Date(raw + 'T00:00:00');
+    if((!d || Number.isNaN(d.getTime())) && /^\d{4}\/\d{2}\/\d{2}$/.test(raw)) d = new Date(raw.replace(/\//g,'-') + 'T00:00:00');
+    if((!d || Number.isNaN(d.getTime())) && /^\d{4}-\d{2}-\d{2}T/.test(raw)) d = new Date(raw);
+    if(!d || Number.isNaN(d.getTime())) return '';
+    return new Intl.DateTimeFormat('en-AU', { day:'2-digit', month:'short', year:'numeric' }).format(d).replace(',', '');
+  }
+  function normaliseDateCandidate(raw){
+    if(!raw) return '';
+    var s = String(raw).trim();
+    var match = s.match(/(\d{4}-\d{2}-\d{2}|\d{8}|\d{4}\/\d{2}\/\d{2})/);
+    return match ? match[1] : s;
+  }
+  function escapeRegex(s){ return String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+  function containsPhrase(text, phrase){
+    if(!text || !phrase) return false;
+    var safe = escapeRegex(String(phrase).trim()).replace(/\s+/g, '\\s+');
+    try { return new RegExp('(^|[^A-Za-z0-9])'+safe+'([^A-Za-z0-9]|$)','i').test(String(text)); }
+    catch(e){ return String(text).toLowerCase().indexOf(String(phrase).toLowerCase()) >= 0; }
+  }
+  function parseSourceClassifications(text){
+    return Array.from(new Set((String(text||'').match(/[A-HY]\d{2}[A-Z]\s?\d+\/\d+/g) || []).map(function(x){ return x.replace(/\s+/g,'').toUpperCase(); }))).slice(0,20);
+  }
+  function buildSourceProfile(){
+    return {
+      classifications: parseSourceClassifications(window.state && state.rawText || ''),
+      terms: (((window.state && state.searchBundle) && state.searchBundle.selectedConcepts) || []).map(function(c){ return c.term; })
+    };
+  }
+  function codeSimilarity(sourceCodes, resultCodes){
+    if(!sourceCodes || !sourceCodes.length || !resultCodes || !resultCodes.length) return 0;
+    var best = 0;
+    sourceCodes.forEach(function(source){
+      var s = String(source).replace(/\s+/g,'').toUpperCase();
+      resultCodes.forEach(function(result){
+        var r = String(result).replace(/\s+/g,'').toUpperCase();
+        if (s === r) best = Math.max(best, 1.0);
+        else if (s.split('/')[0] === r.split('/')[0]) best = Math.max(best, 0.7);
+        else if (s.slice(0,4) === r.slice(0,4)) best = Math.max(best, 0.4);
+      });
+    });
+    return best;
+  }
+  function citationSignal(citationCount){ return Math.min(1, Math.log1p(citationCount || 0) / Math.log1p(20)); }
+  var FIELD_WEIGHTS = { title: 2.0, abstract: 1.0, classifications: 1.4, citations: 0.25 };
+  function computeLexicalScore(row){
+    var concepts = (state.searchBundle && state.searchBundle.selectedConcepts) || [];
+    var title = row.title || '';
+    var abstract = row.abstract || '';
+    var classifications = ((row.cpcSymbols || []).concat(row.ipcSymbols || [])).join(' ');
+    var score = 0;
+    var hitTerms = [];
+    concepts.forEach(function(concept){
+      var family = state.synonymFamilies.get(concept.term) || [concept.term];
+      family.forEach(function(term){
+        var inTitle = containsPhrase(title, term);
+        var inAbstract = containsPhrase(abstract, term);
+        var inClass = containsPhrase(classifications, term);
+        if (inTitle || inAbstract || inClass) {
+          score += inTitle ? FIELD_WEIGHTS.title : 0;
+          score += inAbstract ? FIELD_WEIGHTS.abstract : 0;
+          score += inClass ? FIELD_WEIGHTS.classifications : 0;
+          hitTerms.push(term);
+        }
+      });
+    });
+    return { score: score, hitTerms: Array.from(new Set(hitTerms)).slice(0,12) };
+  }
+  function scoreResult(row, sourceProfile){
+    var lexical = computeLexicalScore(row);
+    var semantic = row.rank && row.rank.semanticScore != null ? Math.max(0, Math.min(1, row.rank.semanticScore)) : 0;
+    var classification = codeSimilarity((sourceProfile && sourceProfile.classifications) || [], (row.cpcSymbols || []).concat(row.ipcSymbols || []));
+    var fieldBoost = lexical.hitTerms.length ? Math.min(1, lexical.hitTerms.length / 6) : 0;
+    var citation = citationSignal(row.citationCount || 0);
+    var rawScore = 0.42 * lexical.score + 0.28 * semantic + 0.20 * classification + 0.08 * fieldBoost + 0.02 * citation;
+    return Object.assign({}, row.rank || {}, {
+      rawScore: rawScore,
+      matches: lexical.hitTerms.length,
+      hitTerms: lexical.hitTerms,
+      scoreBreakdown: { lexical: lexical.score, semantic: semantic, classification: classification, fieldBoost: fieldBoost, citation: citation }
+    });
+  }
+  function normaliseScores(rows){
+    if(!rows || !rows.length) return rows || [];
+    var scores = rows.map(function(r){ return Number((r.rank && r.rank.rawScore) || 0); });
+    var sorted = scores.slice().sort(function(a,b){ return a-b; });
+    var min = Math.min.apply(null, scores), max = Math.max.apply(null, scores), span = (max-min) || 1;
+    rows.forEach(function(row){
+      var raw = Number((row.rank && row.rank.rawScore) || 0);
+      var rankCount = sorted.filter(function(v){ return v <= raw; }).length;
+      var percentile = rankCount / sorted.length;
+      row.rank.displayPercent = Math.round(15 + percentile * 84);
+      row.rank.normalisedScore = (raw - min) / span;
+    });
+    return rows;
+  }
+  function renderScoreBreakdown(row){
+    var b = (row.rank && row.rank.scoreBreakdown) || {};
+    return 'Lexical '+Number(b.lexical||0).toFixed(2)+' | Semantic '+Number(b.semantic||0).toFixed(2)+' | CPC/IPC '+Number(b.classification||0).toFixed(2)+' | Field '+Number(b.fieldBoost||0).toFixed(2)+' | Citation '+Number(b.citation||0).toFixed(2);
+  }
+  function renderDateDebugBadge(row){
+    var src = String(row && row.dateDebugSource || 'pending');
+    var cls = src === 'query' ? 'query' : (src === 'epo follow-up' ? 'followup' : (src === 'unavailable' ? 'unavailable' : 'pending'));
+    var label = src === 'query' ? 'date: query' : (src === 'epo follow-up' ? 'date: EPO follow-up' : (src === 'unavailable' ? 'date: unavailable' : 'date: pending'));
+    return '<span class="score-badge '+cls+'">'+label+'</span>';
+  }
+  function isDirectSerpBrowserCallAllowed(cfg){
+    return !!(cfg && cfg.serpApiProxyUrl);
+  }
+  function buildProxyUrl(base, params){
+    if(!base) return '';
+    return base + (base.indexOf('?') >= 0 ? '&' : '?') + params.toString();
+  }
+
+  var originalApplyPreset = window.applyPreset;
+  window.applyPreset = function(userDriven){
+    if (originalApplyPreset) originalApplyPreset(userDriven);
+    var preset = SEARCH_PRESETS[state.activePreset];
+    if (preset && document.getElementById('resultsDisplayLimit') && preset.displayDefault) {
+      document.getElementById('resultsDisplayLimit').value = String(preset.displayDefault);
+    }
+    var sum = document.getElementById('presetSummary');
+    if (sum && preset) {
+      sum.innerHTML = '<strong>'+escapeHtml(preset.label)+'</strong><br>'+escapeHtml(preset.description||'')+'<br><span class="muted">Retrieval limit '+escapeHtml(String(preset.retrievalLimit||preset.resultLimit||30))+' per query, display default '+escapeHtml(String(preset.displayDefault||10))+', Google pages '+escapeHtml(String(preset.googlePages||0))+', citation depth '+escapeHtml(String(preset.citationDepth||0))+'</span>';
+    }
+  };
+
+  function getRetrievalLimit(){
+    var preset = SEARCH_PRESETS[state.activePreset] || {};
+    return Math.max(5, Number(preset.retrievalLimit || preset.resultLimit || (document.getElementById('resultLimit') && document.getElementById('resultLimit').value) || 30));
+  }
+  function getRetrievalPages(){
+    var limit = getRetrievalLimit();
+    return Math.max(1, Math.ceil(limit / 50));
+  }
+
+  window.buildAbstractQuery = function(words, limit, offset){
+    var operator = document.getElementById('abstractBooleanMode').value || 'AND';
+    var finalLimit = Math.max(5, Number(limit || getRetrievalLimit()));
+    var finalOffset = Math.max(0, Number(offset || 0));
+    var booleanText = words.length <= 1 ? words[0] : '('+words.join(' '+operator+' ')+')';
+    var authority = String(document.getElementById('docAuthority').value || 'ALL').toUpperCase();
+    var filter = authority && authority !== 'ALL' ? '\n FILTER(CONTAINS(STR(?publn), "/publication/'+authority+'/"))' : '';
+    return [
+      'PREFIX patent: <http://data.epo.org/linked-data/def/patent/>',
+      'PREFIX dcterms: <http://purl.org/dc/terms/>',
+      'PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>',
+      'PREFIX text: <http://jena.apache.org/text#>',
+      'PREFIX cpc: <http://data.epo.org/linked-data/def/cpc/>',
+      'SELECT ?publn ?title ?abstract ?publicationDate ?cpcSymbol {',
+      ' ?publn text:query ( dcterms:abstract "'+booleanText+'" ) ;',
+      ' rdf:type patent:Publication ;',
+      ' patent:titleOfInvention ?title ;',
+      ' dcterms:abstract ?abstract .',
+      ' OPTIONAL { ?publn patent:publicationDate ?publicationDate . }',
+      ' OPTIONAL { ?publn patent:classificationCPC ?cpc . ?cpc cpc:symbol ?cpcSymbol . }',
+      ' FILTER(langMatches(lang(?title), "en"))',
+      ' FILTER(langMatches(lang(?abstract), "en"))'+filter,
+      '}',
+      'LIMIT '+finalLimit,
+      'OFFSET '+finalOffset
+    ].join('\n');
+  };
+  window.buildTitleQuery = function(words, limit, offset){
+    var operator = document.getElementById('abstractBooleanMode').value || 'AND';
+    var finalLimit = Math.max(5, Number(limit || getRetrievalLimit()));
+    var finalOffset = Math.max(0, Number(offset || 0));
+    var booleanText = words.length <= 1 ? words[0] : '('+words.join(' '+operator+' ')+')';
+    var authority = String(document.getElementById('docAuthority').value || 'ALL').toUpperCase();
+    var filter = authority && authority !== 'ALL' ? '\n FILTER(CONTAINS(STR(?publn), "/publication/'+authority+'/"))' : '';
+    return [
+      'PREFIX patent: <http://data.epo.org/linked-data/def/patent/>',
+      'PREFIX dcterms: <http://purl.org/dc/terms/>',
+      'PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>',
+      'PREFIX text: <http://jena.apache.org/text#>',
+      'PREFIX cpc: <http://data.epo.org/linked-data/def/cpc/>',
+      'SELECT ?publn ?title ?abstract ?publicationDate ?cpcSymbol {',
+      ' ?publn text:query ( patent:titleOfInvention "'+booleanText+'" ) ;',
+      ' rdf:type patent:Publication ;',
+      ' patent:titleOfInvention ?title .',
+      ' OPTIONAL { ?publn dcterms:abstract ?abstract . FILTER(langMatches(lang(?abstract), "en")) }',
+      ' OPTIONAL { ?publn patent:publicationDate ?publicationDate . }',
+      ' OPTIONAL { ?publn patent:classificationCPC ?cpc . ?cpc cpc:symbol ?cpcSymbol . }',
+      ' FILTER(langMatches(lang(?title), "en"))'+filter,
+      '}',
+      'LIMIT '+finalLimit,
+      'OFFSET '+finalOffset
+    ].join('\n');
+  };
+
+  window.fetchPublicationDetails = async function(pubUri){
+    try{
+      if(!pubUri) return null;
+      var httpsUri = String(pubUri).replace(/^http:\/\//i, 'https://');
+      var candidates = [httpsUri+'?_view=normal', httpsUri, httpsUri.replace('/def/patent/', '/data/')+'?_view=normal'];
+      for(const url of candidates){
+        try {
+          var res = await fetch(url, { headers: { 'Accept':'application/json, application/ld+json, text/plain, text/html' } });
+          var text = await res.text();
+          var serial = text || '';
+          var datePatterns = [
+            /publicationDate[^\d]*(\d{4}-\d{2}-\d{2})/i,
+            /publicationDate[^\d]*(\d{8})/i,
+            /datePublished[^\d]*(\d{4}-\d{2}-\d{2})/i,
+            /datePublished[^\d]*(\d{8})/i,
+            /"publicationDate"\s*:\s*\[?"?(\d{4}-\d{2}-\d{2}|\d{8})/i,
+            /meta[^>]+name=["']citation_publication_date["'][^>]+content=["'](\d{4}-\d{2}-\d{2}|\d{8})/i
+          ];
+          var date = '';
+          for(const p of datePatterns){ var m = serial.match(p); if(m){ date = normaliseDateCandidate(m[1]); break; } }
+          var cpcMatches = Array.from(new Set((serial.match(/[A-HY]\d{2}[A-Z]\s?\d+\/\d+/g) || []).filter(Boolean))).slice(0,10);
+          var ipcMatches = [];
+          var ipcAround = Array.from(serial.matchAll(/ipc[^\[]{0,120}(\[[^\]]+\])/ig));
+          ipcAround.forEach(function(m){
+            var block = m[1] || '';
+            var codes = block.match(/[A-H][0-9]{2}[A-Z]\s?\d+\/\d+/g) || [];
+            ipcMatches = ipcMatches.concat(codes);
+          });
+          ipcMatches = Array.from(new Set(ipcMatches)).slice(0,10);
+          if(date || cpcMatches.length || ipcMatches.length) return { publicationDate: date, cpcSymbols: cpcMatches, ipcSymbols: ipcMatches, dateDebugSource: date ? 'epo follow-up' : '' };
+        } catch(innerErr) {
+          if(window.addConsoleEntry) window.addConsoleEntry('Publication detail fetch warning', String(innerErr));
+        }
+      }
+      return { publicationDate:'', cpcSymbols:[], ipcSymbols:[], dateDebugSource:'' };
+    } catch(err) {
+      if(window.addConsoleEntry) window.addConsoleEntry('Publication detail fetch warning', String(err));
+      return null;
+    }
+  };
+
+  async function mapWithConcurrency(items, limit, worker){
+    var results = new Array(items.length);
+    var idx = 0;
+    async function next(){
+      while(idx < items.length){
+        var current = idx++;
+        results[current] = await worker(items[current], current);
+      }
+    }
+    var runners = [];
+    for(var i=0;i<Math.max(1,Math.min(limit, items.length));i++) runners.push(next());
+    await Promise.all(runners);
+    return results;
+  }
+
+  window.enrichResultsFromApi = async function(rows){
+    if(!rows || !rows.length) return rows || [];
+    rows.forEach(function(row){
+      if(row.publicationDate && !row.dateDebugSource) row.dateDebugSource = 'query';
+      if(!row.publicationDate && !row.dateDebugSource) row.dateDebugSource = row.uri ? 'pending' : 'unavailable';
+      row.citationCount = Number(row.citationCount || 0);
+    });
+    return rows;
+  };
+
+  async function hydrateVisibleResultMeta(rows){
+    if(v17MetaHydrationInFlight || !rows || !rows.length) return;
+    v17MetaHydrationInFlight = true;
+    try {
+      var candidates = rows.filter(function(r){ return r && (r.uri && (!r.publicationDate || !(r.cpcSymbols||[]).length)); }).slice(0, 12);
+      await mapWithConcurrency(candidates, 4, async function(row){
+        var details = await window.fetchPublicationDetails(row.uri);
+        if(details){
+          if(!row.publicationDate && details.publicationDate){ row.publicationDate = details.publicationDate; row.dateDebugSource = details.dateDebugSource || 'epo follow-up'; }
+          row.cpcSymbols = Array.from(new Set((row.cpcSymbols || []).concat(details.cpcSymbols || []))).slice(0,10);
+          row.ipcSymbols = Array.from(new Set((row.ipcSymbols || []).concat(details.ipcSymbols || []))).slice(0,10);
+          if(!row.publicationDate && !row.dateDebugSource) row.dateDebugSource = 'unavailable';
+        }
+      });
+      rows.forEach(function(row){
+        row.rank = scoreResult(row, state.sourceProfile || {});
+      });
+      normaliseScores(rows);
+      rows.sort(function(a,b){ return Number((b.rank && b.rank.rawScore)||0) - Number((a.rank && a.rank.rawScore)||0); });
+    } finally {
+      v17MetaHydrationInFlight = false;
+      if(typeof window.renderSearchResults === 'function') window.renderSearchResults();
+    }
+  }
+
+  window.fetchGooglePatentsViaSerpApi = async function(){
+    state.googleResults = [];
+    if(!document.getElementById('googleParallelEnabled').checked || !state.searchBundle || !state.searchBundle.words || !state.searchBundle.words.length) return;
+    var cfg = getSettings();
+    var q = state.searchBundle.words.join(' ');
+    var preset = SEARCH_PRESETS[state.activePreset];
+    if(!cfg.serpApiKey){
+      updateDiagnosticsBox('No SerpApi key is configured, so Google stays link-only. v17 avoids direct browser calls to SerpApi unless you provide a same-origin proxy URL.');
+      return;
+    }
+    if(!isDirectSerpBrowserCallAllowed(cfg)){
+      updateDiagnosticsBox('Structured Google retrieval is disabled in-browser to avoid GitHub Pages CORS failures. Result cards still include direct Google Patents links. Add a same-origin proxy URL in settings if you later want structured Google results.');
+      updateRuntimeDiag('v17 blocked direct browser calls to SerpApi to avoid the GitHub Pages CORS error shown in the console. Direct Google Patents links are still available on result cards.', 'warning');
+      return;
+    }
+    var authority = String(document.getElementById('docAuthority').value || 'ALL').toUpperCase();
+    var pages = [];
+    var diagnostic = [];
+    try {
+      for(var page=1; page<=preset.googlePages; page++){
+        var params = new URLSearchParams({ engine:'google_patents', q:q, num:String(preset.googleNum), page:String(page), dups:preset.googleDups, patents:'true', scholar:'false', api_key:cfg.serpApiKey });
+        if(authority && authority !== 'ALL') params.set('country', authority);
+        var res = await fetch(buildProxyUrl(cfg.serpApiProxyUrl, params), { headers: { 'Accept':'application/json' } });
+        var data = await res.json();
+        pages.push(data);
+        if(data.error) diagnostic.push('Page '+page+': '+data.error);
+        var count = Array.isArray(data.organic_results) ? data.organic_results.length : 0;
+        diagnostic.push('Page '+page+': '+count+' organic result(s)');
+      }
+      var organic = pages.flatMap(function(page){ return collectGoogleRows(page); });
+      var mergedMap = new Map();
+      organic.forEach(function(item){
+        var normal = normaliseGoogleItem(item, q);
+        var key = normal.serpPatentIdRaw || normal.googleUrl || normal.title;
+        if(!mergedMap.has(key)) mergedMap.set(key, normal);
+      });
+      var baseItems = Array.from(mergedMap.values());
+      if(!baseItems.length){ updateDiagnosticsBox('Google proxy ran but no Google rows were normalised. '+diagnostic.join(' · ')); return; }
+      baseItems.sort(function(a,b){ return (b.rank.weight||0) - (a.rank.weight||0); });
+      state.googleResults = baseItems;
+      updateDiagnosticsBox('Structured Google retrieval executed through the configured proxy. '+diagnostic.join(' · '));
+    } catch(err) {
+      updateDiagnosticsBox('Structured Google retrieval failed through the configured proxy: '+String(err.message || err)+'. v17 kept direct Google links only.');
+      updateRuntimeDiag('Structured Google retrieval through the configured proxy failed. Direct Google Patents links are still available on result cards.', 'warning');
+      state.googleResults = [];
+    }
+  };
+
+  async function runPagedSparqlOptimised(buildQueryFn, words, label, pageSize, pages){
+    var all = [];
+    var used = new Set();
+    var finalPageSize = pageSize || 50;
+    var finalPages = pages || getRetrievalPages();
+    for(var page=0; page<finalPages; page++){
+      var offset = page * finalPageSize;
+      var query = buildQueryFn(words, finalPageSize, offset);
+      var resp = await runSparql(query, label+' page '+(page+1));
+      if(!resp.ok) break;
+      var rows = bindingsToResults(resp.data, label);
+      rows.forEach(function(row){
+        var key = row.uri || row.title;
+        if(!used.has(key)){ used.add(key); all.push(row); }
+      });
+      if(rows.length < finalPageSize) break;
+      if(page === 0 && all.length >= Math.min(getRetrievalLimit(), 60)) break;
+    }
+    return all;
+  }
+
+  window.runSearch = async function(){
+    if(!state.searchBundle) buildSearchBundle();
+    if(!state.searchBundle || !state.searchBundle.words || !state.searchBundle.words.length){ alert('Analyse a source first so the tool can build search words.'); return; }
+    overlay(true, 'Running faster EPO search…');
+    try {
+      state.sourceProfile = buildSourceProfile();
+      var pageSize = Math.min(40, getRetrievalLimit());
+      var pages = Math.min(2, getRetrievalPages());
+      var results = await Promise.all([
+        runPagedSparqlOptimised(buildAbstractQuery, state.searchBundle.words, 'abstract', pageSize, pages),
+        runPagedSparqlOptimised(buildTitleQuery, state.searchBundle.words, 'title', pageSize, pages)
+      ]);
+      var rows = mergeResults(results[0].concat(results[1]));
+      rows = await window.enrichResultsFromApi(rows);
+      if(rows.length > 80) rows = rows.slice(0, 80);
+      rows = await rerankResultsSemantically(rows);
+      rows.forEach(function(row){ row.rank = scoreResult(row, state.sourceProfile || {}); });
+      rows = normaliseScores(rows);
+      rows.sort(function(a,b){ return Number((b.rank && b.rank.rawScore)||0) - Number((a.rank && a.rank.rawScore)||0); });
+      state.searchResults = rows;
+      state.citationResults = [];
+      await window.fetchGooglePatentsViaSerpApi();
+      renderSearchResults();
+      switchTab('tab-results');
+      updateDiagnosticsBox('v17 searched EPO title and abstract in parallel, skipped heavy enrichment during the first pass, and capped page fan-out for speed. Retrieval remains separate from display.');
+      updateRuntimeDiag('v17 defers publication detail lookups until results are visible, so the first search response should return much faster than v16.', 'notice');
+    } catch(err) {
+      alert('Search failed: '+String(err.message || err));
+    } finally {
+      overlay(false, '');
+    }
+  };
+
+  var originalRenderSearchResults = window.renderSearchResults;
+  window.renderSearchResults = function(){
+    if (originalRenderSearchResults) originalRenderSearchResults();
+    var limit = (typeof window.resultDisplayLimit === 'function') ? window.resultDisplayLimit() : Number.MAX_SAFE_INTEGER;
+    var visibleRows = (state.searchResults || []).slice(0, limit === Number.MAX_SAFE_INTEGER ? state.searchResults.length : limit);
+    if(!v17MetaQueueScheduled && visibleRows.some(function(r){ return r && r.uri && (!r.publicationDate || !(r.cpcSymbols||[]).length); })){
+      v17MetaQueueScheduled = true;
+      setTimeout(function(){ v17MetaQueueScheduled = false; hydrateVisibleResultMeta(visibleRows); }, 0);
+    }
+  };
+
+  window.renderResultCard = function(row){
+    var publication = (function(r){
+      if(r && r.pubMeta && r.pubMeta.authority && r.pubMeta.number && r.pubMeta.kind) return r.pubMeta.authority + r.pubMeta.number + ' ' + r.pubMeta.kind;
+      var raw = String((r && (r.patentIdDisplay || r.id || r.label)) || '').trim();
+      var m = raw.match(/^([A-Z]{2})(\d+)([A-Z]\d?)$/i);
+      return m ? m[1].toUpperCase()+m[2]+' '+m[3].toUpperCase() : (raw || 'Unknown publication');
+    })(row);
+    var dateText = formatDisplayDate(row.publicationDate);
+    var dateLabel = dateText ? escapeHtml(dateText) : '<span class="date-pending">Looking up publication date…</span>';
+    var titleText = escapeHtml(String(row.title || 'Publication'));
+    var classifications = ((row.ipcSymbols && row.ipcSymbols.length) ? row.ipcSymbols : row.cpcSymbols || []).filter(Boolean).slice(0,8);
+    var keywordsText = escapeHtml(((row.rank && row.rank.hitTerms) || []).join(', ') || 'None captured');
+    var matchScore = (row.rank && row.rank.displayPercent) || 15;
+    var matchTitle = escapeHtml(renderScoreBreakdown(row));
+    var googleLink = row.googleUrl || (row.pubMeta ? googlePatentsLink(row.pubMeta) : googlePatentsSearchLink((((state.searchBundle && state.searchBundle.words) || []).join(' ')) || row.title || ''));
+    var espacenet = row.pubMeta ? '<a class="link-pill espacenet mini" href="'+espacenetLink(row.pubMeta)+'" target="_blank" rel="noopener">Espacenet</a>' : '';
+    var epoLink = row.uri ? '<a class="link-pill epo mini" href="'+escapeHtml(String(row.uri).replace(/^http:\/\//i,'https://'))+'" target="_blank" rel="noopener">EPO linked data</a>' : '';
+    var abstractText = escapeHtml(String(row.abstract || ''));
+    return '<div class="result-card">'
+      + '<div class="result-top-row">'
+      + '  <div class="result-header-text">'
+      + '    <div class="result-title-line">'+escapeHtml(publication)+' - '+dateLabel+' - '+titleText+'</div>'
+      + '    <div class="result-line score-breakdown">'+renderDateDebugBadge(row)+'</div>'
+      + '  </div>'
+      + '  <div class="result-side-actions">'
+      + '    <div class="relevance-pill match-pill" title="'+matchTitle+'">Match '+matchScore+'%</div>'
+      + '    <a class="link-pill google mini previewable-google" href="'+googleLink+'" target="_blank" rel="noopener">Google</a>'
+      +      espacenet
+      +      epoLink
+      + '  </div>'
+      + '</div>'
+      + '<div class="result-body">'
+      + '  <div class="result-line result-classifications">'+(classifications.length ? classifications.map(function(sym){ return renderCpcPill(sym); }).join('') : '<span class="muted">No classifications available</span>')+'</div>'
+      + '  <div class="result-line result-keywords-plain"><strong>Keywords used:</strong> '+keywordsText+'</div>'
+      + '  <div class="result-line"><span class="muted result-abstract">'+abstractText+'</span></div>'
+      + '</div>'
+      + '</div>';
+  };
+
+  async function rebuildSearchStrategyFromConceptsPage(){
+    if(!state.rawText){
+      buildSearchBundle();
+      renderSynonymFamilies();
+      renderConcepts();
+      switchTab('tab-search');
+      return;
+    }
+    overlay(true, 'Rebuilding search strategy…');
+    try {
+      var previousSelected = new Set(state.selectedConcepts || []);
+      var previousWeights = new Map(state.conceptWeights || []);
+      var manualConcepts = (state.concepts || []).filter(function(c){ return (c.sections || []).indexOf('manual') >= 0; }).map(function(c){ return Object.assign({}, c); });
+      state.semantic.diagnostics = [];
+      state.sections = segmentSections(state.rawText || '');
+      state.concepts = scoreConcepts(state.sections);
+      manualConcepts.forEach(function(mc){
+        if(!state.concepts.some(function(c){ return c.term === mc.term; })) state.concepts.unshift(mc);
+      });
+      state.selectedConcepts = new Set();
+      state.conceptWeights = new Map();
+      state.concepts.forEach(function(c){
+        state.conceptWeights.set(c.term, previousWeights.get(c.term) || c.score);
+        if(previousSelected.has(c.term)) state.selectedConcepts.add(c.term);
+      });
+      var desired = Math.min(Math.max(2, Number(document.getElementById('queryConcepts').value || 5)), state.concepts.length);
+      if(state.selectedConcepts.size < desired){
+        state.concepts.forEach(function(c){ if(state.selectedConcepts.size < desired) state.selectedConcepts.add(c.term); });
+      }
+      if(state.selectedConcepts.size > desired){
+        var orderedSelected = state.concepts.filter(function(c){ return state.selectedConcepts.has(c.term); }).sort(function(a,b){ return Number(state.conceptWeights.get(b.term)||b.score||0)-Number(state.conceptWeights.get(a.term)||a.score||0); });
+        state.selectedConcepts = new Set(orderedSelected.slice(0, desired).map(function(c){ return c.term; }));
+      }
+      await buildSynonymFamilies();
+      buildSearchBundle();
+      renderQa();
+      renderSections();
+      renderSynonymFamilies();
+      renderSemanticDiagnostics();
+      renderConcepts();
+      switchTab('tab-search');
+      setStatus('Search strategy rebuilt from current inventive concepts settings', false);
+      updateRuntimeDiag('v17 rebuilt the concept set, reselected the active query concepts, and regenerated the search bundle from the current settings.', 'ok');
+    } catch(err) {
+      alert('Rebuild search strategy failed: '+String(err.message || err));
+    } finally {
+      overlay(false, '');
+    }
+  }
+
+  function attachV17EventFixes(){
+    var rebuildBtn = document.getElementById('rebuildSearchBtn');
+    if(rebuildBtn) rebuildBtn.onclick = function(){ rebuildSearchStrategyFromConceptsPage(); };
+    ['maxSearchWords','abstractBooleanMode','resultLimit'].forEach(function(id){
+      var el = document.getElementById(id);
+      if(!el) return;
+      el.addEventListener('change', function(){ if(state.searchBundle) buildSearchBundle(); });
+    });
+    ['sectionFocus','topConcepts','queryConcepts'].forEach(function(id){
+      var el = document.getElementById(id);
+      if(!el) return;
+      el.addEventListener('change', function(){ if(state.rawText) rebuildSearchStrategyFromConceptsPage(); });
+    });
+    var runSearchBtn = document.getElementById('runSearchBtn');
+    if(runSearchBtn) runSearchBtn.onclick = function(){ window.runSearch(); };
+  }
+
+  document.addEventListener('DOMContentLoaded', function(){
+    installProxyField();
+    attachV17EventFixes();
+    var marker = document.getElementById('generated-file-marker');
+    if(marker) marker.textContent = 'index-v17.html';
+    if(typeof applyPreset === 'function') applyPreset(false);
+  });
+})();
+</script>
+
+
+<script id="v17_1-runtime-patch">
+(function(){
+  'use strict';
+  function perfNow(){ return (window.performance && typeof window.performance.now === 'function') ? window.performance.now() : Date.now(); }
+  function ensurePerfState(){
+    if(!window.__perfDebug) window.__perfDebug = { metrics:{}, extras:{} };
+    return window.__perfDebug;
+  }
+  function perfReset(){ window.__perfDebug = { metrics:{}, extras:{} }; }
+  function perfSet(key, ms, meta){
+    var p = ensurePerfState();
+    p.metrics[key] = { ms: Number(ms || 0), meta: meta || null };
+  }
+  function perfAdd(key, ms, meta){
+    var p = ensurePerfState();
+    if(!p.metrics[key]) p.metrics[key] = { ms: 0, meta: meta || null };
+    p.metrics[key].ms += Number(ms || 0);
+    if(meta) p.metrics[key].meta = Object.assign({}, p.metrics[key].meta || {}, meta);
+  }
+  function perfSetExtra(key, value){ ensurePerfState().extras[key] = value; }
+  function fmtMs(ms){ return (Number(ms || 0)).toFixed(0) + ' ms'; }
+  function esc(s){ return (window.escapeHtml ? window.escapeHtml(s) : String(s)); }
+
+  function ensurePerformancePanel(){
+    var stack = document.querySelector('#tab-results .stack');
+    if(!stack) return null;
+    var existing = document.getElementById('performanceDebugPanel');
+    if(existing) return existing;
+    var panel = document.createElement('div');
+    panel.className = 'panel';
+    panel.id = 'performanceDebugPanel';
+    panel.innerHTML = '<div class="panel-head">Performance debug</div><div class="panel-body"><div id="performanceDebugBox" class="perf-empty">Run a search to see EPO, rerank, render and hydration timings.</div></div>';
+    stack.appendChild(panel);
+    return panel;
+  }
+
+  function renderPerformancePanel(){
+    ensurePerformancePanel();
+    var box = document.getElementById('performanceDebugBox');
+    if(!box) return;
+    var p = ensurePerfState();
+    var metrics = p.metrics || {};
+    var extras = p.extras || {};
+    var order = [
+      ['total', 'Total search'],
+      ['bundle', 'Build search bundle'],
+      ['epo_abstract', 'EPO abstract query'],
+      ['epo_title', 'EPO title query'],
+      ['epo_total', 'EPO total'],
+      ['merge', 'Merge and dedupe'],
+      ['initial_enrich', 'Initial enrich'],
+      ['rerank', 'Semantic rerank'],
+      ['score', 'Score and normalise'],
+      ['google_phase', 'Google phase'],
+      ['render', 'Render results'],
+      ['meta_hydration', 'Metadata hydration']
+    ];
+    var rows = [];
+    order.forEach(function(item){
+      var key = item[0], label = item[1];
+      if(!metrics[key]) return;
+      var metaText = '';
+      var meta = metrics[key].meta || {};
+      var metaParts = [];
+      Object.keys(meta).forEach(function(k){ if(meta[k] !== null && meta[k] !== undefined && meta[k] !== '') metaParts.push(k+': '+meta[k]); });
+      if(metaParts.length) metaText = '<div class="perf-meta">'+esc(metaParts.join(' | '))+'</div>';
+      rows.push('<div class="perf-row"><div><div class="perf-key">'+esc(label)+'</div>'+metaText+'</div><div class="perf-val">'+esc(fmtMs(metrics[key].ms))+'</div></div>');
+    });
+    var badges = [];
+    if(extras.epoRows != null) badges.push('<span class="perf-badge good">EPO rows '+esc(String(extras.epoRows))+'</span>');
+    if(extras.googleRows != null) badges.push('<span class="perf-badge">Google rows '+esc(String(extras.googleRows))+'</span>');
+    if(extras.hydrationCount != null) badges.push('<span class="perf-badge warn">Hydrated '+esc(String(extras.hydrationCount))+' row(s)</span>');
+    if(!rows.length){
+      box.innerHTML = '<div class="perf-empty">Run a search to see EPO, rerank, render and hydration timings.</div>';
+      return;
+    }
+    box.innerHTML = (badges.length ? '<div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px">'+badges.join('')+'</div>' : '') + '<div class="perf-panel-grid">'+rows.join('')+'</div>';
+  }
+
+  // Wrap metadata fetch so existing v17 hydration contributes timings
+  var originalFetchPublicationDetails = window.fetchPublicationDetails;
+  if(originalFetchPublicationDetails){
+    window.fetchPublicationDetails = async function(pubUri){
+      var start = perfNow();
+      try {
+        return await originalFetchPublicationDetails(pubUri);
+      } finally {
+        perfAdd('meta_hydration', perfNow() - start);
+        var p = ensurePerfState();
+        p.extras.hydrationCount = Number(p.extras.hydrationCount || 0) + 1;
+        renderPerformancePanel();
+      }
+    };
+  }
+
+  // Wrap render so panel stays live
+  var originalRenderSearchResults = window.renderSearchResults;
+  if(originalRenderSearchResults){
+    window.renderSearchResults = function(){
+      var start = perfNow();
+      var result = originalRenderSearchResults.apply(this, arguments);
+      perfSet('render', perfNow() - start, { visibleEpo: (window.state && state.searchResults ? state.searchResults.length : 0), visibleGoogle: (window.state && state.googleResults ? state.googleResults.length : 0) });
+      renderPerformancePanel();
+      return result;
+    };
+  }
+
+  async function runPagedSparqlTimed(buildQueryFn, words, label, pageSize, pages){
+    var all = [];
+    var used = new Set();
+    var finalPageSize = pageSize || 50;
+    var finalPages = pages || 1;
+    var pageTimes = [];
+    var pageCount = 0;
+    for(var page = 0; page < finalPages; page++){
+      var offset = page * finalPageSize;
+      var query = buildQueryFn(words, finalPageSize, offset);
+      var start = perfNow();
+      var resp = await runSparql(query, label + ' page ' + (page + 1));
+      var elapsed = perfNow() - start;
+      pageTimes.push(elapsed);
+      pageCount += 1;
+      if(!resp.ok) break;
+      var rows = bindingsToResults(resp.data, label);
+      rows.forEach(function(row){
+        var key = row.uri || row.title;
+        if(!used.has(key)){ used.add(key); all.push(row); }
+      });
+      if(rows.length < finalPageSize) break;
+      if(page === 0 && all.length >= Math.min((typeof getRetrievalLimit === 'function' ? getRetrievalLimit() : 60), 60)) break;
+    }
+    perfSet('epo_' + label, pageTimes.reduce(function(a,b){ return a+b; }, 0), { pages: pageCount, rows: all.length, pageSize: finalPageSize });
+    return all;
+  }
+
+  // Override runSearch with timing-aware implementation based on v17 behaviour
+  window.runSearch = async function(){
+    var totalStart = perfNow();
+    perfReset();
+    ensurePerformancePanel();
+    try {
+      var bundleStart = perfNow();
+      if(!state.searchBundle) buildSearchBundle();
+      if(!state.searchBundle || !state.searchBundle.words || !state.searchBundle.words.length){ alert('Analyse a source first so the tool can build search words.'); return; }
+      perfSet('bundle', perfNow() - bundleStart, { words: (state.searchBundle.words || []).length });
+      overlay(true, 'Running faster EPO search…');
+      state.sourceProfile = (typeof buildSourceProfile === 'function') ? buildSourceProfile() : {};
+      var pageSize = Math.min(40, (typeof getRetrievalLimit === 'function' ? getRetrievalLimit() : 40));
+      var pages = Math.min(2, (typeof getRetrievalPages === 'function' ? getRetrievalPages() : 2));
+      var epoStart = perfNow();
+      var results = await Promise.all([
+        runPagedSparqlTimed(buildAbstractQuery, state.searchBundle.words, 'abstract', pageSize, pages),
+        runPagedSparqlTimed(buildTitleQuery, state.searchBundle.words, 'title', pageSize, pages)
+      ]);
+      perfSet('epo_total', perfNow() - epoStart, { pages: pages, pageSize: pageSize });
+
+      var mergeStart = perfNow();
+      var rows = mergeResults(results[0].concat(results[1]));
+      perfSet('merge', perfNow() - mergeStart, { rows: rows.length });
+
+      var enrichStart = perfNow();
+      rows = await enrichResultsFromApi(rows);
+      if(rows.length > 80) rows = rows.slice(0, 80);
+      perfSet('initial_enrich', perfNow() - enrichStart, { rows: rows.length });
+
+      var rerankStart = perfNow();
+      rows = await rerankResultsSemantically(rows);
+      perfSet('rerank', perfNow() - rerankStart, { rows: rows.length });
+
+      var scoreStart = perfNow();
+      rows.forEach(function(row){ row.rank = (typeof scoreResult === 'function') ? scoreResult(row, state.sourceProfile || {}) : row.rank; });
+      rows = (typeof normaliseScores === 'function') ? normaliseScores(rows) : rows;
+      rows.sort(function(a,b){ return Number((b.rank && b.rank.rawScore)||0) - Number((a.rank && a.rank.rawScore)||0); });
+      perfSet('score', perfNow() - scoreStart, { rows: rows.length });
+
+      state.searchResults = rows;
+      state.citationResults = [];
+      perfSetExtra('epoRows', rows.length);
+
+      var googleStart = perfNow();
+      await fetchGooglePatentsViaSerpApi();
+      perfSet('google_phase', perfNow() - googleStart, { rows: (state.googleResults || []).length });
+      perfSetExtra('googleRows', (state.googleResults || []).length);
+
+      switchTab('tab-results');
+      renderSearchResults();
+      perfSet('total', perfNow() - totalStart, { words: (state.searchBundle.words || []).length });
+      updateDiagnosticsBox('v17.1 shows timings in the new performance debug panel. Search still uses the faster v17 path with deferred metadata hydration and CORS-safe Google handling on GitHub Pages.');
+      updateRuntimeDiag('Performance debug panel updated. First-pass search excludes heavy metadata work, which now hydrates after visible results render.', 'ok');
+      renderPerformancePanel();
+    } catch(err){
+      alert('Search failed: ' + String(err.message || err));
+      renderPerformancePanel();
+    } finally {
+      overlay(false, '');
+    }
+  };
+
+  document.addEventListener('DOMContentLoaded', function(){
+    ensurePerformancePanel();
+    var marker = document.getElementById('generated-file-marker');
+    if(marker) marker.textContent = 'index-v17.1.html';
+    renderPerformancePanel();
   });
 })();
 </script>
