@@ -1,11 +1,11 @@
-<!-- GENERATED: index-v14 | based on index-v12.html | results UI patch + semantic model fallback for GitHub -->
+<!-- GENERATED: index-v15.1 | based on index-v12.html | date debug badges + pubdate hydration -->
 <!-- GENERATED: index-v12 | based on index-v9.html | fixes resultsDisplayLimit runtime error | syntax-safe runtime patch -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Patent Search Studio v14</title>
+<title>Patent Search Studio v15.1</title>
 <style>
 :root{--ipa-charcoal:#1D252C;--ipa-purple:#5D2067;--ipa-web-teal:#00819C;--ipa-light-grey:#E5E8EC;--bg:#f4f5f7;--panel:#ffffff;--border:#dfe4ea;--border-strong:#c8d0d9;--banner-h:72px;--nav-w:272px;--good-bg:#e8f5e9;--good-border:#86c28b;--good-text:#1D252C;--gp-bg:#eef4ff;--gp-border:#9bb7ff;--gp-text:#2048a8;--ep-bg:#f2efff;--ep-border:#b9a7ff;--ep-text:#5533b3;--epo-bg:#f5f7f8;--epo-border:#cfd8de;--epo-text:#31434f;--warn:#fff7d6;--warn-border:#e7cc56;--warn-text:#5d5224}
 *{box-sizing:border-box}html,body{height:100%}body{margin:0;background:var(--bg);color:var(--ipa-charcoal);font-family:Segoe UI,Arial,Helvetica,sans-serif;font-size:14px;padding-top:var(--banner-h)}
@@ -40,15 +40,15 @@ textarea{width:100%;min-height:220px;padding:12px;border:1px solid var(--border-
 </style>
 
 
-<style id="v14-ui-style">
-.result-header-text{padding-right:0!important}.result-card{padding:12px 12px 10px!important}.result-top-row{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.result-title-line{display:block!important;font-size:16px!important;line-height:1.3!important;font-weight:800!important;color:#213544!important}.result-side-actions{display:flex;gap:6px;align-items:center;justify-content:flex-end;flex-wrap:wrap;min-width:220px;max-width:42%}.result-side-actions .relevance-pill{position:static!important;top:auto!important;right:auto!important;margin:0!important;min-width:46px}.result-classifications{display:flex;flex-wrap:wrap;gap:6px}.result-keywords-plain{font-size:12px;color:#516370;line-height:1.35;margin-top:2px}.result-keywords-plain strong{color:#213544}.result-abstract{font-size:12px;line-height:1.38;color:#42505a;display:block;-webkit-line-clamp:unset!important}.result-body{margin-top:8px!important}.result-line{margin-top:7px!important}.result-line:first-child{margin-top:0!important}.link-pill.mini{padding:3px 8px!important;font-size:11px!important}.preview-browser-frame{width:100%;height:560px;border:1px solid var(--border);border-radius:10px;background:#fff}.preview-browser-toolbar{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}.preview-browser-empty{display:flex;align-items:center;justify-content:center;min-height:260px;border:1px dashed var(--border-strong);border-radius:10px;background:#fcfdfe;color:#5d6b74;padding:20px;text-align:center}.preview-open-btn{display:inline-flex;align-items:center;padding:4px 10px;border-radius:999px;border:1px solid rgba(29,37,44,.12);font-size:12px;color:#234350;text-decoration:none;background:#fff}.preview-open-btn:hover{text-decoration:none;filter:brightness(.98)}.preview-help{font-size:11px;color:#6a7680}.mini-browser-panel .panel-body{padding:12px}.mini-browser-title{font-weight:700;color:var(--ipa-web-teal)}.model-note{margin-top:8px;font-size:11px;line-height:1.45;color:#5d6b74}.model-note code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;background:#f4f7f9;border:1px solid var(--border);border-radius:4px;padding:1px 4px}.model-status-compact{font-size:12px;line-height:1.5}.model-status-compact strong{display:block;margin-bottom:4px}.model-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.ghost-link-btn{display:inline-flex;align-items:center;padding:6px 10px;border-radius:999px;border:1px solid var(--border);background:#fff;color:#234350;text-decoration:none;font-size:12px}.ghost-link-btn:hover{text-decoration:none;filter:brightness(.98)}@media (max-width:1180px){.result-top-row{flex-direction:column}.result-side-actions{max-width:none;min-width:0;justify-content:flex-start}.preview-browser-frame{height:420px}}
+<style id="v151-ui-style">
+.result-header-text{padding-right:0!important}.result-card{padding:12px 12px 10px!important}.result-top-row{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.result-title-line{display:block!important;font-size:16px!important;line-height:1.3!important;font-weight:800!important;color:#213544!important}.result-side-actions{display:flex;gap:6px;align-items:center;justify-content:flex-end;flex-wrap:wrap;min-width:220px;max-width:42%}.result-side-actions .relevance-pill{position:static!important;top:auto!important;right:auto!important;margin:0!important;min-width:46px}.result-classifications{display:flex;flex-wrap:wrap;gap:6px}.result-keywords-plain{font-size:12px;color:#516370;line-height:1.35;margin-top:2px}.result-keywords-plain strong{color:#213544}.result-abstract{font-size:12px;line-height:1.38;color:#42505a;display:block;-webkit-line-clamp:unset!important}.result-body{margin-top:8px!important}.result-line{margin-top:7px!important}.result-line:first-child{margin-top:0!important}.link-pill.mini{padding:3px 8px!important;font-size:11px!important}.preview-browser-empty,.preview-browser-message{display:flex;align-items:center;justify-content:center;min-height:260px;border:1px dashed var(--border-strong);border-radius:10px;background:#fcfdfe;color:#5d6b74;padding:20px;text-align:center}.preview-browser-toolbar{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}.preview-open-btn{display:inline-flex;align-items:center;padding:4px 10px;border-radius:999px;border:1px solid rgba(29,37,44,.12);font-size:12px;color:#234350;text-decoration:none;background:#fff}.preview-help{font-size:11px;color:#6a7680}.preview-url{font-size:11px;color:#6a7680;word-break:break-all}.mini-browser-panel .panel-body{padding:12px}.mini-browser-title{font-weight:700;color:var(--ipa-web-teal)}.date-debug-badge{font-size:10px!important;line-height:1.1!important;padding:2px 7px!important;border-radius:999px;border:1px solid rgba(29,37,44,.12)!important;background:#f3f6f8!important;color:#42505a!important}.date-debug-badge.query{background:#eef7ff!important;border-color:#9bb7ff!important;color:#2048a8!important}.date-debug-badge.followup{background:#f2efff!important;border-color:#b9a7ff!important;color:#5533b3!important}.date-debug-badge.pending{background:#fff7d6!important;border-color:#e7cc56!important;color:#6d5c12!important}.date-debug-badge.unavailable{background:#fff3f3!important;border-color:#d89595!important;color:#8a1f1f!important}.date-pending{color:#8b6f00}.model-note{margin-top:8px;font-size:11px;line-height:1.45;color:#5d6b74}.model-note code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;background:#f4f7f9;border:1px solid var(--border);border-radius:4px;padding:1px 4px}.model-status-compact{font-size:12px;line-height:1.5}.model-status-compact strong{display:block;margin-bottom:4px}@media (max-width:1180px){.result-top-row{flex-direction:column}.result-side-actions{max-width:none;min-width:0;justify-content:flex-start}}
 </style>
 
 </head>
 <body>
 <div class="overlay" id="loadingOverlay"><div class="overlay-card"><div class="overlay-spinner"></div><div class="overlay-text" id="overlayText">Working…</div></div></div>
-<div class="top-banner" id="topBanner"><div><h1>Patent Search Studio v14</h1><div class="sub">v9 improves SerpApi result handling, tightens relevance pill styling, adds an All authorities option for citation reference lookups, explains what a reference number means, removes the stray abstract marker from prior-art cards, and adds top 10, 50, 100 and All display controls for prior-art results.</div></div></div>
-<div class="shell"><aside class="sidebar" id="sidebar"><div class="nav-scroll"><button type="button" class="nav-link active" data-tab-target="tab-source"><span class="nav-ico">①</span><span>Load source</span></button><button type="button" class="nav-link" data-tab-target="tab-concepts"><span class="nav-ico">②</span><span>Inventive concepts</span><span id="navCountConcepts" class="nav-count" hidden></span></button><button type="button" class="nav-link" data-tab-target="tab-search"><span class="nav-ico">③</span><span>Search strategy</span></button><button type="button" class="nav-link" data-tab-target="tab-results"><span class="nav-ico">④</span><span>Results and prior art</span><span id="navCountResults" class="nav-count" hidden></span></button><button type="button" class="nav-link" data-tab-target="tab-settings"><span class="nav-ico">⚙</span><span>Endpoints and semantic settings</span></button></div><div class="sidebar-footer"><div class="mini"><strong>What changed in v14</strong><br>Built for GitHub testing. Keeps the improved results layout, adds a safer semantic model fallback, and explains local model hosting without requiring transformer files in the repo root.</div></div></aside>
+<div class="top-banner" id="topBanner"><div><h1>Patent Search Studio v15.1</h1><div class="sub">v9 improves SerpApi result handling, tightens relevance pill styling, adds an All authorities option for citation reference lookups, explains what a reference number means, removes the stray abstract marker from prior-art cards, and adds top 10, 50, 100 and All display controls for prior-art results.</div></div></div>
+<div class="shell"><aside class="sidebar" id="sidebar"><div class="nav-scroll"><button type="button" class="nav-link active" data-tab-target="tab-source"><span class="nav-ico">①</span><span>Load source</span></button><button type="button" class="nav-link" data-tab-target="tab-concepts"><span class="nav-ico">②</span><span>Inventive concepts</span><span id="navCountConcepts" class="nav-count" hidden></span></button><button type="button" class="nav-link" data-tab-target="tab-search"><span class="nav-ico">③</span><span>Search strategy</span></button><button type="button" class="nav-link" data-tab-target="tab-results"><span class="nav-ico">④</span><span>Results and prior art</span><span id="navCountResults" class="nav-count" hidden></span></button><button type="button" class="nav-link" data-tab-target="tab-settings"><span class="nav-ico">⚙</span><span>Endpoints and semantic settings</span></button></div><div class="sidebar-footer"><div class="mini"><strong>What changed in v15.1</strong><br>Built from your v12 working version. Adds publication date debug badges per result, keeps the improved results layout, improves publication date hydration, and uses a safer Google preview panel for GitHub testing.</div></div></aside>
 <main class="main"><div class="workspace-head"><div class="workspace-title" id="workspaceTitle">Load source</div><div style="display:flex;gap:8px;flex-wrap:wrap"><span class="workspace-chip" id="activeModeChip">Mode: PDF or pasted text</span><span class="workspace-chip" id="semanticModeChip">Semantic mode: Off</span><button type="button" class="ghost" id="resetBtn">Reset</button></div></div>
 <section id="tab-source" class="tab-panel active"><div class="board-card"><div class="board-head"><div><div class="board-title">Load source documents</div><div class="board-meta">Upload one or more PDFs and optionally add pasted text. v9 combines all uploaded PDFs for a single analysis pass, then applies the selected patent search preset.</div></div></div><div class="board-body"><div class="grid-2"><div class="stack"><div class="panel"><div class="panel-head">Primary source</div><div class="panel-body"><div id="dropZone" class="drop-zone"><div class="big">📄</div><div><strong>Drop one or more patent PDFs here or click to select</strong></div><div class="muted">Place <span class="mono">pdf.min.js</span> and <span class="mono">pdf.worker.min.js</span> in <span class="mono">./lib/</span></div><input type="file" id="pdfInput" accept="application/pdf,.pdf" multiple style="display:none" /></div><div id="fileInfo" class="notice" style="display:none;margin-top:12px"></div><div id="filePills" class="link-row" style="margin-top:12px"></div><div class="fields" style="margin-top:12px"><label>Paste abstract, claims or description<textarea id="sourceText" placeholder="Paste text here if you do not want to use only PDFs."></textarea></label></div></div></div><div class="panel"><div class="panel-head">Publication reference for citations</div><div class="panel-body"><div class="fields inline-3"><label>Authority<select id="docAuthority"><option value="ALL">All authorities</option><option value="EP">EP</option><option value="WO">WO</option><option value="US">US</option><option value="AU">AU</option></select></label><label>Reference number<input type="text" id="docNumber" placeholder="eg 1100000 or 20240003950" /></label><label>Kind<input type="text" id="docKind" placeholder="eg A1, A3, B1 or -" /></label></div><div class="notice" style="margin-top:10px"><strong>What does reference number mean?</strong><br>Use the publication number digits without the authority prefix if you know them. Examples include <span class="mono">1100000</span> for an EP publication or <span class="mono">20240003950</span> for a US publication. Choose <strong>All authorities</strong> if you want v9 to try the same number across EP, WO, US and AU in the citation lookup.</div></div></div></div><div class="stack"><div class="panel"><div class="panel-head">Search preset and extraction profile</div><div class="panel-body"><div class="preset-bar" id="presetBar"></div><div class="notice" id="presetSummary">Preset summary will appear here.</div><div class="fields inline-2" style="margin-top:10px"><label>Top concepts<input type="number" id="topConcepts" min="6" max="40" value="18" /></label><label>Query concepts<input type="number" id="queryConcepts" min="2" max="10" value="5" /></label></div><div class="fields inline-2" style="margin-top:10px"><label>Section focus<select id="sectionFocus"><option value="balanced">Balanced</option><option value="claims-first" selected>Claims first</option><option value="abstract-first">Abstract first</option><option value="description-first">Description first</option></select></label><label>Boolean mode for abstract search<select id="abstractBooleanMode"><option value="AND" selected>AND</option><option value="OR">OR</option></select></label></div><div class="fields inline-2" style="margin-top:10px"><label>Max search words<input type="number" id="maxSearchWords" min="1" max="8" value="4" /></label><label>Result limit per query<input type="number" id="resultLimit" min="5" max="50" value="18" /></label></div><div class="fields" style="margin-top:10px"><label><input type="checkbox" id="semanticEnabled" checked /> Enable semantic concept cleanup and reranking</label><label><input type="checkbox" id="crossLingualEnabled" checked /> Use cross-lingual semantic matching when reranking</label><label><input type="checkbox" id="autoSynonymiserEnabled" checked /> Enable automatic synonymiser</label><label><input type="checkbox" id="googleParallelEnabled" checked /> Try Google Patents retrieval</label></div><div class="actions"><button type="button" id="analyseBtn">Analyse source</button><button type="button" class="secondary" id="loadReferenceBtn">Load reference</button></div><div class="status"><span id="statusSpinner" class="spinner"></span><span id="statusText"></span></div></div></div><div class="panel"><div class="panel-head">Diagnostics</div><div class="panel-body"><div id="qaPanel" class="warning" style="display:none"></div><div id="runtimeDiag" class="notice" style="margin-top:10px">Runtime diagnostics will appear here when needed.</div></div></div></div></div></div></div></section>
 <section id="tab-concepts" class="tab-panel"><div class="grid-2"><div class="board-card"><div class="board-head"><div><div class="board-title">Inventive concept candidates</div><div class="board-meta">Selected concepts drive keyword search words, auto synonym families and optional semantic reranking.</div></div></div><div class="board-body"><div id="conceptSummary" class="banner-note">Run analysis to populate concepts.</div><div id="conceptChips" class="chips" style="margin-top:12px"></div><div class="actions"><input type="text" id="manualConceptInput" placeholder="Add a manual concept" style="flex:1 1 260px;max-width:380px" /><button type="button" class="secondary" id="addManualConceptBtn">Add concept</button><button type="button" id="rebuildSearchBtn">Rebuild search strategy</button></div><div id="conceptList" class="phrase-list" style="margin-top:14px"></div></div></div><div class="stack"><div class="panel"><div class="panel-head">Section split</div><div class="panel-body"><div id="sectionPills" class="section-pills"></div><div id="sectionPreview" class="notice" style="margin-top:12px">Section preview will appear after analysis.</div></div></div><div class="panel"><div class="panel-head">Weights</div><div class="panel-body"><div id="weightsPanel" class="weights-grid"></div></div></div><div class="panel"><div class="panel-head">Synonym families</div><div class="panel-body"><div id="synonymFamiliesBox" class="notice">Synonym families will appear after analysis.</div></div></div><div class="panel"><div class="panel-head">Semantic diagnostics</div><div class="panel-body" id="semanticDiagnostics">No semantic diagnostics yet.</div></div></div></div></section>
@@ -72,7 +72,7 @@ function applyBannerHeight(){const h=$('topBanner').offsetHeight||72;document.do
 function updateNavCount(id,count){const el=$(id);if(!el)return;if(count>0){el.hidden=false;el.textContent=String(count)}else{el.hidden=true;el.textContent=''}}function setActiveMode(label){$('activeModeChip').textContent=`Mode: ${label}`}function setSemanticMode(label){$('semanticModeChip').textContent=`Semantic mode: ${label}`}function setStatus(msg,busy){$('statusText').textContent=msg||'';$('statusSpinner').style.display=busy?'inline-block':'none'}function overlay(show,text){$('loadingOverlay').style.display=show?'flex':'none';$('overlayText').textContent=text||'Working…'}
 function addConsoleEntry(label,payload){const serial=typeof payload==='string'?payload:JSON.stringify(payload,null,2);const last=state.rawConsole[state.rawConsole.length-1];if(last&&last.label===label&&last.serial===serial)return;state.rawConsole.push({label,serial,time:new Date().toISOString()});if(state.rawConsole.length>30)state.rawConsole=state.rawConsole.slice(-30)}
 function updateDiagnosticsBox(extra){const preset=SEARCH_PRESETS[state.activePreset];let html=`<div><strong>Active preset:</strong> ${escapeHtml(preset.label)}</div><div class="muted" style="margin-top:6px">Google page fan-out ${preset.googlePages} × ${preset.googleNum}. Citation harvest depth ${preset.citationDepth}. The raw response console remains out of this Results workspace.</div>`;if(extra)html+=`<div class="muted" style="margin-top:6px">${escapeHtml(extra)}</div>`;$('diagnosticsBox').innerHTML=html}
-function switchTab(tabId){document.querySelectorAll('.tab-panel').forEach(el=>el.classList.toggle('active',el.id===tabId));document.querySelectorAll('.nav-link').forEach(el=>el.classList.toggle('active',el.getAttribute('data-tab-target')===tabId));const titleMap={'tab-source':'Load source','tab-concepts':'Inventive concepts','tab-search':'Search strategy','tab-results':'Results and prior art','tab-settings':'Endpoints and semantic settings'};$('workspaceTitle').textContent=titleMap[tabId]||'Patent Search Studio v14'}document.querySelectorAll('.nav-link').forEach(btn=>btn.addEventListener('click',()=>switchTab(btn.getAttribute('data-tab-target'))));
+function switchTab(tabId){document.querySelectorAll('.tab-panel').forEach(el=>el.classList.toggle('active',el.id===tabId));document.querySelectorAll('.nav-link').forEach(el=>el.classList.toggle('active',el.getAttribute('data-tab-target')===tabId));const titleMap={'tab-source':'Load source','tab-concepts':'Inventive concepts','tab-search':'Search strategy','tab-results':'Results and prior art','tab-settings':'Endpoints and semantic settings'};$('workspaceTitle').textContent=titleMap[tabId]||'Patent Search Studio v15.1'}document.querySelectorAll('.nav-link').forEach(btn=>btn.addEventListener('click',()=>switchTab(btn.getAttribute('data-tab-target'))));
 function getSettings(){return{sparqlEndpoint:normaliseSpace($('sparqlEndpoint').value)||'https://data.epo.org/linked-data/query',queryTimeoutMs:Math.max(3000,Number($('queryTimeoutMs').value||10000)),pdfScriptPath:normaliseSpace($('pdfScriptPath').value)||'lib/pdf.min.js',pdfWorkerPath:normaliseSpace($('pdfWorkerPath').value)||'lib/pdf.worker.min.js',transformersUrl:normaliseSpace($('transformersUrl').value)||'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2',embeddingModelId:normaliseSpace($('embeddingModelId').value)||'Xenova/paraphrase-multilingual-MiniLM-L12-v2',semanticDedupeThreshold:Math.max(0.6,Math.min(0.99,Number($('semanticDedupeThreshold').value||0.86))),semanticResultThreshold:Math.max(0.1,Math.min(0.99,Number($('semanticResultThreshold').value||0.35))),serpApiKey:normaliseSpace($('serpApiKey').value||'')}}
 function loadSavedSettings(){try{const raw=localStorage.getItem('patentSearchStudioV9Settings');if(!raw)return;const cfg=JSON.parse(raw);['sparqlEndpoint','queryTimeoutMs','pdfScriptPath','pdfWorkerPath','transformersUrl','embeddingModelId','semanticDedupeThreshold','semanticResultThreshold','serpApiKey'].forEach(k=>{if(cfg[k]!=null&&$(k))$(k).value=cfg[k]});['semanticEnabled','crossLingualEnabled','autoSynonymiserEnabled','googleParallelEnabled'].forEach(k=>{if(cfg[k]!=null&&$(k))$(k).checked=!!cfg[k]});if(cfg.activePreset&&SEARCH_PRESETS[cfg.activePreset])state.activePreset=cfg.activePreset;if(cfg.resultsDisplayLimit&&$('resultsDisplayLimit'))$('resultsDisplayLimit').value=cfg.resultsDisplayLimit}catch(err){console.warn(err)}}
 function saveSettings(){const cfg=getSettings();['semanticEnabled','crossLingualEnabled','autoSynonymiserEnabled','googleParallelEnabled'].forEach(k=>cfg[k]=!!$(k).checked);cfg.activePreset=state.activePreset;cfg.resultsDisplayLimit=$('resultsDisplayLimit').value;localStorage.setItem('patentSearchStudioV9Settings',JSON.stringify(cfg));setStatus('Settings saved',false)}$('saveSettingsBtn').addEventListener('click',saveSettings);
@@ -338,9 +338,10 @@ loadSavedSettings();resetApp();applyBannerHeight();
 </script>
 
 
-<script id="v14-runtime-patch">
+<script id="v151-runtime-patch">
 (function(){
   var DEFAULT_LOCAL_MODEL = './models/Xenova/paraphrase-multilingual-MiniLM-L12-v2';
+  var __dateHydrationInFlight = false;
   function formatDisplayDate(dateStr){
     if(!dateStr) return '';
     var raw = String(dateStr).trim();
@@ -351,7 +352,13 @@ loadSavedSettings();resetApp();applyBannerHeight();
     if((!d || Number.isNaN(d.getTime())) && /^\d{4}\/\d{2}\/\d{2}$/.test(raw)) d = new Date(raw.replace(/\//g,'-') + 'T00:00:00');
     if((!d || Number.isNaN(d.getTime())) && /^\d{4}-\d{2}-\d{2}T/.test(raw)) d = new Date(raw);
     if(!d || Number.isNaN(d.getTime())) return '';
-    return new Intl.DateTimeFormat('en-GB', { day:'2-digit', month:'long', year:'numeric' }).format(d);
+    return new Intl.DateTimeFormat('en-GB', { day:'2-digit', month:'short', year:'numeric' }).format(d).replace(',', '');
+  }
+  function normaliseDateCandidate(raw){
+    if(!raw) return '';
+    var s = String(raw).trim();
+    var match = s.match(/(\d{4}-\d{2}-\d{2}|\d{8}|\d{4}\/\d{2}\/\d{2})/);
+    return match ? match[1] : s;
   }
   function formatPublicationDisplay(row){
     if(row && row.pubMeta && row.pubMeta.authority && row.pubMeta.number && row.pubMeta.kind){
@@ -363,34 +370,31 @@ loadSavedSettings();resetApp();applyBannerHeight();
     return raw || 'Unknown publication';
   }
   function extractKeywordText(row){
-    var items = ((row && row.rank && row.rank.hitTerms) || []).filter(Boolean).slice(0, 12);
-    return items.join(', ');
+    return (((row && row.rank && row.rank.hitTerms) || []).filter(Boolean).slice(0, 12)).join(', ');
   }
   function extractClassifications(row){
     var ipcs = (row && row.ipcSymbols) || [];
     var cpcs = (row && row.cpcSymbols) || [];
-    var vals = (ipcs.length ? ipcs : cpcs).filter(Boolean).slice(0, 8);
-    return vals;
+    return (ipcs.length ? ipcs : cpcs).filter(Boolean).slice(0, 8);
   }
-  function ensureMiniBrowserPane(){
+  function ensurePreviewPane(){
     var resultsSection = document.querySelector('#tab-results .grid-2');
     if(!resultsSection) return;
     var stack = resultsSection.querySelector(':scope > .stack');
-    if(!stack) return;
-    var existing = document.getElementById('googlePreviewPanel');
-    if(existing) return;
+    if(!stack || document.getElementById('googlePreviewPanel')) return;
     stack.innerHTML = '<div class="panel mini-browser-panel" id="googlePreviewPanel">'
-      + '<div class="panel-head">Google mini browser</div>'
+      + '<div class="panel-head">Google preview</div>'
       + '<div class="panel-body">'
       + '  <div class="preview-browser-toolbar">'
       + '    <div>'
       + '      <div class="mini-browser-title" id="googlePreviewTitle">Select a Google link from the left</div>'
-      + '      <div class="preview-help">The preview will load the selected Google patent link in this pane. If the page blocks framing, use the open button.</div>'
+      + '      <div class="preview-help">Google patent pages usually block embedding. This panel shows the selected link details and provides a direct open action.</div>'
+      + '      <div id="googlePreviewUrl" class="preview-url"></div>'
       + '    </div>'
       + '    <a id="googlePreviewOpen" class="preview-open-btn" href="#" target="_blank" rel="noopener">Open in new tab</a>'
       + '  </div>'
-      + '  <div id="googlePreviewEmpty" class="preview-browser-empty">Click a <strong style="margin:0 4px">Google</strong> link in the results list to preview the patent here.</div>'
-      + '  <iframe id="googlePreviewFrame" class="preview-browser-frame" title="Google preview" referrerpolicy="no-referrer" style="display:none"></iframe>'
+      + '  <div id="googlePreviewEmpty" class="preview-browser-empty">Click a <strong style="margin:0 4px">Google</strong> link in the results list to preview the selection here.</div>'
+      + '  <div id="googlePreviewMessage" class="preview-browser-message" style="display:none"></div>'
       + '</div>'
       + '</div>'
       + '<div class="panel"><div class="panel-head">Search diagnostics</div><div class="panel-body"><div id="diagnosticsBox" class="notice">Structured search diagnostics will appear here after a run. The raw response console remains out of this Results workspace.</div></div></div>';
@@ -398,52 +402,38 @@ loadSavedSettings();resetApp();applyBannerHeight();
     if(toggle && toggle.closest('label')) toggle.closest('label').style.display = 'none';
   }
   function updatePreview(url, title){
-    ensureMiniBrowserPane();
-    var frame = document.getElementById('googlePreviewFrame');
+    ensurePreviewPane();
     var openBtn = document.getElementById('googlePreviewOpen');
     var empty = document.getElementById('googlePreviewEmpty');
     var heading = document.getElementById('googlePreviewTitle');
-    if(!frame || !openBtn || !heading) return;
+    var msg = document.getElementById('googlePreviewMessage');
+    var urlEl = document.getElementById('googlePreviewUrl');
+    if(!openBtn || !heading || !msg || !urlEl) return;
     heading.textContent = title || 'Google patent preview';
     openBtn.href = url || '#';
-    if(url){
-      frame.src = url;
-      frame.style.display = 'block';
-      if(empty) empty.style.display = 'none';
-    }
+    urlEl.textContent = url || '';
+    if(empty) empty.style.display = 'none';
+    msg.style.display = 'flex';
+    msg.innerHTML = '<div><strong>Selected Google patent link.</strong><br>This panel no longer tries to embed Google pages because Google commonly returns a blocked or 403 frame response even on GitHub Pages.<br><br>Use <strong>Open in new tab</strong> to open the selected Google patent page directly.</div>';
   }
-  function setModelStatus(html){
-    var box = document.getElementById('modelStatusBox');
-    if(box) box.innerHTML = html;
-  }
+  function setModelStatus(html){ var box = document.getElementById('modelStatusBox'); if(box) box.innerHTML = html; }
   function installModelHelpNote(){
     var host = document.querySelector('#tab-settings .panel:nth-child(2) .panel-body');
     if(!host || document.getElementById('localModelNote')) return;
     var div = document.createElement('div');
     div.id = 'localModelNote';
     div.className = 'model-note';
-    div.innerHTML = '<strong>Local model note.</strong> For GitHub Pages you usually do <em>not</em> need transformer files in the repo root. Try the hosted page first. If your browser or network blocks Hugging Face downloads, put the model files in <code>'+DEFAULT_LOCAL_MODEL+'</code> and set <strong>Embedding model id</strong> to that same relative path.';
+    div.innerHTML = '<strong>Model hosting note.</strong> You do <em>not</em> need transformer files in the repository root. If GitHub Pages still cannot download the Hugging Face model in your environment, put the model files in <code>'+DEFAULT_LOCAL_MODEL+'</code> and set <strong>Embedding model id</strong> to that same relative path.';
     host.appendChild(div);
   }
   function classifyModelError(err){
     var msg = String((err && (err.message || err.cause || err)) || 'Unknown model load error');
     var lower = msg.toLowerCase();
-    var blocked = lower.indexOf('forbidden access to file') >= 0 || lower.indexOf('failed to fetch') >= 0 || lower.indexOf('networkerror') >= 0 || lower.indexOf('access to fetch') >= 0 || lower.indexOf('403') >= 0;
-    return { raw: msg, blocked: blocked };
+    return { raw: msg, blocked: lower.indexOf('forbidden access to file') >= 0 || lower.indexOf('failed to fetch') >= 0 || lower.indexOf('networkerror') >= 0 || lower.indexOf('access to fetch') >= 0 || lower.indexOf('403') >= 0 || lower.indexOf('tokenizer.json') >= 0 };
   }
-  // Safer semantic model loader
   window.ensureSemanticModel = async function(){
-    if(!document.getElementById('semanticEnabled').checked){
-      setSemanticMode('Off');
-      setModelStatus('<div class="notice model-status-compact"><strong>Semantic matching is off.</strong> Enable the semantic option if you want browser-side embeddings.</div>');
-      return false;
-    }
-    if(window.location.protocol === 'file:'){
-      state.semantic.disabledReason = 'Semantic matching is disabled on file:// to avoid browser restrictions when loading model files.';
-      setSemanticMode('Fallback');
-      setModelStatus('<div class="warning model-status-compact"><strong>Semantic matching is disabled for local file opening.</strong> Open the page from GitHub Pages or a local web server if you want browser-side embeddings.<div class="model-actions"><a class="ghost-link-btn" href="#tab-settings" onclick="switchTab(\'tab-settings\');return false;">Open settings</a></div></div>');
-      return false;
-    }
+    if(!document.getElementById('semanticEnabled').checked){ setSemanticMode('Off'); setModelStatus('<div class="notice model-status-compact"><strong>Semantic matching is off.</strong> Enable the semantic option if you want browser-side embeddings.</div>'); return false; }
+    if(window.location.protocol === 'file:'){ setSemanticMode('Fallback'); setModelStatus('<div class="warning model-status-compact"><strong>Semantic matching is disabled for local file opening.</strong> Open the page from GitHub Pages or a local web server if you want browser-side embeddings.</div>'); return false; }
     var cfg = getSettings();
     if(state.semantic.modelLoaded && state.semantic.extractor) return true;
     try{
@@ -451,88 +441,95 @@ loadSavedSettings();resetApp();applyBannerHeight();
       setModelStatus('<div class="notice model-status-compact"><strong>Loading semantic model…</strong>Trying the configured model path first.</div>');
       if(!state.semantic.module) state.semantic.module = await import(cfg.transformersUrl);
       var mod = state.semantic.module;
-      if(mod.env){
-        mod.env.allowLocalModels = true;
-        if(typeof mod.env.allowRemoteModels !== 'undefined') mod.env.allowRemoteModels = true;
-        mod.env.useBrowserCache = true;
-      }
-      async function loadExtractor(modelId){
-        return await mod.pipeline('feature-extraction', modelId, { quantized: true });
-      }
-      try{
-        state.semantic.extractor = await loadExtractor(cfg.embeddingModelId);
-        state.semantic.modelLoaded = true;
-        setSemanticMode('Ready');
-        setModelStatus('<div class="ok model-status-compact"><strong>Semantic model ready.</strong>'+escapeHtml(cfg.embeddingModelId)+'</div>');
-        return true;
-      }catch(firstErr){
-        var firstClass = classifyModelError(firstErr);
-        addConsoleEntry('Semantic model error', firstClass.raw);
-        var localPath = DEFAULT_LOCAL_MODEL;
+      if(mod.env){ mod.env.allowLocalModels = true; if(typeof mod.env.allowRemoteModels !== 'undefined') mod.env.allowRemoteModels = true; mod.env.useBrowserCache = true; }
+      async function loadExtractor(modelId){ return await mod.pipeline('feature-extraction', modelId, { quantized: true }); }
+      try{ state.semantic.extractor = await loadExtractor(cfg.embeddingModelId); state.semantic.modelLoaded = true; setSemanticMode('Ready'); setModelStatus('<div class="ok model-status-compact"><strong>Semantic model ready.</strong>'+escapeHtml(cfg.embeddingModelId)+'</div>'); return true; }
+      catch(firstErr){
+        var firstClass = classifyModelError(firstErr); if(window.addConsoleEntry) window.addConsoleEntry('Semantic model error', firstClass.raw);
         var configured = String(cfg.embeddingModelId || '');
         var shouldTryLocal = configured.indexOf('./') !== 0 && configured.indexOf('../') !== 0 && configured.indexOf('/') !== 0;
         if(shouldTryLocal){
-          try{
-            state.semantic.extractor = await loadExtractor(localPath);
-            state.semantic.modelLoaded = true;
-            setSemanticMode('Ready');
-            setModelStatus('<div class="ok model-status-compact"><strong>Semantic model ready from local fallback.</strong>Loaded from <code>'+escapeHtml(localPath)+'</code>.</div>');
-            return true;
-          }catch(localErr){
-            var localClass = classifyModelError(localErr);
-            addConsoleEntry('Semantic local model error', localClass.raw);
-          }
+          try{ state.semantic.extractor = await loadExtractor(DEFAULT_LOCAL_MODEL); state.semantic.modelLoaded = true; setSemanticMode('Ready'); setModelStatus('<div class="ok model-status-compact"><strong>Semantic model ready from local fallback.</strong>Loaded from <code>'+escapeHtml(DEFAULT_LOCAL_MODEL)+'</code>.</div>'); return true; }
+          catch(localErr){ if(window.addConsoleEntry) window.addConsoleEntry('Semantic local model error', String(localErr)); }
         }
         setSemanticMode('Fallback');
-        if(firstClass.blocked){
-          setModelStatus('<div class="warning model-status-compact"><strong>Remote model download was blocked.</strong>This does not break the search tool; semantic matching will fall back to lexical scoring only.<br><br><strong>Do you need transformer files in the repo root?</strong> No. For GitHub Pages, try the hosted page first. If your network still blocks Hugging Face, download the model files into <code>'+DEFAULT_LOCAL_MODEL+'</code> and set <strong>Embedding model id</strong> to that path.</div>');
-        }else{
-          setModelStatus('<div class="warning model-status-compact"><strong>Semantic model is unavailable in this browser context.</strong>The tool will fall back to lexical synonym families and keyword scoring only.<br><span class="muted">'+escapeHtml(firstClass.raw)+'</span></div>');
-        }
+        if(firstClass.blocked) setModelStatus('<div class="warning model-status-compact"><strong>Remote model download was blocked.</strong>The search tool still works, but semantic matching will fall back to lexical scoring only.<br><br><strong>Do you need transformer files in the repo root?</strong> No. For GitHub Pages, keep the files in <code>'+DEFAULT_LOCAL_MODEL+'</code> only if your environment blocks Hugging Face downloads.</div>');
+        else setModelStatus('<div class="warning model-status-compact"><strong>Semantic model is unavailable in this browser context.</strong>The tool will fall back to lexical synonym families and keyword scoring only.<br><span class="muted">'+escapeHtml(firstClass.raw)+'</span></div>');
         return false;
       }
-    }catch(err){
-      var cls = classifyModelError(err);
-      addConsoleEntry('Semantic model error', cls.raw);
-      setSemanticMode('Fallback');
-      setModelStatus('<div class="warning model-status-compact"><strong>Semantic model initialisation failed.</strong>The tool will continue without embeddings.<br><span class="muted">'+escapeHtml(cls.raw)+'</span></div>');
-      return false;
-    }
+    }catch(err){ var cls = classifyModelError(err); if(window.addConsoleEntry) window.addConsoleEntry('Semantic model error', cls.raw); setSemanticMode('Fallback'); setModelStatus('<div class="warning model-status-compact"><strong>Semantic model initialisation failed.</strong>The tool will continue without embeddings.<br><span class="muted">'+escapeHtml(cls.raw)+'</span></div>'); return false; }
   };
-  // Publication detail fetch wrapper with IPC support
+  // Mark date source from query
+  var originalBindingsToResults = window.bindingsToResults;
+  window.bindingsToResults = function(payload, sourceLabel){
+    var rows = originalBindingsToResults ? originalBindingsToResults(payload, sourceLabel) : [];
+    rows.forEach(function(row){
+      if(row.publicationDate) row.dateDebugSource = 'query';
+    });
+    return rows;
+  };
+  // Stronger publication details fetch
   var originalFetchPublicationDetails = window.fetchPublicationDetails;
   window.fetchPublicationDetails = async function(pubUri){
     if(!pubUri) return originalFetchPublicationDetails ? originalFetchPublicationDetails(pubUri) : null;
     try{
       var httpsUri = String(pubUri).replace(/^http:\/\//i, 'https://');
-      var res = await fetch(httpsUri + '?_view=normal', { headers: { 'Accept':'application/json, application/ld+json, text/plain' } });
-      var text = await res.text();
-      var data = null;
-      try { data = JSON.parse(text); } catch(_) { data = text; }
-      var serial = typeof data === 'string' ? data : JSON.stringify(data);
-      var dateMatch = serial.match(/publicationDate[^\d]*(\d{4}-\d{2}-\d{2})/i);
-      var cpcMatches = (serial.match(/[A-HY]\d{2}[A-Z]\s?\d+\/\d+/g) || []).filter(Boolean).slice(0, 10);
-      var ipcMatches = [];
-      var ipcAround = [...serial.matchAll(/ipc[^\[]{0,80}(\[[^\]]+\])/ig)];
-      ipcAround.forEach(function(m){
-        var block = m[1] || '';
-        var codes = block.match(/[A-H][0-9]{2}[A-Z]\s?\d+\/\d+/g) || [];
-        ipcMatches = ipcMatches.concat(codes);
-      });
-      ipcMatches = Array.from(new Set(ipcMatches)).slice(0, 10);
-      if(window.addConsoleEntry) window.addConsoleEntry('Publication detail fetch', {uri:httpsUri, publicationDate:dateMatch?dateMatch[1]:'', cpcSymbols:cpcMatches, ipcSymbols:ipcMatches});
-      return { publicationDate: dateMatch ? dateMatch[1] : '', cpcSymbols: cpcMatches, ipcSymbols: ipcMatches };
-    } catch(err){
+      var candidates = [httpsUri + '?_view=normal', httpsUri, httpsUri.replace('/def/patent/', '/data/') + '?_view=normal'];
+      for(const url of candidates){
+        try{
+          var res = await fetch(url, { headers: { 'Accept':'application/json, application/ld+json, text/plain, text/html' } });
+          var text = await res.text();
+          var serial = text || '';
+          var datePatterns = [
+            /publicationDate[^\d]*(\d{4}-\d{2}-\d{2})/i,
+            /publicationDate[^\d]*(\d{8})/i,
+            /datePublished[^\d]*(\d{4}-\d{2}-\d{2})/i,
+            /datePublished[^\d]*(\d{8})/i,
+            /"publicationDate"\s*:\s*\[?"?(\d{4}-\d{2}-\d{2}|\d{8})/i,
+            /meta[^>]+name=["']citation_publication_date["'][^>]+content=["'](\d{4}-\d{2}-\d{2}|\d{8})/i
+          ];
+          var date = '';
+          for(const p of datePatterns){ var m = serial.match(p); if(m){ date = normaliseDateCandidate(m[1]); break; } }
+          var cpcMatches = Array.from(new Set((serial.match(/[A-HY]\d{2}[A-Z]\s?\d+\/\d+/g) || []).filter(Boolean))).slice(0, 10);
+          var ipcMatches = [];
+          var ipcAround = [...serial.matchAll(/ipc[^\[]{0,120}(\[[^\]]+\])/ig)];
+          ipcAround.forEach(function(m){ var block = m[1] || ''; var codes = block.match(/[A-H][0-9]{2}[A-Z]\s?\d+\/\d+/g) || []; ipcMatches = ipcMatches.concat(codes); });
+          ipcMatches = Array.from(new Set(ipcMatches)).slice(0, 10);
+          if(date || cpcMatches.length || ipcMatches.length){ if(window.addConsoleEntry) window.addConsoleEntry('Publication detail fetch', {uri:url, publicationDate:date, cpcSymbols:cpcMatches, ipcSymbols:ipcMatches}); return { publicationDate: date, cpcSymbols: cpcMatches, ipcSymbols: ipcMatches, dateDebugSource: date ? 'epo follow-up' : '' }; }
+        }catch(innerErr){ if(window.addConsoleEntry) window.addConsoleEntry('Publication detail fetch warning', String(innerErr)); }
+      }
+      return { publicationDate:'', cpcSymbols:[], ipcSymbols:[], dateDebugSource:'' };
+    }catch(err){
       if(originalFetchPublicationDetails) return originalFetchPublicationDetails(pubUri);
       if(window.addConsoleEntry) window.addConsoleEntry('Publication detail fetch warning', String(err));
       return null;
     }
   };
-  // Enrich merges IPCs too
+  async function hydratePublicationDates(rows){
+    if(__dateHydrationInFlight || !rows || !rows.length) return;
+    var missing = rows.filter(function(r){ return !r.publicationDate && r.uri; }).slice(0, 20);
+    if(!missing.length) return;
+    __dateHydrationInFlight = true;
+    try{
+      for(const row of missing){
+        const details = await window.fetchPublicationDetails(row.uri);
+        if(details){
+          if(!row.publicationDate && details.publicationDate){ row.publicationDate = details.publicationDate; row.dateDebugSource = details.dateDebugSource || 'epo follow-up'; }
+          row.cpcSymbols = Array.from(new Set((row.cpcSymbols || []).concat(details.cpcSymbols || []))).slice(0,10);
+          row.ipcSymbols = Array.from(new Set((row.ipcSymbols || []).concat(details.ipcSymbols || []))).slice(0,10);
+        }
+        if(!row.publicationDate && !row.dateDebugSource) row.dateDebugSource = 'unavailable';
+      }
+    }finally{
+      __dateHydrationInFlight = false;
+      setTimeout(function(){ if(typeof window.renderSearchResults === 'function') window.renderSearchResults(); }, 0);
+    }
+  }
   window.enrichResultsFromApi = async function(rows){
     if(!rows || !rows.length) return rows || [];
     var out = [];
     for(const row of rows){
+      if(row.publicationDate && !row.dateDebugSource) row.dateDebugSource = 'query';
       if(((row.publicationDate && row.cpcSymbols && row.cpcSymbols.length) && row.citationCount != null) || !row.uri){
         row.rank.displayPercent = computeDisplayPercent(row.rank, row.citationCount || 0);
         out.push(row);
@@ -540,21 +537,28 @@ loadSavedSettings();resetApp();applyBannerHeight();
       }
       const details = await window.fetchPublicationDetails(row.uri);
       if(details){
-        if(!row.publicationDate && details.publicationDate) row.publicationDate = details.publicationDate;
+        if(!row.publicationDate && details.publicationDate){ row.publicationDate = details.publicationDate; row.dateDebugSource = details.dateDebugSource || 'epo follow-up'; }
         row.cpcSymbols = Array.from(new Set((row.cpcSymbols || []).concat(details.cpcSymbols || []))).slice(0,10);
         row.ipcSymbols = Array.from(new Set((row.ipcSymbols || []).concat(details.ipcSymbols || []))).slice(0,10);
       }
+      if(!row.publicationDate && !row.dateDebugSource) row.dateDebugSource = 'pending';
       row.citationCount = await fetchCitationCount(row.pubMeta);
       row.rank.displayPercent = computeDisplayPercent(row.rank, row.citationCount || 0);
       out.push(row);
     }
     return out;
   };
-  // Results screen overhaul
+  function renderDateDebugBadge(row){
+    var src = String(row && row.dateDebugSource || 'pending');
+    var cls = src === 'query' ? 'query' : (src === 'epo follow-up' ? 'followup' : (src === 'unavailable' ? 'unavailable' : 'pending'));
+    var label = src === 'query' ? 'date: query' : (src === 'epo follow-up' ? 'date: EPO follow-up' : (src === 'unavailable' ? 'date: unavailable' : 'date: pending'));
+    return '<span class="date-debug-badge '+cls+'">'+label+'</span>';
+  }
   window.formatDate = formatDisplayDate;
   window.renderResultCard = function(row){
     var publication = formatPublicationDisplay(row);
-    var dateText = formatDisplayDate(row.publicationDate) || 'Date unavailable';
+    var dateText = formatDisplayDate(row.publicationDate);
+    var dateLabel = dateText ? dateText : '<span class="date-pending">Looking up publication date…</span>';
     var titleText = escapeHtml(String(row.title || 'Publication'));
     var classifications = extractClassifications(row);
     var keywordsText = extractKeywordText(row);
@@ -566,7 +570,8 @@ loadSavedSettings();resetApp();applyBannerHeight();
     return '<div class="result-card">'
       + '<div class="result-top-row">'
       + '  <div class="result-header-text">'
-      + '    <div class="result-title-line">'+escapeHtml(publication)+' - '+escapeHtml(dateText)+' - '+titleText+'</div>'
+      + '    <div class="result-title-line">'+escapeHtml(publication)+' - '+dateLabel+' - '+titleText+'</div>'
+      + '    <div class="result-line">'+renderDateDebugBadge(row)+'</div>'
       + '  </div>'
       + '  <div class="result-side-actions">'
       + '    <div class="relevance-pill">'+relevance+'%</div>'
@@ -583,7 +588,7 @@ loadSavedSettings();resetApp();applyBannerHeight();
       + '</div>';
   };
   window.renderSearchResults = function(){
-    ensureMiniBrowserPane();
+    ensurePreviewPane();
     var limit = window.resultDisplayLimit ? window.resultDisplayLimit() : (window.resultsDisplayLimit ? window.resultsDisplayLimit() : Number.MAX_SAFE_INTEGER);
     updateNavCount('navCountResults', state.searchResults.length + state.googleResults.length);
     var totalMain = state.searchResults.length + state.googleResults.length;
@@ -597,23 +602,26 @@ loadSavedSettings();resetApp();applyBannerHeight();
     if(citationSummary) citationSummary.style.display = 'none';
     if(citationResults) citationResults.innerHTML = '';
     if(typeof initCpcHoverPositioning === 'function') initCpcHoverPositioning();
-    var frame = document.getElementById('googlePreviewFrame');
     var firstGoogle = document.querySelector('#searchResults a.link-pill.google');
-    if(frame && !frame.src && firstGoogle) updatePreview(firstGoogle.href, firstGoogle.closest('.result-card') ? (firstGoogle.closest('.result-card').querySelector('.result-title-line') ? firstGoogle.closest('.result-card').querySelector('.result-title-line').textContent : 'Google patent preview') : 'Google patent preview');
+    if(firstGoogle){
+      var title = firstGoogle.closest('.result-card') && firstGoogle.closest('.result-card').querySelector('.result-title-line') ? firstGoogle.closest('.result-card').querySelector('.result-title-line').textContent : 'Google patent preview';
+      updatePreview(firstGoogle.href, title);
+    }
+    hydratePublicationDates((state.searchResults || []).slice(0, limit === Number.MAX_SAFE_INTEGER ? state.searchResults.length : limit));
   };
   document.addEventListener('click', function(ev){
     var link = ev.target.closest('#searchResults a.link-pill.google, #searchResults a.previewable-google');
     if(!link) return;
     ev.preventDefault();
     var card = link.closest('.result-card');
-    var title = card ? (card.querySelector('.result-title-line') ? card.querySelector('.result-title-line').textContent.trim() : 'Google patent preview') : 'Google patent preview';
+    var title = card && card.querySelector('.result-title-line') ? card.querySelector('.result-title-line').textContent.trim() : 'Google patent preview';
     updatePreview(link.href, title);
   }, true);
   document.addEventListener('DOMContentLoaded', function(){
-    ensureMiniBrowserPane();
+    ensurePreviewPane();
     installModelHelpNote();
     var marker = document.getElementById('generated-file-marker');
-    if(marker) marker.textContent = 'index-v14.html';
+    if(marker) marker.textContent = 'index-v15.1.html';
   });
 })();
 </script>
